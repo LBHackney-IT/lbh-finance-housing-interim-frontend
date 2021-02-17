@@ -65,7 +65,7 @@ jobs:
       - assume-role-and-persist-workspace:
           aws-account: $AWS_ACCOUNT_PRODUCTION
 
-  build-deploy-devlopment:
+  build-deploy-development:
     executor: fss-executor
     steps:
       - *attach_workspace
