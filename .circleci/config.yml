@@ -15,7 +15,6 @@ executors:
   mtfh-executor:
     docker:
       - image: circleci/node:12.9.1-browsers
-
     working_directory: *workspace_root
 
 commands:
@@ -130,7 +129,6 @@ workflows:
               only:
                 - development
       - build-deploy-development:
-          context: api-assume-role-housing-development-context
           requires:
             - assume-role-development
           filters:
