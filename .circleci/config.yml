@@ -60,13 +60,13 @@ jobs:
           aws-account: $AWS_ACCOUNT_STAGING
 
   assume-role-production:
-    executor: fss-executor
+    executor: mtfh-executor
     steps:
       - assume-role-and-persist-workspace:
           aws-account: $AWS_ACCOUNT_PRODUCTION
 
   build-deploy-development:
-    executor: fss-executor
+    executor: mtfh-executor
     steps:
       - *attach_workspace
       - run:
@@ -83,7 +83,7 @@ jobs:
           overwrite: true
 
   build-deploy-staging:
-    executor: fss-executor
+    executor: mtfh-executor
     steps:
       - *attach_workspace
       - run:
@@ -100,7 +100,7 @@ jobs:
           overwrite: true
 
   build-deploy-production:
-    executor: fss-executor
+    executor: mtfh-executor
     steps:
       - *attach_workspace
       - run:
