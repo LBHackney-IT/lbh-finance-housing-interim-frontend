@@ -50,7 +50,7 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
           </div>
           <div>
             <GoogleLogout
-              clientId="236295340795-v4q0jddrcel7e640ga9ebo762jhd5q1l.apps.googleusercontent.com"
+              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
               onLogoutSuccess={Logout}
               render={(renderProps) => {
                 return (
