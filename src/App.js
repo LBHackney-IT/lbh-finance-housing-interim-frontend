@@ -1,6 +1,7 @@
 import { Route, Switch } from "react-router-dom";
 import Activity from "./features/activity/Activity";
 import OperatingBalances from "./features/operating-balances/OperatingBalances";
+import PrivateRoute from "./features/PrivateRoute";
 import * as RouteConstants from "./features/RouteConstants";
 import Upload from "./features/upload/Upload";
 import UploadList from "./features/upload/UploadList";
@@ -11,14 +12,21 @@ export default function App() {
     <>
       <Switch>
         <Route path={RouteConstants.LOGIN_PAGE} component={Login} />
-        <Route exact path={RouteConstants.UPLOAD_LIST} component={UploadList} />
-        <Route
+        <PrivateRoute
+          exact
+          path={RouteConstants.UPLOAD_LIST}
+          component={UploadList}
+        />
+        <PrivateRoute
           exact
           path={`${RouteConstants.UPLOAD_PAGE}/:id`}
           component={Upload}
         />
-        <Route path={RouteConstants.ACTIVITY_PAGE} component={Activity} />
-        <Route
+        <PrivateRoute
+          path={RouteConstants.ACTIVITY_PAGE}
+          component={Activity}
+        />
+        <PrivateRoute
           path={RouteConstants.OPERATING_BALANCES}
           component={OperatingBalances}
         />

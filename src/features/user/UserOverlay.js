@@ -1,14 +1,26 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { NavLinkButton, Button } from "../common/components/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { Button } from "../common/components/Button";
 import { CloseIcon, ExitIcon, MailIcon } from "../common/components/Icons";
-import { selectUser } from "./userSlice";
 import { LOGIN_PAGE } from "../RouteConstants";
+import { logout, selectUser } from "./userSlice";
+import { GoogleLogout } from "react-google-login";
 
 const UserOverlay = ({ isDisplayed, onCloseClick }) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   // Get the user's details
-  const { name, jobTitle } = useSelector(selectUser);
+  const user = useSelector(selectUser);
+  const { name } = user;
   const displayClass = isDisplayed ? "" : "is-hidden";
+
+  // Handle logout
+  const Logout = () => {
+    dispatch(logout);
+    history.push(LOGIN_PAGE);
+  };
 
   return (
     <>
@@ -27,7 +39,7 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
           <div className="user-name">
             <strong>{name}</strong>
           </div>
-          <div className="user-job-title">{jobTitle}</div>
+          <div className="user-job-title">{"jobTitle"}</div>
         </div>
         <div className="user-overlay-divider"></div>
         <div className="user-overlay-buttons">
@@ -37,9 +49,20 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
             </Button>
           </div>
           <div>
-            <NavLinkButton toRoute={LOGIN_PAGE}>
-              <ExitIcon /> Log out
-            </NavLinkButton>
+            <GoogleLogout
+              clientId={process.env.REACT_APP_GOOGLE_CLIENT}
+              onLogoutSuccess={Logout}
+              render={(renderProps) => {
+                return (
+                  <Button
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                  >
+                    <ExitIcon /> Log out
+                  </Button>
+                );
+              }}
+            ></GoogleLogout>
           </div>
         </div>
       </div>

@@ -1,11 +1,32 @@
 import HackneyLogo from "../../assets/images/hackney_logo.png";
-import { Button, NavLinkButton } from "../common/components/Button";
+import { Button } from "../common/components/Button";
 import Card from "../common/components/Card";
 import { GoogleIcon, MailIcon, PasswordIcon } from "../common/components/Icons";
 import { UPLOAD_LIST } from "../RouteConstants";
 import "./login.scss";
+import { useDispatch } from "react-redux";
+import { login } from "./userSlice";
+import GoogleLogin from "react-google-login";
 
-const Login = () => {
+const Login = (props) => {
+  const dispatch = useDispatch();
+
+  const HandleGoogleSuccess = (response) => {
+    console.log(response);
+    if (response.accessToken) {
+      const { accessToken, profileObj } = response;
+      const { email, name, googleId } = profileObj;
+      const user = { accessToken, email, name, googleId };
+      dispatch(login(user));
+      props.history.push(UPLOAD_LIST);
+    }
+  };
+
+  const HandleGoogleFailure = (response) => {
+    // TODO
+    console.log(response);
+  };
+
   return (
     <div className="login-page">
       <div className="background-spacer"></div>
@@ -20,9 +41,23 @@ const Login = () => {
             Please sign in with your Hackney Google Account
           </p>
           <div className="login-btn">
-            <NavLinkButton toRoute={UPLOAD_LIST} Icon={GoogleIcon}>
-              <strong>SIGN IN</strong>
-            </NavLinkButton>
+            <GoogleLogin
+              isSignedIn={true}
+              clientId={process.env.REACT_APP_GOOGLE_CLIENT}
+              render={(renderProps) => (
+                <Button
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                  Icon={GoogleIcon}
+                >
+                  <strong>SIGN IN</strong>
+                </Button>
+              )}
+              buttonText="Login"
+              onSuccess={HandleGoogleSuccess}
+              onFailure={HandleGoogleFailure}
+              cookiePolicy={"single_host_origin"}
+            />
           </div>
           <div className="login-btn">
             <Button Icon={MailIcon} onClick={() => alert("Help clicked")}>
