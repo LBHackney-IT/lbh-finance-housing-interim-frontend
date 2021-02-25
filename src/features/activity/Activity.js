@@ -1,10 +1,11 @@
 import React from "react";
+import { ReactComponent as UploadIcon } from "../../assets/icons/icon_upload.svg";
+import PageContainer from "../common/components/PageContainer";
+import { Layout } from "../common/Layout";
+import { getStatusObject } from "../upload/uploadStatus";
+import "./activity.scss";
 import ActivityCard from "./components/ActivityCard";
 import ActivityCardText from "./components/ActivityCardText";
-import PageContainer from "../common/components/PageContainer";
-import { getStatusObject } from "../upload/uploadStatus";
-import { ReactComponent as UploadIcon } from "../../assets/icons/icon_upload.svg";
-import { Layout } from "../common/Layout";
 
 // TODO remove
 const activityCards = [
@@ -50,13 +51,14 @@ const Activity = () => {
     <Layout>
       <PageContainer>
         {activityCards.map((card) => {
-          const statusObject = getStatusObject(card.statusId);
+          const { statusId, inputObject } = card;
+          const { icon, itemClass } = getStatusObject(card.statusId);
           return (
             <ActivityCard
               key={card.id}
-              StatusIcon={getIcon(card.statusId, statusObject.icon)}
-              statusItemClass={statusObject.statusItemClass}
-              Text={ActivityCardText(card.statusId, card.inputObject)}
+              StatusIcon={getIcon(card.statusId, icon)}
+              statusItemClass={itemClass}
+              Text={ActivityCardText(statusId, inputObject, itemClass)}
             />
           );
         })}

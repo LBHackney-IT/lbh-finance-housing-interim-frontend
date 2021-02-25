@@ -39,7 +39,7 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
           <div className="user-name">
             <strong>{name}</strong>
           </div>
-          <div className="user-job-title">{"jobTitle"}</div>
+          <div className="user-job-title">Rents and Arrears</div>
         </div>
         <div className="user-overlay-divider"></div>
         <div className="user-overlay-buttons">
