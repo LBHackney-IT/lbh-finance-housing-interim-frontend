@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Switch } from "react-router-dom";
+import Activity from "./features/activity/Activity";
+import OperatingBalances from "./features/operating-balances/OperatingBalances";
+import * as RouteConstants from "./features/RouteConstants";
+import Upload from "./features/upload/Upload";
+import UploadList from "./features/upload/UploadList";
+import Login from "./features/user/Login";
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Switch>
+        <Route path={RouteConstants.LOGIN_PAGE} component={Login} />
+        <Route exact path={RouteConstants.UPLOAD_LIST} component={UploadList} />
+        <Route
+          exact
+          path={`${RouteConstants.UPLOAD_PAGE}/:id`}
+          component={Upload}
+        />
+        <Route path={RouteConstants.ACTIVITY_PAGE} component={Activity} />
+        <Route
+          path={RouteConstants.OPERATING_BALANCES}
+          component={OperatingBalances}
+        />
+      </Switch>
+    </>
   );
 }
-
-export default App;

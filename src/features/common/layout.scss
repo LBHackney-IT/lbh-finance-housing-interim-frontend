@@ -1,0 +1,113 @@
+@import "../../assets/styles/variables.scss";
+
+.nav-head-cont {
+    .hero-spacer {
+        min-height: 12vh;
+
+        .level {
+            margin: 10px;
+        }
+    }
+
+    .hero,
+    .hero-body {
+        background-color: $backgrondDarkcolour;
+    }
+}
+
+.page-header-nav-cont {
+    padding: 0;
+    padding-bottom: 15px;
+    width: $page-sizing;
+
+    a,
+    span {
+        font-size: 1.2rem;
+        position: relative;
+        color: white;
+    }
+
+    a {
+        padding-bottom: 15px;
+        margin-right: 16px;
+        .nav-active-indicator {
+            background-color: transparent;
+        }
+
+        &.nav-is-active .nav-active-indicator {
+            position: absolute;
+            width: 100%;
+            background-color: white;
+            bottom: -1px;
+            left: 0;
+            height: 4px;
+        }
+    }
+}
+
+.header-logo {
+    margin-left: 15px;
+    margin-top: 1px;
+    max-height: 15px;
+}
+
+.header-icon-container {
+    line-height: 0;
+}
+
+.user-overlay {
+    position: fixed;
+    height: 100vh;
+
+    &.is-background {
+        width: 100vw;
+        z-index: 10;
+        background: #ffffff;
+        opacity: 0.64;
+    }
+
+    &.user-details-container {
+        z-index: 11;
+        width: 23vw;
+        opacity: 1;
+        padding: 20px;
+
+        .close-overlay-container {
+            margin-bottom: 80px;
+        }
+    }
+
+    .user-details {
+        .user-name {
+            font-size: 20px;
+            line-height: 24px;
+        }
+
+        .user-job-title {
+            font-size: 14px;
+            line-height: 20px;
+        }
+    }
+
+    .user-overlay-divider {
+        margin: 11px -20px;
+        height: 1px;
+        background: rgba(11, 12, 12, 0.08);
+    }
+
+    .user-overlay-buttons {
+        .button {
+            border: none;
+            font-size: 14px;
+            line-height: 24px;
+            letter-spacing: 0.1px;
+            box-shadow: none !important;
+            padding: 0;
+            margin-left: -9px;
+
+            svg {
+                margin-right: 20px;
+            }
+        }
+    }
+}

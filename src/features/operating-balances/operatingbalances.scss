@@ -1,0 +1,20 @@
+@import "../../assets/styles/variables.scss";
+
+.operating-balances-summary {
+    background-color: $aliceBlue;
+    min-height: 50vh;
+    padding-bottom: 50px;
+}
+
+.price-summary {
+    margin-bottom: 8px;
+
+    .price {
+        &::before {
+            content: '£';
+        }
+    }
+    .price-subtitle {
+        margin-top: -10px;
+    }
+}
