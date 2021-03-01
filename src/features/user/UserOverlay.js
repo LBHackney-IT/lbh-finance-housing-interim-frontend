@@ -13,7 +13,7 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
 
   // Get the user's details
   const user = useSelector(selectUser);
-  const { name, isNudge } = user;
+  const { name } = user;
   const displayClass = isDisplayed ? "" : "is-hidden";
 
   // Handle logout
@@ -50,11 +50,7 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
           </div>
           <div>
             <GoogleLogout
-              clientId={
-                isNudge
-                  ? process.env.REACT_APP_GOOGLE_NUDGE_CLIENT_ID
-                  : process.env.REACT_APP_GOOGLE_CLIENT_ID
-              }
+              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
               onLogoutSuccess={Logout}
               render={(renderProps) => {
                 return (
