@@ -46,7 +46,6 @@ const Login = (props) => {
           </p>
           <div className="login-btn">
             <GoogleLogin
-              isSignedIn={true}
               clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
               render={(renderProps) => (
                 <Button
@@ -65,7 +64,6 @@ const Login = (props) => {
           </div>
           <div className="login-btn">
             <GoogleLogin
-              isSignedIn={true}
               clientId={process.env.REACT_APP_GOOGLE_NUDGE_CLIENT_ID}
               render={(renderProps) => (
                 <Button
