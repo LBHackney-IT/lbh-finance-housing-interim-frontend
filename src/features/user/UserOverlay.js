@@ -13,7 +13,7 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
 
   // Get the user's details
   const user = useSelector(selectUser);
-  const { name } = user;
+  const { name, email } = user;
   const displayClass = isDisplayed ? "" : "is-hidden";
 
   // Handle logout
@@ -39,7 +39,7 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
           <div className="user-name">
             <strong>{name}</strong>
           </div>
-          <div className="user-job-title">Rents and Arrears</div>
+          <div className="user-job-title">{email}</div>
         </div>
         <div className="user-overlay-divider"></div>
         <div className="user-overlay-buttons">

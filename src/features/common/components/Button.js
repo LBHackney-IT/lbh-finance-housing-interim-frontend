@@ -21,16 +21,17 @@ const getButtonContent = (Icon, text) => {
   );
 };
 
-const Button = ({ onClick, className, Icon, ...props }) => {
+const Button = ({ onClick, className, disabled, Icon, ...props }) => {
   const classNameValue = getClassName(className);
   const buttonContent = getButtonContent(Icon, props.children);
+  disabled = disabled === undefined ? "" : disabled;
 
   if (onClick === undefined) {
     onClick = "";
   }
 
   return (
-    <button className={classNameValue} onClick={onClick}>
+    <button className={classNameValue} onClick={onClick} disabled={disabled}>
       {buttonContent}
     </button>
   );
