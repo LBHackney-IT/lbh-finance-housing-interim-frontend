@@ -27,7 +27,6 @@ const Login = (props) => {
 
   const HandleGoogleFailure = (response) => {
     // TODO
-    alert("Failure");
     console.log(response);
   };
 
