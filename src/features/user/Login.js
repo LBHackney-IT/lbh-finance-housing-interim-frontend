@@ -11,19 +11,23 @@ import GoogleLogin from "react-google-login";
 const Login = (props) => {
   const dispatch = useDispatch();
 
-  const HandleGoogleSuccess = (response) => {
-    console.log(response);
+  const HandleGoogleSuccess = (response, isNudge = false) => {
     if (response.accessToken) {
       const { accessToken, profileObj } = response;
       const { email, name, googleId } = profileObj;
-      const user = { accessToken, email, name, googleId };
+      const user = { accessToken, email, name, googleId, isNudge };
       dispatch(login(user));
       props.history.push(UPLOAD_LIST);
     }
   };
 
+  const HandleGoogleSuccessNudge = (response) => {
+    HandleGoogleSuccess(response, true);
+  };
+
   const HandleGoogleFailure = (response) => {
     // TODO
+    alert("Failure");
     console.log(response);
   };
 
@@ -50,11 +54,30 @@ const Login = (props) => {
                   disabled={renderProps.disabled}
                   Icon={GoogleIcon}
                 >
-                  <strong>SIGN IN</strong>
+                  <strong>SIGN IN (HACKNEY)</strong>
                 </Button>
               )}
               buttonText="Login"
               onSuccess={HandleGoogleSuccess}
+              onFailure={HandleGoogleFailure}
+              cookiePolicy={"single_host_origin"}
+            />
+          </div>
+          <div className="login-btn">
+            <GoogleLogin
+              isSignedIn={true}
+              clientId={process.env.REACT_APP_GOOGLE_NUDGE_CLIENT_ID}
+              render={(renderProps) => (
+                <Button
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                  Icon={GoogleIcon}
+                >
+                  <strong>SIGN IN (NUDGE)</strong>
+                </Button>
+              )}
+              buttonText="Login"
+              onSuccess={HandleGoogleSuccessNudge}
               onFailure={HandleGoogleFailure}
               cookiePolicy={"single_host_origin"}
             />
