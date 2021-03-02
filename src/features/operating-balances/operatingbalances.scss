@@ -2,7 +2,6 @@
 
 .operating-balances-summary {
     background-color: $aliceBlue;
-    min-height: 50vh;
     padding-bottom: 50px;
 }
 
@@ -11,7 +10,7 @@
 
     .price {
         &::before {
-            content: '£';
+            content: "£";
         }
     }
     .price-subtitle {
