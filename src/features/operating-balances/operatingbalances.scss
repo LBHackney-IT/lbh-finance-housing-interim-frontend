@@ -5,6 +5,15 @@
     padding-bottom: 50px;
 }
 
+.operating-balance-card-list .tile.is-ancestor .tile.is-parent .tile.card {
+    display: flex;
+    flex-direction: column;
+
+    footer {
+        margin-top: auto;
+    }
+}
+
 .price-summary {
     margin-bottom: 8px;
 

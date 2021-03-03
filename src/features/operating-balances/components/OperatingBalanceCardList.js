@@ -10,10 +10,10 @@ const OperatingBalanceCardList = ({ operatingBalanceCards }) => {
   return (
     <PageContainer style={{ paddingTop: 0, marginTop: "-45px" }}>
       <div className="operating-balance-card-list">
-        <div className="columns is-vcentered is-multiline">
+        <div className="tile is-ancestor is-flex-wrap-wrap">
           {operatingBalanceCards.map((card) => {
             return (
-              <div key={card.id} className="column is-4">
+              <div key={card.id} className="tile is-parent is-4">
                 <OperatingBalanceCard
                   cardData={card}
                   handleCsvLink={onCsvClick}

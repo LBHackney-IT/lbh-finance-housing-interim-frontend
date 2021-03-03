@@ -52,6 +52,10 @@ const Login = (props) => {
                   <strong>SIGN IN</strong>
                 </Button>
               )}
+              // approvalPrompt="force"
+              // responseType="code"
+              // prompt="consent"
+              // online="offline"
               buttonText="Login"
               onSuccess={HandleGoogleSuccess}
               onFailure={HandleGoogleFailure}
