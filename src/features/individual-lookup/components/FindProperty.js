@@ -7,7 +7,7 @@ import PropertySearchResult from "./PropertySearchResult";
 const performSearch = (search) => {
   let result = {
     noResult: false,
-    resident: {
+    tenant: {
       name: "Kian Hayward",
       address: {
         line1: "15 Marcon Court",
@@ -21,7 +21,7 @@ const performSearch = (search) => {
         email: "kian.h@temp.com",
       },
     },
-    tenance: {
+    tenancy: {
       tenancyId: "123456789",
       tenancyType: "HRA SEC",
       currentBalance: "1234.56",
@@ -50,10 +50,14 @@ const performSearch = (search) => {
   };
 
   for (let index = 0; index < 10; index++) {
-    result.lastTenPayments.push("56.78");
+    result.lastTenPayments.push({
+      id: index,
+      amount: "56.78",
+      date: "01/03/2021",
+    });
   }
 
-  return result;
+  return search && search.length > 0 ? result : undefined;
 };
 
 const FindProperty = () => {
@@ -78,7 +82,9 @@ const FindProperty = () => {
         </div>
       </PageContainer>
       {searchResult !== undefined ? (
-        <PropertySearchResult result={searchResult} />
+        <PageContainer>
+          <PropertySearchResult result={searchResult} />
+        </PageContainer>
       ) : null}
     </>
   );

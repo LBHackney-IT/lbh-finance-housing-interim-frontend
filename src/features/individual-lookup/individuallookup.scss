@@ -12,12 +12,12 @@
 }
 
 .find-property-search-cont {
-    margin-top: -78px;
-    padding: 16px;
+    margin-top: -66px;
 
     .search-items-cont {
         display: flex;
         align-items: center;
+        padding: 16px;
 
         .search-btn {
             margin-left: auto;
@@ -25,6 +25,25 @@
             .button {
                 padding-left: 5px;
                 padding-right: 7px;
+            }
+        }
+    }
+}
+
+.tenant-details {
+    .entry-list {
+        margin-top: -15px;
+        .tenant-detail-entry {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+
+            .icon-cont {
+                width: 20%;
+            }
+
+            .address-part:not(:empty)::after {
+                content: ",";
             }
         }
     }
