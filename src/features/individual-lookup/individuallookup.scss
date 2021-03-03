@@ -1,0 +1,31 @@
+@import "../../assets/styles/variables.scss";
+
+.find-a-property-header {
+    background-color: $aliceBlue;
+    height: 136px;
+
+    .find-prop-title {
+        font-size: 34px;
+        line-height: 36px;
+        color: #000000;
+    }
+}
+
+.find-property-search-cont {
+    margin-top: -78px;
+    padding: 16px;
+
+    .search-items-cont {
+        display: flex;
+        align-items: center;
+
+        .search-btn {
+            margin-left: auto;
+
+            .button {
+                padding-left: 5px;
+                padding-right: 7px;
+            }
+        }
+    }
+}

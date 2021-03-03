@@ -12,6 +12,8 @@ import { ReactComponent as CloseIconSvg } from "../../../assets/icons/icon_close
 import { ReactComponent as MailIconSvg } from "../../../assets/icons/icon_mail.svg";
 import { ReactComponent as PasswordIconSvg } from "../../../assets/icons/icon_password.svg";
 import { ReactComponent as GoogleIconSvg } from "../../../assets/icons/icon_google.svg";
+import { ReactComponent as SearchIconSvg } from "../../../assets/icons/icon_search.svg";
+import { ReactComponent as DropDownIconSvg } from "../../../assets/icons/icon_dropdown.svg";
 
 const OkIcon = () => {
   return <OkIconSvg />;
@@ -69,6 +71,14 @@ const GoogleIcon = () => {
   return <GoogleIconSvg />;
 };
 
+const SearchIcon = () => {
+  return <SearchIconSvg />;
+};
+
+const DropDownIcon = () => {
+  return <DropDownIconSvg />;
+};
+
 export {
   OkIcon,
   ExpiredIcon,
@@ -84,4 +94,6 @@ export {
   MailIcon,
   PasswordIcon,
   GoogleIcon,
+  SearchIcon,
+  DropDownIcon,
 };
