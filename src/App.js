@@ -5,6 +5,7 @@ import PrivateRoute from "./features/PrivateRoute";
 import * as RouteConstants from "./features/RouteConstants";
 import Upload from "./features/upload/Upload";
 import UploadList from "./features/upload/UploadList";
+import IndividualLookup from "./features/individual-lookup/IndividualLookup";
 import Login from "./features/user/Login";
 
 export default function App() {
@@ -29,6 +30,10 @@ export default function App() {
         <PrivateRoute
           path={RouteConstants.OPERATING_BALANCES}
           component={OperatingBalances}
+        />
+        <PrivateRoute
+          path={RouteConstants.INDIVIDUAL_LOOKUP}
+          component={IndividualLookup}
         />
       </Switch>
     </>

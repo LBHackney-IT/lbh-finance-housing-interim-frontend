@@ -17,7 +17,13 @@ const Login = (props) => {
       const { email, name, googleId } = profileObj;
       const user = { accessToken, email, name, googleId };
       dispatch(login(user));
-      props.history.push(UPLOAD_LIST);
+
+      // Redirect
+      props.history.push(
+        props.location.state !== undefined
+          ? props.location.state.from
+          : UPLOAD_LIST
+      );
     }
   };
 

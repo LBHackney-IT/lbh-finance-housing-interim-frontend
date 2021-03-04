@@ -5,6 +5,7 @@ import { NavLinkButton } from "../common/components/Button";
 import { BackIcon, BackWhiteIcon } from "../common/components/Icons";
 import {
   ACTIVITY_PAGE,
+  INDIVIDUAL_LOOKUP,
   OPERATING_BALANCES,
   UPLOAD_LIST,
 } from "../RouteConstants";
@@ -26,6 +27,10 @@ const layoutNavItems = [
   {
     text: "Operating Balances",
     to: OPERATING_BALANCES,
+  },
+  {
+    text: "Individual Lookup",
+    to: INDIVIDUAL_LOOKUP,
   },
 ];
 

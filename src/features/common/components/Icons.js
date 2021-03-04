@@ -12,6 +12,13 @@ import { ReactComponent as CloseIconSvg } from "../../../assets/icons/icon_close
 import { ReactComponent as MailIconSvg } from "../../../assets/icons/icon_mail.svg";
 import { ReactComponent as PasswordIconSvg } from "../../../assets/icons/icon_password.svg";
 import { ReactComponent as GoogleIconSvg } from "../../../assets/icons/icon_google.svg";
+import { ReactComponent as SearchIconSvg } from "../../../assets/icons/icon_search.svg";
+import { ReactComponent as DropDownIconSvg } from "../../../assets/icons/icon_dropdown.svg";
+import { ReactComponent as LocationIconSvg } from "../../../assets/icons/icon_location.svg";
+import { ReactComponent as ContactDetailsIconSvg } from "../../../assets/icons/icon_contact_details.svg";
+import { ReactComponent as TenantIconSvg } from "../../../assets/icons/icon_tenant.svg";
+import { ReactComponent as TenantHomeIconSvg } from "../../../assets/icons/icon_tenant_home.svg";
+import { ReactComponent as BalanceIconSvg } from "../../../assets/icons/icon_balance.svg";
 
 const OkIcon = () => {
   return <OkIconSvg />;
@@ -69,6 +76,34 @@ const GoogleIcon = () => {
   return <GoogleIconSvg />;
 };
 
+const SearchIcon = () => {
+  return <SearchIconSvg />;
+};
+
+const DropDownIcon = () => {
+  return <DropDownIconSvg />;
+};
+
+const LocationIcon = () => {
+  return <LocationIconSvg />;
+};
+
+const ContactDetailsIcon = () => {
+  return <ContactDetailsIconSvg />;
+};
+
+const TenantIcon = () => {
+  return <TenantIconSvg />;
+};
+
+const TenantHomeIcon = () => {
+  return <TenantHomeIconSvg />;
+};
+
+const BalanceIcon = () => {
+  return <BalanceIconSvg />;
+};
+
 export {
   OkIcon,
   ExpiredIcon,
@@ -84,4 +119,11 @@ export {
   MailIcon,
   PasswordIcon,
   GoogleIcon,
+  SearchIcon,
+  DropDownIcon,
+  LocationIcon,
+  ContactDetailsIcon,
+  TenantIcon,
+  TenantHomeIcon,
+  BalanceIcon,
 };
