@@ -15,11 +15,16 @@ function useOutisdeTrigger(ref, onClick) {
   }, [ref, onClick]);
 }
 
-const OutisdeTrigger = ({ children, onClick }) => {
+const OutisdeTrigger = ({ children, onClick, className }) => {
+  className = className === undefined ? "" : className;
   const wrapperRef = useRef(null);
   useOutisdeTrigger(wrapperRef, onClick);
 
-  return <span ref={wrapperRef}>{children}</span>;
+  return (
+    <span className={className} ref={wrapperRef}>
+      {children}
+    </span>
+  );
 };
 
 export default OutisdeTrigger;

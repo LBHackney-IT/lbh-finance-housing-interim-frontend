@@ -1,4 +1,4 @@
-@import "../../assets/styles/variables.scss";
+@import "../../../assets/styles/variables.scss";
 
 .login-page {
     min-height: 100vh;
@@ -21,7 +21,7 @@
         left: 0;
         right: 0;
         margin: 0 auto;
-        width: 22vw;
+        width: 320px;
         text-align: center;
 
         img.login-logo {

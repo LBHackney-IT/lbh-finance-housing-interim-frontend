@@ -3,7 +3,7 @@ import { Button } from "../common/components/Button";
 import Card from "../common/components/Card";
 import { GoogleIcon, MailIcon, PasswordIcon } from "../common/components/Icons";
 import { UPLOAD_LIST } from "../RouteConstants";
-import "./login.scss";
+import "./assets/login.scss";
 import { useDispatch } from "react-redux";
 import { login } from "./userSlice";
 import GoogleLogin from "react-google-login";

@@ -1,11 +1,13 @@
 import React from "react";
+import { GoogleLogout } from "react-google-login";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Button } from "../common/components/Button";
 import { CloseIcon, ExitIcon, MailIcon } from "../common/components/Icons";
+import OutsideTrigger from "../common/components/OutsideTrigger";
 import { LOGIN_PAGE } from "../RouteConstants";
+import "./assets/useroverlay.scss";
 import { logout, selectUser } from "./userSlice";
-import { GoogleLogout } from "react-google-login";
 
 const UserOverlay = ({ isDisplayed, onCloseClick }) => {
   const dispatch = useDispatch();
@@ -22,11 +24,18 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
     history.push(LOGIN_PAGE);
   };
 
+  const outsideClickHandle = (event) => {
+    if (isDisplayed) {
+      onCloseClick(event);
+    }
+  };
+
   return (
     <>
       <div className={displayClass + " user-overlay is-background"}></div>
-      <div
+      <OutsideTrigger
         className={displayClass + " user-overlay user-details-container card"}
+        onClick={outsideClickHandle}
       >
         <div className="level close-overlay-container">
           <div className="level-item level-right">
@@ -65,7 +74,7 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
             ></GoogleLogout>
           </div>
         </div>
-      </div>
+      </OutsideTrigger>
     </>
   );
 };
