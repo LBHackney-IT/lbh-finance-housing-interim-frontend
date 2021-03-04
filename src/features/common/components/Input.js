@@ -1,11 +1,13 @@
 import "./assets/input.scss";
 
-const Input = ({ label, name, value, placeholder, onChange, onEnterKey }) => {
-  value = value === undefined ? "" : value;
-  placeholder = placeholder === undefined ? "" : placeholder;
-  onChange = onChange === undefined ? () => {} : onChange;
-  onEnterKey = onEnterKey === undefined ? () => {} : onEnterKey;
-
+const Input = ({
+  label,
+  name,
+  value = "",
+  placeholder = "",
+  onChange = {},
+  onEnterKey = {},
+}) => {
   const handleChange = (event) => {
     onChange(event);
   };

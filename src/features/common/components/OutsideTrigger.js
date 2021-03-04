@@ -15,8 +15,7 @@ function useOutisdeTrigger(ref, onClick) {
   }, [ref, onClick]);
 }
 
-const OutisdeTrigger = ({ children, onClick, className }) => {
-  className = className === undefined ? "" : className;
+const OutisdeTrigger = ({ children, onClick, className = "" }) => {
   const wrapperRef = useRef(null);
   useOutisdeTrigger(wrapperRef, onClick);
 

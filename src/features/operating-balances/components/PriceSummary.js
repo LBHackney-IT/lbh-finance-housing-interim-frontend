@@ -1,9 +1,6 @@
-const PriceSummary = ({ price, subtitle, colour, size }) => {
+const PriceSummary = ({ price, subtitle, colour = "", size = 3 }) => {
   // Create size class
-  size = size === undefined ? "3" : size;
-  size = "is-size-" + size;
-
-  colour = colour === undefined ? "" : colour;
+  size = `is-size-${size}`;
   return (
     <div className={"price-summary " + size}>
       <h1 className="price" style={{ color: colour }}>

@@ -8,14 +8,15 @@ import { useParams } from "react-router-dom";
 import { selectUploads } from "./uploadSlice";
 import { useSelector } from "react-redux";
 import { toProperCase } from "../common/functions/Helpers";
+import { UPLOAD_LIST } from "../RouteConstants";
 
-const Upload = () => {
+const Upload = (props) => {
   const params = useParams();
   const id = parseInt(params.id);
   const upload = useSelector(selectUploads).find((upItem) => upItem.id === id);
 
   if (upload === undefined) {
-    // TODO redirect
+    props.history.push(UPLOAD_LIST);
   }
 
   const { title, statusId } = upload;

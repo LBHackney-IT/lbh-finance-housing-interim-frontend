@@ -98,9 +98,7 @@ const Layout = (props) => {
 };
 
 // Layout for a back link page
-const BackPageLayout = ({ pageTitle, backToRoute, ...props }) => {
-  backToRoute = backToRoute === undefined ? UPLOAD_LIST : backToRoute;
-
+const BackPageLayout = ({ pageTitle, backToRoute = UPLOAD_LIST, ...props }) => {
   const BackPageIcon = () => {
     return (
       <NavLink to={backToRoute}>
