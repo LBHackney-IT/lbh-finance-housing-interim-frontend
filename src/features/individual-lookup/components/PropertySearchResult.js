@@ -1,3 +1,6 @@
+import Card from "../../common/components/Card";
+import { HorizontalDivider } from "../../common/components/Divider";
+import SearchResultPropertyCard from "./SearchResultPropertyCard";
 import TenantDetailList from "./TenantDetailList";
 
 // let result = {
@@ -45,34 +48,47 @@ import TenantDetailList from "./TenantDetailList";
 //   };
 
 const PropertySearchResult = ({ result }) => {
-  const { tenant, tenancy, lastTenPayments } = result;
+  const { tenant, tenancy, lastTenPayments, properties } = result;
   const { address, contact } = tenant;
   return (
     <div>
       <div className="columns">
         <div className="column is-5">
-          <h1 className="is-size-5 mb-3">{tenant.name}</h1>
-          <div className="tenant-details card box">
+          <h1 className="mb-3 lookup-result-header">{tenant.name}</h1>
+          <Card className="tenant-details">
             <TenantDetailList
               address={address}
               contact={contact}
               tenancy={tenancy}
             />
-          </div>
+          </Card>
         </div>
         <div className="column is-7">
-          <h1 className="is-size-5 mb-3">{tenant.name}</h1>
+          <h1 className="lookup-result-header mb-3">{tenant.name}</h1>
           <div className="last-10-payments-list">
             {lastTenPayments.map((payment) => {
               return (
-                <div key={payment.id} className="level">
-                  <div className="level-item level-left">£{payment.amount}</div>
-                  <div className="level-item level-right">{payment.date}</div>
-                </div>
+                <>
+                  <div key={payment.id} className="level">
+                    <div className="level-item level-left">
+                      £{payment.amount}
+                    </div>
+                    <div className="level-item level-right">
+                      <strong>{payment.date}</strong>
+                    </div>
+                  </div>
+                  <HorizontalDivider />
+                </>
               );
             })}
           </div>
         </div>
+      </div>
+      <div className="result-property-cards">
+        <h1 className="lookup-result-header mb-5">Properties</h1>
+        {properties.map((property) => {
+          return <SearchResultPropertyCard property={property} />;
+        })}
       </div>
     </div>
   );

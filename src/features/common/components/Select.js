@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./assets/select.scss";
+import Card from "./Card";
 import { HorizontalDivider } from "./Divider";
 import { DropDownIcon } from "./Icons";
 import OutisdeTrigger from "./OutsideTrigger";
@@ -26,10 +27,9 @@ const Select = ({ selectedValue, options }) => {
             <DropDownIcon />
           </div>
         </div>
-        <div
+        <Card
           className={
-            "select-options card box " +
-            (dropDownDisplayed ? "" : "options-hidden")
+            "select-options " + (dropDownDisplayed ? "" : "options-hidden")
           }
         >
           {options.map((option, index) => {
@@ -46,7 +46,7 @@ const Select = ({ selectedValue, options }) => {
               </div>
             );
           })}
-        </div>
+        </Card>
       </div>
     </OutisdeTrigger>
   );

@@ -4,6 +4,7 @@ import { Button } from "../../common/components/Button";
 import Select from "../../common/components/Select";
 import Input from "../../common/components/Input";
 import { useState } from "react";
+import Card from "../../common/components/Card";
 
 // TODO remove / alter
 const selectOptions = [
@@ -21,7 +22,7 @@ const FindPropertySearchBar = ({ onClick }) => {
   };
 
   return (
-    <div className="card box search-items-cont">
+    <Card className="search-items-cont">
       <SearchIcon />
       <div>
         <VerticalDivider />
@@ -42,7 +43,7 @@ const FindPropertySearchBar = ({ onClick }) => {
       <div className="search-btn">
         <Button onClick={() => onClick(inputValue)}>GO</Button>
       </div>
-    </div>
+    </Card>
   );
 };
 

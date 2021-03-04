@@ -30,6 +30,12 @@
     }
 }
 
+.lookup-result-header {
+    font-size: 24px;
+    line-height: 24px;
+    letter-spacing: 0.18px;
+}
+
 .tenant-details {
     .entry-list {
         margin-top: -15px;
@@ -42,8 +48,55 @@
                 width: 20%;
             }
 
-            .address-part:not(:empty)::after {
-                content: ",";
+            .tenant-detail-text {
+                font-size: 16px;
+                line-height: 24px;
+                letter-spacing: 0.5px;
+            }
+        }
+    }
+}
+
+.address-part:not(:empty)::after {
+    content: ", ";
+}
+
+.last-10-payments-list {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+
+    .level {
+        padding-top: 10px;
+        margin-bottom: 14px;
+    }
+}
+
+.result-property-cards {
+    padding-bottom: 40px;
+
+    .property-card {
+        .property-title {
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 24px;
+            letter-spacing: 0.15px;
+            margin-bottom: 15px;
+        }
+
+        .property-detail-column {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+
+            .property-icon-cont {
+                margin-right: 22px;
+            }
+
+            .detail-text {
+                font-size: 16px;
+                line-height: 24px;
+                letter-spacing: 0.5px;
             }
         }
     }

@@ -12,7 +12,7 @@ const TenantDetailEntry = ({ Icon, text }) => {
       <div className="icon-cont">
         <Icon />
       </div>
-      <div>{text}</div>
+      <div className="tenant-detail-text">{text}</div>
     </div>
   );
 };
