@@ -5,7 +5,7 @@ import { HorizontalDivider } from "./Divider";
 import { DropDownIcon } from "./Icons";
 import OutisdeTrigger from "./OutsideTrigger";
 
-const Select = ({ selectedValue, options }) => {
+const Select = ({ selectedValue, options, onChange = () => {} }) => {
   let selectedOption = options.find((item) => item.value === selectedValue);
   selectedOption = selectedOption === undefined ? options[0] : selectedOption;
   const optionsCount = options.length;
@@ -13,6 +13,12 @@ const Select = ({ selectedValue, options }) => {
   // State
   const [currentOption, setCurrentOption] = useState(selectedOption);
   const [dropDownDisplayed, setDropDownDisplayed] = useState(false);
+
+  // Handle select option change
+  const handleOptionChange = (optionItem) => {
+    setCurrentOption(optionItem);
+    onChange(optionItem);
+  };
 
   return (
     <OutisdeTrigger onClick={() => setDropDownDisplayed(false)}>
@@ -38,7 +44,7 @@ const Select = ({ selectedValue, options }) => {
                 <div
                   className="select-option"
                   value={option.value}
-                  onClick={() => setCurrentOption(option)}
+                  onClick={() => handleOptionChange(option)}
                 >
                   {option.text}
                 </div>

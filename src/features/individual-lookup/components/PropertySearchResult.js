@@ -64,7 +64,7 @@ const PropertySearchResult = ({ result }) => {
           </Card>
         </div>
         <div className="column is-7">
-          <h1 className="lookup-result-header mb-3">{tenant.name}</h1>
+          <h1 className="lookup-result-header mb-3">Last 10 Payments</h1>
           <div className="last-10-payments-list">
             {lastTenPayments.map((payment) => {
               return (

@@ -32,7 +32,7 @@ export default function App() {
           component={OperatingBalances}
         />
         <PrivateRoute
-          path={RouteConstants.INDIVIDUAL_LOOKUP}
+          path={`${RouteConstants.INDIVIDUAL_LOOKUP}/:searchId?/:search?`}
           component={IndividualLookup}
         />
       </Switch>

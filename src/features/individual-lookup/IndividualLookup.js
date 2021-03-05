@@ -1,12 +1,14 @@
-import { Layout } from "../common/Layout";
-import { useState } from "react";
-import "./individuallookup.scss";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import PageContainer from "../common/components/PageContainer";
+import { Layout } from "../common/Layout";
+import { INDIVIDUAL_LOOKUP } from "../RouteConstants";
 import FindPropertySearchBar from "./components/FindPropertySearchBar";
 import PropertySearchResult from "./components/PropertySearchResult";
+import "./individuallookup.scss";
 
 // TODO implement API
-const performSearch = (search) => {
+const performSearch = (searchType, search) => {
   let result = {
     noResult: false,
     tenant: {
@@ -57,16 +59,28 @@ const performSearch = (search) => {
     });
   }
 
-  return search && search.length > 0 ? result : undefined;
+  return searchType && search && search.length > 0 ? result : undefined;
 };
 
-const IndividualLookup = () => {
+const IndividualLookup = ({ history }) => {
+  // Check for params
+  const params = useParams();
+  const search = params.search;
+  const searchId = params.searchId ? params.searchId : 1;
+
   // State
   const [searchResult, setSearchResult] = useState(undefined);
+  const [searchType, setSearchType] = useState(searchId);
+
+  useEffect(() => {
+    if (search) {
+      setSearchResult(performSearch(searchId, search));
+    }
+  }, [search, searchId]);
 
   // Handle property search
   const onPropertySearch = (searchValue) => {
-    setSearchResult(performSearch(searchValue));
+    history.push(`${INDIVIDUAL_LOOKUP}/${searchType}/${searchValue}`);
   };
 
   return (
@@ -78,7 +92,14 @@ const IndividualLookup = () => {
       </div>
       <PageContainer>
         <div className="find-property-search-cont">
-          <FindPropertySearchBar onClick={onPropertySearch} />
+          <FindPropertySearchBar
+            onClick={onPropertySearch}
+            onSearchChange={(option) => {
+              setSearchType(option.value);
+            }}
+            searchType={searchId}
+            search={search}
+          />
         </div>
       </PageContainer>
       {searchResult !== undefined ? (
