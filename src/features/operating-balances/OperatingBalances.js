@@ -17,13 +17,13 @@ const balanceSummary = {
 // TODO remove
 const operatingBalanceNames = [
   "Housing Revenue Account",
-  "Leaseholder service charges",
-  "Housing General fund",
-  "Leaseholder major works",
-  "Garages and Parking spaces",
+  "Leaseholder Service Charges",
+  "Housing General Fund",
+  "Leaseholder Major Works",
+  "Garages And Parking Spaces",
   "Temporary Accomodation General fund",
-  "Temporary Accommodation HRA properties",
-  "Travellers rent account",
+  "Temporary Accommodation HRA Properties",
+  "Travellers Rent Account",
 ];
 
 // TODO remove

@@ -1,3 +1,4 @@
+import BackgroundColourContainer from "../../common/components/BackgroundColourContainer";
 import Card from "../../common/components/Card";
 import { HorizontalDivider } from "../../common/components/Divider";
 import SearchResultPropertyCard from "./SearchResultPropertyCard";
@@ -52,42 +53,44 @@ const PropertySearchResult = ({ result }) => {
   const { address, contact } = tenant;
   return (
     <div>
+      <div>
+        <h1 className="mb-5 lookup-result-header">{tenant.name}</h1>
+        <TenantDetailList
+          address={address}
+          contact={contact}
+          tenancy={tenancy}
+        />
+      </div>
       <div className="columns">
-        <div className="column is-5">
-          <h1 className="mb-3 lookup-result-header">{tenant.name}</h1>
-          <Card className="tenant-details">
-            <TenantDetailList
-              address={address}
-              contact={contact}
-              tenancy={tenancy}
-            />
-          </Card>
-        </div>
-        <div className="column is-7">
-          <h1 className="lookup-result-header mb-3">Last 10 Payments</h1>
-          <div className="last-10-payments-list">
-            {lastTenPayments.map((payment) => {
-              return (
-                <>
-                  <div key={payment.id} className="level">
-                    <div className="level-item level-left">
-                      £{payment.amount}
+        <div className="column">
+          <BackgroundColourContainer>
+            <h1 className="lookup-result-header mb-3">Last 10 Payments</h1>
+            <div className="last-10-payments-list">
+              {lastTenPayments.map((payment) => {
+                return (
+                  <div key={payment.id}>
+                    <div className="level">
+                      <div className="level-item level-left">
+                        £{payment.amount}
+                      </div>
+                      <div className="level-item level-right">
+                        <strong>{payment.date}</strong>
+                      </div>
                     </div>
-                    <div className="level-item level-right">
-                      <strong>{payment.date}</strong>
-                    </div>
+                    <HorizontalDivider />
                   </div>
-                  <HorizontalDivider />
-                </>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          </BackgroundColourContainer>
         </div>
       </div>
       <div className="result-property-cards">
         <h1 className="lookup-result-header mb-5">Properties</h1>
         {properties.map((property) => {
-          return <SearchResultPropertyCard property={property} />;
+          return (
+            <SearchResultPropertyCard key={property.id} property={property} />
+          );
         })}
       </div>
     </div>

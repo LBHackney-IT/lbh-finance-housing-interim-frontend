@@ -33,6 +33,7 @@ const performSearch = (searchType, search) => {
     lastTenPayments: [],
     properties: [
       {
+        id: 1,
         line1: "15 Marcon Court",
         line2: "Amhurst Rd",
         postcode: "E8 1ND",
@@ -41,6 +42,7 @@ const performSearch = (searchType, search) => {
         currentBalance: "1234.56",
       },
       {
+        id: 2,
         line1: "10 Amhurst Rd",
         line2: "",
         postcode: "E8 1ND",
@@ -66,16 +68,14 @@ const IndividualLookup = ({ history }) => {
   // Check for params
   const params = useParams();
   const search = params.search;
-  const searchId = params.searchId ? params.searchId : 1;
+  const searchId = params.searchId ? parseInt(params.searchId) : 1;
 
   // State
   const [searchResult, setSearchResult] = useState(undefined);
   const [searchType, setSearchType] = useState(searchId);
 
   useEffect(() => {
-    if (search) {
-      setSearchResult(performSearch(searchId, search));
-    }
+    setSearchResult(performSearch(searchId, search));
   }, [search, searchId]);
 
   // Handle property search

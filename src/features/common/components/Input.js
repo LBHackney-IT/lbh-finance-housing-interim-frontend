@@ -5,8 +5,8 @@ const Input = ({
   name,
   value = "",
   placeholder = "",
-  onChange = {},
-  onEnterKey = {},
+  onChange = () => {},
+  onEnterKey = () => {},
 }) => {
   const handleChange = (event) => {
     onChange(event);

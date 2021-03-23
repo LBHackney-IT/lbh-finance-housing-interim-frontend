@@ -6,6 +6,11 @@
     letter-spacing: 0.15px;
 }
 
+html,
+body {
+    background: rgba(0, 0, 0, 0.04);
+}
+
 .page-comp-cont {
     padding-top: 30px;
     width: $page-sizing;

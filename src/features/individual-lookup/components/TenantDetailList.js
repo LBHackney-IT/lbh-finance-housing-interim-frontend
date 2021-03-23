@@ -6,9 +6,9 @@ import {
   BalanceIcon,
 } from "../../common/components/Icons";
 
-const TenantDetailEntry = ({ Icon, text }) => {
+const TenantDetailEntry = ({ Icon, text, columnSize = "is-3" }) => {
   return (
-    <div className="tenant-detail-entry">
+    <div className={columnSize + " column tenant-detail-entry"}>
       <div className="icon-cont">
         <Icon />
       </div>
@@ -19,7 +19,7 @@ const TenantDetailEntry = ({ Icon, text }) => {
 
 const TenantDetailList = ({ address, contact, tenancy }) => {
   return (
-    <div className="entry-list">
+    <div className="columns entry-list">
       <TenantDetailEntry
         Icon={LocationIcon}
         text={
@@ -31,48 +31,56 @@ const TenantDetailList = ({ address, contact, tenancy }) => {
           </>
         }
       />
-      <TenantDetailEntry
-        Icon={ContactDetailsIcon}
-        text={
-          <>
-            <div>{contact.phone}</div>
-            <div>{contact.email}</div>
-          </>
-        }
-      />
-      <TenantDetailEntry
-        Icon={TenantIcon}
-        text={
-          <>
-            <div>{tenancy.tenancyId}</div>
-            <div>
-              <strong>Tenancy ID</strong>
-            </div>
-          </>
-        }
-      />
-      <TenantDetailEntry
-        Icon={TenantHomeIcon}
-        text={
-          <>
-            <div>{tenancy.tenancyType}</div>
-            <div>
-              <strong>Tenancy Type</strong>
-            </div>
-          </>
-        }
-      />
-      <TenantDetailEntry
-        Icon={BalanceIcon}
-        text={
-          <span className="pending-item">
-            <div>£{tenancy.currentBalance}</div>
-            <div>
-              <strong className="pending-item">Current Balance</strong>
-            </div>
-          </span>
-        }
-      />
+      <div className="column is-3">
+        <TenantDetailEntry
+          columnSize="is-12"
+          Icon={ContactDetailsIcon}
+          text={
+            <>
+              <div>{contact.phone}</div>
+              <div>{contact.email}</div>
+            </>
+          }
+        />
+        <TenantDetailEntry
+          columnSize="is-12"
+          Icon={TenantIcon}
+          text={
+            <>
+              <div>{tenancy.tenancyId}</div>
+              <div>
+                <strong>Tenancy ID</strong>
+              </div>
+            </>
+          }
+        />
+      </div>
+      <div className="column is-3">
+        <TenantDetailEntry
+          columnSize="is-12"
+          Icon={TenantHomeIcon}
+          text={
+            <>
+              <div>{tenancy.tenancyType}</div>
+              <div>
+                <strong>Tenancy Type</strong>
+              </div>
+            </>
+          }
+        />
+        <TenantDetailEntry
+          columnSize="is-12"
+          Icon={BalanceIcon}
+          text={
+            <span className="pending-item">
+              <div>£{tenancy.currentBalance}</div>
+              <div>
+                <strong className="pending-item">Current Balance</strong>
+              </div>
+            </span>
+          }
+        />
+      </div>
     </div>
   );
 };

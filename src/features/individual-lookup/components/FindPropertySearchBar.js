@@ -8,9 +8,9 @@ import Select from "../../common/components/Select";
 
 // TODO remove / alter
 const selectOptions = [
-  { value: 1, text: "by PRN Number" },
-  { value: 2, text: "by ABC Number" },
-  { value: 3, text: "by XYZ Number" },
+  { value: 1, text: "by Payment Reference Number" },
+  { value: 2, text: "by Tenancy Agreement Reference" },
+  { value: 3, text: "by Customer ID" },
 ];
 
 const FindPropertySearchBar = ({
