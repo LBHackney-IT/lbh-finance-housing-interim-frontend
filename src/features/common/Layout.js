@@ -3,12 +3,7 @@ import { NavLink } from "react-router-dom";
 import HackneyLogo from "../../assets/images/hackney_logo.png";
 import { NavLinkButton } from "../common/components/Button";
 import { BackIcon, BackWhiteIcon } from "../common/components/Icons";
-import {
-  ACTIVITY_PAGE,
-  INDIVIDUAL_LOOKUP,
-  OPERATING_BALANCES,
-  UPLOAD_LIST,
-} from "../RouteConstants";
+import { INDIVIDUAL_LOOKUP, OPERATING_BALANCES } from "../RouteConstants";
 import UserOverlay from "../user/UserOverlay";
 import { MenuIcon } from "./components/Icons";
 import PageContainer from "./components/PageContainer";
@@ -16,14 +11,14 @@ import "./layout.scss";
 
 // Navigation items
 const layoutNavItems = [
-  {
-    text: "Upload",
-    to: UPLOAD_LIST,
-  },
-  {
-    text: "Activity",
-    to: ACTIVITY_PAGE,
-  },
+  // {
+  //   text: "Upload",
+  //   to: UPLOAD_LIST,
+  // },
+  // {
+  //   text: "Activity",
+  //   to: ACTIVITY_PAGE,
+  // },
   {
     text: "Operating Balances",
     to: OPERATING_BALANCES,
@@ -98,7 +93,11 @@ const Layout = (props) => {
 };
 
 // Layout for a back link page
-const BackPageLayout = ({ pageTitle, backToRoute = UPLOAD_LIST, ...props }) => {
+const BackPageLayout = ({
+  pageTitle,
+  backToRoute = OPERATING_BALANCES,
+  ...props
+}) => {
   const BackPageIcon = () => {
     return (
       <NavLink to={backToRoute}>

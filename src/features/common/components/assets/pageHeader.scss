@@ -1,0 +1,12 @@
+@import "../../../../assets/styles/variables.scss";
+
+.page-header {
+    background-color: $aliceBlue;
+    height: 136px;
+
+    .page-title {
+        font-size: 34px;
+        line-height: 36px;
+        color: #000000;
+    }
+}

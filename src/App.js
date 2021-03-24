@@ -25,6 +25,7 @@ export default function App() {
           component={Activity}
         /> */}
         <PrivateRoute
+          exact
           path={RouteConstants.OPERATING_BALANCES}
           component={OperatingBalances}
         />

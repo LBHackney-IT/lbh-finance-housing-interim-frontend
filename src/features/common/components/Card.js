@@ -1,3 +1,5 @@
+import "./assets/card.scss";
+
 const Card = ({ className = "", style = {}, ...props }) => {
   return (
     <div className={`card box ${className}`} style={style}>

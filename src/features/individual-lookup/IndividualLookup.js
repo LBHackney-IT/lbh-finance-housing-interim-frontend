@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PageContainer from "../common/components/PageContainer";
+import PageHeader from "../common/components/PageHeader";
 import { Layout } from "../common/Layout";
 import { INDIVIDUAL_LOOKUP } from "../RouteConstants";
 import FindPropertySearchBar from "./components/FindPropertySearchBar";
@@ -85,11 +86,7 @@ const IndividualLookup = ({ history }) => {
 
   return (
     <Layout>
-      <div className="find-a-property-header">
-        <PageContainer>
-          <h1 className="find-prop-title">Find a property...</h1>
-        </PageContainer>
-      </div>
+      <PageHeader>Find a property...</PageHeader>
       <PageContainer>
         <div className="find-property-search-cont">
           <FindPropertySearchBar

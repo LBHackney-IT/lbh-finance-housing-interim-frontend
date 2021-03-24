@@ -48,4 +48,8 @@ const NavLinkButton = ({ toRoute, className, Icon, ...props }) => {
   );
 };
 
+const TextButton = () => {
+  return <div></div>;
+};
+
 export { Button, NavLinkButton };
