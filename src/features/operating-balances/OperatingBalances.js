@@ -1,48 +1,103 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import NumberFormat from "react-number-format";
+import { getOperatingBalances } from "../../api/Api";
+import LoaderContainer from "../common/components/LoaderContainer";
+import PageContainer from "../common/components/PageContainer";
+import PageHeader from "../common/components/PageHeader";
 import { Layout } from "../common/Layout";
-import OperatingBalanceCardList from "./components/OperatingBalanceCardList";
-import OperatingBalancesSummary from "./components/OperatingBalancesSummary";
 import "./operatingbalances.scss";
-
-// TODO remove
-const balanceSummary = {
-  grandTotalBalance: 123456000,
-  grandTotalBalanceDate: "01/01/2021",
-  totalBalance: 12345600,
-  totalBalanceDate: "01/01/2021",
-  totalArrears: -102240,
-  totalArrearsDate: "01/01/2021",
-};
-
-// TODO remove
-const operatingBalanceNames = [
-  "Housing Revenue Account",
-  "Leaseholder service charges",
-  "Housing General fund",
-  "Leaseholder major works",
-  "Garages and Parking spaces",
-  "Temporary Accomodation General fund",
-  "Temporary Accommodation HRA properties",
-  "Travellers rent account",
-];
-
-// TODO remove
-const operatingBalanceCardData = {
-  balance: "123,456.00",
-  balanceDate: "31/01/2021",
-  arrears: "12,345.00",
-  csvLink: "www.google.com",
-};
-
-const operatingBalanceCards = operatingBalanceNames.map((title, index) => {
-  return { ...operatingBalanceCardData, id: index, title };
-});
+import DateRangeSearchBar from "../common/components/DateRangeSearchBar";
 
 const OperatingBalances = () => {
+  const [startDate, setStartDate] = useState(new Date(2020, 3, 12));
+  const [endDate, setEndDate] = useState(new Date());
+  const [opBalanceValues, setOperatingBalances] = useState(undefined);
+
+  useEffect(() => {
+    async function getOpBalances() {
+      var opBalances = await getOperatingBalances(startDate, endDate);
+      setOperatingBalances(opBalances);
+    }
+    getOpBalances();
+  }, [startDate, endDate]);
+
   return (
     <Layout>
-      <OperatingBalancesSummary balanceSummary={balanceSummary} />
-      <OperatingBalanceCardList operatingBalanceCards={operatingBalanceCards} />
+      <PageHeader>Operating Balance</PageHeader>
+      <div className="has-background-white pb-5">
+        <PageContainer>
+          <DateRangeSearchBar
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+          />
+          <LoaderContainer valueChecks={[opBalanceValues]} minHeight="150px">
+            <table
+              className="table mb-5 operating-balances-table"
+              style={{ width: "100%", marginTop: "25px" }}
+            >
+              <thead>
+                <tr>
+                  <th className="has-text-left">
+                    <strong>Service</strong>
+                  </th>
+                  <th className="has-text-right">
+                    <strong>Total Charged</strong>
+                  </th>
+                  <th className="has-text-right">
+                    <strong>Total Paid</strong>
+                  </th>
+                  <th className="has-text-right">
+                    <strong>Balance</strong>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {opBalanceValues !== undefined ? (
+                  opBalanceValues.map((operatingBalanceItem) => {
+                    return (
+                      <tr key={operatingBalanceItem.rentGroup}>
+                        <td className="has-text-left">
+                          <strong>{operatingBalanceItem.rentGroup}</strong>
+                        </td>
+                        <td className="has-text-right">
+                          <NumberFormat
+                            value={operatingBalanceItem.totalRentDue}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            prefix={"£"}
+                          />
+                        </td>
+                        <td className="has-text-right">
+                          <NumberFormat
+                            value={operatingBalanceItem.totalRentPaid}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            prefix={"£"}
+                          />
+                        </td>
+                        <td className="has-text-right">
+                          <NumberFormat
+                            value={operatingBalanceItem.balance}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            prefix={"£"}
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <></>
+                )}
+              </tbody>
+            </table>
+          </LoaderContainer>
+        </PageContainer>
+      </div>
+      {/* <OperatingBalancesSummary balanceSummary={balanceSummary} />
+      <OperatingBalanceCardList operatingBalanceCards={operatingBalanceCards} /> */}
     </Layout>
   );
 };

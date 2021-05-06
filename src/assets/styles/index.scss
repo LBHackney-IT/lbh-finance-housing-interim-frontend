@@ -1,4 +1,5 @@
 @import "./variables.scss";
+@import "./variablestyles.scss";
 @import "../fonts/fonts.scss";
 
 * {
@@ -6,12 +7,17 @@
     letter-spacing: 0.15px;
 }
 
+html {
+    min-height: 100vh;
+}
+
+html,
+body {
+    background: rgba(0, 0, 0, 0.04);
+    height: 100%;
+}
+
 .page-comp-cont {
     padding-top: 30px;
     width: $page-sizing;
-}
-
-.card {
-    box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 22%), 0 0px 0 1px rgb(10 10 10 / 2%) !important;
-    border-radius: 0 !important;
 }

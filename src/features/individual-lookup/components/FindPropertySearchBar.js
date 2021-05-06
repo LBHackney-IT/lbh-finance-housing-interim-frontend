@@ -1,21 +1,20 @@
-import { SearchIcon } from "../../common/components/Icons";
-import { VerticalDivider } from "../../common/components/Divider";
-import { Button } from "../../common/components/Button";
-import Select from "../../common/components/Select";
-import Input from "../../common/components/Input";
 import { useState } from "react";
+import { Button } from "../../common/components/Button";
 import Card from "../../common/components/Card";
+import { VerticalDivider } from "../../common/components/Divider";
+import { SearchIcon } from "../../common/components/Icons";
+import Input from "../../common/components/Input";
+import Select from "../../common/components/Select";
 
-// TODO remove / alter
-const selectOptions = [
-  { value: 1, text: "by PRN Number" },
-  { value: 2, text: "by ABC Number" },
-  { value: 3, text: "by XYZ Number" },
-];
-
-const FindPropertySearchBar = ({ onClick }) => {
+const FindPropertySearchBar = ({
+  onClick,
+  onSearchChange,
+  searchType,
+  search = "",
+  searchOptions,
+}) => {
   // State
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(search);
 
   const onInputChange = (event) => {
     setInputValue(event.target.value);
@@ -28,7 +27,11 @@ const FindPropertySearchBar = ({ onClick }) => {
         <VerticalDivider />
       </div>
       <div className="search-options">
-        <Select options={selectOptions} selectedValue={1} />
+        <Select
+          options={searchOptions}
+          selectedValue={searchType}
+          onChange={onSearchChange}
+        />
       </div>
       <div>
         <VerticalDivider />

@@ -19,6 +19,9 @@ import { ReactComponent as ContactDetailsIconSvg } from "../../../assets/icons/i
 import { ReactComponent as TenantIconSvg } from "../../../assets/icons/icon_tenant.svg";
 import { ReactComponent as TenantHomeIconSvg } from "../../../assets/icons/icon_tenant_home.svg";
 import { ReactComponent as BalanceIconSvg } from "../../../assets/icons/icon_balance.svg";
+import { ReactComponent as ArrowRightIconSvg } from "../../../assets/icons/icon_arrow_right.svg";
+import { ReactComponent as CalendarIconSvg } from "../../../assets/icons/icon_calendar.svg";
+import { ReactComponent as ExpandIconSvg } from "../../../assets/icons/icon_expand.svg";
 
 const OkIcon = () => {
   return <OkIconSvg />;
@@ -104,7 +107,20 @@ const BalanceIcon = () => {
   return <BalanceIconSvg />;
 };
 
+const ArrowRightIcon = () => {
+  return <ArrowRightIconSvg />;
+};
+
+const CalendarIcon = () => {
+  return <CalendarIconSvg />;
+};
+
+const ExpandIcon = () => {
+  return <ExpandIconSvg />;
+};
+
 export {
+  ExpandIcon,
   OkIcon,
   ExpiredIcon,
   ErrorIcon,
@@ -126,4 +142,6 @@ export {
   TenantIcon,
   TenantHomeIcon,
   BalanceIcon,
+  ArrowRightIcon,
+  CalendarIcon,
 };

@@ -1,6 +1,6 @@
-const Card = ({ className, style, ...props }) => {
-  className = className === undefined ? "" : className;
-  style = style === undefined ? {} : style;
+import "./assets/card.scss";
+
+const Card = ({ className = "", style = {}, ...props }) => {
   return (
     <div className={`card box ${className}`} style={style}>
       {props.children}

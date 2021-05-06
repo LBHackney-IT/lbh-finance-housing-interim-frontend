@@ -1,21 +1,23 @@
-import PageContainer from "../common/components/PageContainer";
-import UploadCard from "./components/UploadCard";
-import { uploadActions, getStatusObject } from "./uploadStatus";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { Button } from "../common/components/Button";
 import { SearchFolderIcon } from "../common/components/Icons";
-import { BackPageLayout } from "../common/Layout";
-import { useParams } from "react-router-dom";
-import { selectUploads } from "./uploadSlice";
-import { useSelector } from "react-redux";
+import PageContainer from "../common/components/PageContainer";
 import { toProperCase } from "../common/functions/Helpers";
+import { BackPageLayout } from "../common/Layout";
+import GooglePicker from "../google/GooglePicker";
+import { UPLOAD_LIST } from "../RouteConstants";
+import UploadCard from "./components/UploadCard";
+import { selectUploads } from "./uploadSlice";
+import { getStatusObject, uploadActions } from "./uploadStatus";
 
-const Upload = () => {
+const Upload = (props) => {
   const params = useParams();
   const id = parseInt(params.id);
   const upload = useSelector(selectUploads).find((upItem) => upItem.id === id);
 
   if (upload === undefined) {
-    // TODO redirect
+    props.history.push(UPLOAD_LIST);
   }
 
   const { title, statusId } = upload;
@@ -61,6 +63,7 @@ const Upload = () => {
           statusItemClass={statusObject.itemClass}
           statusText={statusText}
         >
+          <GooglePicker></GooglePicker>
           <div className="level" style={{ width: "100%", marginTop: "-10px" }}>
             <div
               className="level-item level-left"

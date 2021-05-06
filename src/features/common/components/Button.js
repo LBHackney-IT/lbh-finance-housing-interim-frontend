@@ -2,11 +2,9 @@ import { NavLink } from "react-router-dom";
 import "./assets/button.scss";
 
 // Get/build the passed class name
-const getClassName = (className) => {
+const getClassName = (className = "is-secondary") => {
   // Default to secondary
-  return (
-    "button is-small " + (className === undefined ? "is-secondary" : className)
-  );
+  return `button is-small ${className}`;
 };
 
 // Gets the inner content of a button for the given values
@@ -21,14 +19,15 @@ const getButtonContent = (Icon, text) => {
   );
 };
 
-const Button = ({ onClick, className, disabled, Icon, ...props }) => {
+const Button = ({
+  onClick = {},
+  className,
+  disabled = false,
+  Icon,
+  ...props
+}) => {
   const classNameValue = getClassName(className);
   const buttonContent = getButtonContent(Icon, props.children);
-  disabled = disabled === undefined ? "" : disabled;
-
-  if (onClick === undefined) {
-    onClick = "";
-  }
 
   return (
     <button className={classNameValue} onClick={onClick} disabled={disabled}>

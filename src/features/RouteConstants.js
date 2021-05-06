@@ -1,15 +1,14 @@
-const UPLOAD_LIST = "/";
-const UPLOAD_PAGE = "/upload";
-const ACTIVITY_PAGE = "/activity";
+//const UPLOAD_LIST = "/";
+//const UPLOAD_PAGE = "/upload";
+//const ACTIVITY_PAGE = "/activity";
 const LOGIN_PAGE = "/login";
-const OPERATING_BALANCES = "/operating-balances";
+const OPERATING_BALANCES = "/";
 const INDIVIDUAL_LOOKUP = "/individual-lookup";
+const INDIVIDUAL_LOOKUP_PAYMENTS = "/individual-lookup-payments";
 
 export {
-  UPLOAD_LIST,
-  UPLOAD_PAGE,
-  ACTIVITY_PAGE,
   OPERATING_BALANCES,
   INDIVIDUAL_LOOKUP,
+  INDIVIDUAL_LOOKUP_PAYMENTS,
   LOGIN_PAGE,
 };

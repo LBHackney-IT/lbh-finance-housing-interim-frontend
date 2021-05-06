@@ -26,3 +26,29 @@
         margin-top: -10px;
     }
 }
+
+.date-range-search-bar {
+    margin-top: -66px;
+}
+
+.operating-balances-table {
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.5px;
+
+    thead tr th {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    tbody tr {
+        td {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        &:last-child {
+            font-weight: bold;
+        }
+    }
+}

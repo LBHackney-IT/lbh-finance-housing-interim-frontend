@@ -2,7 +2,7 @@ import HackneyLogo from "../../assets/images/hackney_logo.png";
 import { Button } from "../common/components/Button";
 import Card from "../common/components/Card";
 import { GoogleIcon, MailIcon, PasswordIcon } from "../common/components/Icons";
-import { UPLOAD_LIST } from "../RouteConstants";
+import { OPERATING_BALANCES } from "../RouteConstants";
 import "./assets/login.scss";
 import { useDispatch } from "react-redux";
 import { login } from "./userSlice";
@@ -22,7 +22,7 @@ const Login = (props) => {
       props.history.push(
         props.location.state !== undefined
           ? props.location.state.from
-          : UPLOAD_LIST
+          : OPERATING_BALANCES
       );
     }
   };
@@ -40,7 +40,7 @@ const Login = (props) => {
         <Card className="login-box">
           <PasswordIcon />
           <h1 className="login-title">
-            <strong>Welcome to SarlAccounts</strong>
+            <strong>Welcome to Hackney Housing Finance</strong>
           </h1>
           <p className="login-text">
             Please sign in with your Hackney Google Account
