@@ -40,7 +40,7 @@ const Login = (props) => {
         <Card className="login-box">
           <PasswordIcon />
           <h1 className="login-title">
-            <strong>Welcome to SarlAccounts</strong>
+            <strong>Welcome to Hackney Housing Finance</strong>
           </h1>
           <p className="login-text">
             Please sign in with your Hackney Google Account

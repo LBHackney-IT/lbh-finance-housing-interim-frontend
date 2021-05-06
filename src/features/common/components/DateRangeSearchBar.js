@@ -1,17 +1,18 @@
-import { Button } from "../../common/components/Button";
-import Card from "../../common/components/Card";
-import DatePick from "../../common/components/DatePick";
-import { ArrowRightIcon, DownloadIcon } from "../../common/components/Icons";
-import { VerticalDivider } from "../../common/components/Divider";
+import { Button } from "./Button";
+import Card from "./Card";
+import DatePick from "./DatePick";
+import { ArrowRightIcon, DownloadIcon } from "./Icons";
+import { VerticalDivider } from "./Divider";
+import "./assets/dateRangeSearchBar.scss";
 
-const OperatingBalanceSearchBar = ({
+const DateRangeSearchBar = ({
   startDate,
   setStartDate,
   endDate,
   setEndDate,
 }) => {
   return (
-    <Card>
+    <Card className="date-range-search-bar">
       <div className="bar-component-cont">
         <label>Date:</label>
         <div className="ml-3">
@@ -37,4 +38,4 @@ const OperatingBalanceSearchBar = ({
   );
 };
 
-export default OperatingBalanceSearchBar;
+export default DateRangeSearchBar;

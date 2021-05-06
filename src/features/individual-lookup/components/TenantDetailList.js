@@ -6,9 +6,9 @@ import {
   BalanceIcon,
 } from "../../common/components/Icons";
 
-const TenantDetailEntry = ({ Icon, text, columnSize = "is-3" }) => {
+const TenantDetailEntry = ({ Icon, text, className = "is-3" }) => {
   return (
-    <div className={columnSize + " column tenant-detail-entry"}>
+    <div className={className + " tenant-detail-entry"}>
       <div className="icon-cont">
         <Icon />
       </div>
@@ -20,20 +20,21 @@ const TenantDetailEntry = ({ Icon, text, columnSize = "is-3" }) => {
 const TenantDetailList = ({ address, contact, tenancy }) => {
   return (
     <div className="columns entry-list">
-      <TenantDetailEntry
-        Icon={LocationIcon}
-        text={
-          <>
-            <div className="address-part">{address.line1}</div>
-            <div className="address-part">{address.line2}</div>
-            <div className="address-part">{address.town}</div>
-            <div>{`${address.city} ${address.postcode}`}</div>
-          </>
-        }
-      />
       <div className="column is-3">
         <TenantDetailEntry
-          columnSize="is-12"
+          Icon={LocationIcon}
+          text={
+            <>
+              <div className="address-part">{address.line1}</div>
+              <div className="address-part">{address.line2}</div>
+              <div className="address-part">{address.town}</div>
+              <div>{`${address.city} ${address.postcode}`}</div>
+            </>
+          }
+        />
+      </div>
+      <div className="column is-3">
+        <TenantDetailEntry
           Icon={ContactDetailsIcon}
           text={
             <>
@@ -43,7 +44,6 @@ const TenantDetailList = ({ address, contact, tenancy }) => {
           }
         />
         <TenantDetailEntry
-          columnSize="is-12"
           Icon={TenantIcon}
           text={
             <>
@@ -57,7 +57,6 @@ const TenantDetailList = ({ address, contact, tenancy }) => {
       </div>
       <div className="column is-3">
         <TenantDetailEntry
-          columnSize="is-12"
           Icon={TenantHomeIcon}
           text={
             <>
@@ -69,7 +68,6 @@ const TenantDetailList = ({ address, contact, tenancy }) => {
           }
         />
         <TenantDetailEntry
-          columnSize="is-12"
           Icon={BalanceIcon}
           text={
             <span className="pending-item">

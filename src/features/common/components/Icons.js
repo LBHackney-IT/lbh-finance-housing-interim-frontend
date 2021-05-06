@@ -21,6 +21,7 @@ import { ReactComponent as TenantHomeIconSvg } from "../../../assets/icons/icon_
 import { ReactComponent as BalanceIconSvg } from "../../../assets/icons/icon_balance.svg";
 import { ReactComponent as ArrowRightIconSvg } from "../../../assets/icons/icon_arrow_right.svg";
 import { ReactComponent as CalendarIconSvg } from "../../../assets/icons/icon_calendar.svg";
+import { ReactComponent as ExpandIconSvg } from "../../../assets/icons/icon_expand.svg";
 
 const OkIcon = () => {
   return <OkIconSvg />;
@@ -114,7 +115,12 @@ const CalendarIcon = () => {
   return <CalendarIconSvg />;
 };
 
+const ExpandIcon = () => {
+  return <ExpandIconSvg />;
+};
+
 export {
+  ExpandIcon,
   OkIcon,
   ExpiredIcon,
   ErrorIcon,

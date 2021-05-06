@@ -27,39 +27,8 @@
     }
 }
 
-.operating-balance-search-cont {
+.date-range-search-bar {
     margin-top: -66px;
-
-    .card {
-        display: flex;
-        align-items: center;
-        padding: 16px;
-        justify-content: space-between;
-
-        label {
-            font-size: 16px;
-            line-height: 24px;
-            letter-spacing: 0.5px;
-        }
-
-        .bar-component-cont {
-            display: flex;
-            align-items: center;
-
-            .divider {
-                order: unset;
-            }
-        }
-
-        .search-btn {
-            margin-left: auto;
-
-            .button {
-                padding-left: 5px;
-                padding-right: 7px;
-            }
-        }
-    }
 }
 
 .operating-balances-table {

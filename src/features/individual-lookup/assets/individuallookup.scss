@@ -1,4 +1,4 @@
-@import "../../assets/styles/variables.scss";
+@import "../../../assets/styles/variables.scss";
 
 .find-property-search-cont {
     margin-top: -66px;
@@ -28,10 +28,13 @@
 .tenant-details {
     .entry-list {
         margin-top: -15px;
+        padding-bottom: 25px;
+
         .tenant-detail-entry {
             display: flex;
-            align-items: center;
-            margin-top: 15px;
+            align-items: flex-start;
+            min-height: 60px;
+            //margin-top: 15px;
 
             .icon-cont {
                 width: 20%;
@@ -58,6 +61,10 @@
     .level {
         padding-top: 10px;
         margin-bottom: 14px;
+    }
+
+    table {
+        width: 100%;
     }
 }
 

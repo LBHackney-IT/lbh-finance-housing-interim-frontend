@@ -4,6 +4,7 @@ import PrivateRoute from "./features/PrivateRoute";
 import * as RouteConstants from "./features/RouteConstants";
 import IndividualLookup from "./features/individual-lookup/IndividualLookup";
 import Login from "./features/user/Login";
+import IndividualLookupPayments from "./features/individual-lookup/IndividualLookupPayments";
 
 export default function App() {
   return (
@@ -32,6 +33,10 @@ export default function App() {
         <PrivateRoute
           path={`${RouteConstants.INDIVIDUAL_LOOKUP}/:searchId?/:search?`}
           component={IndividualLookup}
+        />
+        <PrivateRoute
+          path={`${RouteConstants.INDIVIDUAL_LOOKUP_PAYMENTS}/:tenancyAgreementRef`}
+          component={IndividualLookupPayments}
         />
       </Switch>
     </>

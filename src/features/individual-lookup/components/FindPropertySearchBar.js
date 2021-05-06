@@ -6,18 +6,12 @@ import { SearchIcon } from "../../common/components/Icons";
 import Input from "../../common/components/Input";
 import Select from "../../common/components/Select";
 
-// TODO remove / alter
-const selectOptions = [
-  { value: 1, text: "by Payment Reference Number" },
-  { value: 2, text: "by Tenancy Agreement Reference" },
-  { value: 3, text: "by Customer ID" },
-];
-
 const FindPropertySearchBar = ({
   onClick,
   onSearchChange,
   searchType,
   search = "",
+  searchOptions,
 }) => {
   // State
   const [inputValue, setInputValue] = useState(search);
@@ -34,7 +28,7 @@ const FindPropertySearchBar = ({
       </div>
       <div className="search-options">
         <Select
-          options={selectOptions}
+          options={searchOptions}
           selectedValue={searchType}
           onChange={onSearchChange}
         />

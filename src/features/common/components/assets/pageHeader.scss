@@ -1,12 +1,20 @@
 @import "../../../../assets/styles/variables.scss";
 
 .page-header {
-    background-color: $aliceBlue;
     height: 136px;
 
-    .page-title {
-        font-size: 34px;
-        line-height: 36px;
-        color: #000000;
+    .page-header-contents {
+        display: flex;
+        align-items: center;
+
+        .page-title {
+            font-size: 34px;
+            line-height: 36px;
+            color: #000000;
+        }
+    }
+
+    &:not(.no-bg-colour) {
+        background-color: $aliceBlue;
     }
 }
