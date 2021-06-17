@@ -17,6 +17,10 @@
         .divider {
             order: unset;
         }
+
+        &.ml-auto {
+            margin-left: auto;
+        }
     }
 
     .search-btn {

@@ -26,9 +26,10 @@ const TenantDetailList = ({ address, contact, tenancy }) => {
           text={
             <>
               <div className="address-part">{address.line1}</div>
-              <div className="address-part">{address.line2}</div>
-              <div className="address-part">{address.town}</div>
-              <div>{`${address.city} ${address.postcode}`}</div>
+              <div className="address-part">{address.line2}, Hackney</div>
+              {/* TODO */}
+              {/* <div className="address-part">Hackney</div> */}
+              <div>{`${address.postcode}`}</div>
             </>
           }
         />
@@ -38,7 +39,7 @@ const TenantDetailList = ({ address, contact, tenancy }) => {
           Icon={ContactDetailsIcon}
           text={
             <>
-              <div>{contact.phone}</div>
+              <div>{contact.phone.replace("(", "")}</div>
               <div>{contact.email}</div>
             </>
           }
@@ -60,7 +61,8 @@ const TenantDetailList = ({ address, contact, tenancy }) => {
           Icon={TenantHomeIcon}
           text={
             <>
-              <div>{tenancy.tenancyType}</div>
+              {/* TODO */}
+              <div>Rent</div>
               <div>
                 <strong>Tenancy Type</strong>
               </div>

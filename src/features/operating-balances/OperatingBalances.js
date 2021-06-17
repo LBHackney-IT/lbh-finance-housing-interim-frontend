@@ -11,15 +11,35 @@ import DateRangeSearchBar from "../common/components/DateRangeSearchBar";
 const OperatingBalances = () => {
   const [startDate, setStartDate] = useState(new Date(2020, 3, 12));
   const [endDate, setEndDate] = useState(new Date());
+  const [startWeekNo, setStartWeekNo] = useState(1);
+  const [endWeekNo, setEndWeekNo] = useState(2);
+  const [startYearNo, setStartYearNo] = useState(2020);
+  const [endYearNo, setEndYearNo] = useState(2021);
+  const [filterMode, setFilterMode] = useState(1);
   const [opBalanceValues, setOperatingBalances] = useState(undefined);
 
   useEffect(() => {
     async function getOpBalances() {
-      var opBalances = await getOperatingBalances(startDate, endDate);
+      var opBalances = await getOperatingBalances(
+        filterMode === 1 ? startDate : null,
+        filterMode === 1 ? endDate : null,
+        startYearNo,
+        endYearNo,
+        startWeekNo,
+        endWeekNo
+      );
       setOperatingBalances(opBalances);
     }
     getOpBalances();
-  }, [startDate, endDate]);
+  }, [
+    startDate,
+    endDate,
+    filterMode,
+    startWeekNo,
+    endWeekNo,
+    startYearNo,
+    endYearNo,
+  ]);
 
   return (
     <Layout>
@@ -31,6 +51,16 @@ const OperatingBalances = () => {
             setStartDate={setStartDate}
             endDate={endDate}
             setEndDate={setEndDate}
+            startWeekNo={startWeekNo}
+            endWeekNo={endWeekNo}
+            startYearNo={startYearNo}
+            endYearNo={endYearNo}
+            setStartWeekNo={setStartWeekNo}
+            setEndWeekNo={setEndWeekNo}
+            setStartYearNo={setStartYearNo}
+            setEndYearNo={setEndYearNo}
+            mode={filterMode}
+            setMode={setFilterMode}
           />
           <LoaderContainer valueChecks={[opBalanceValues]} minHeight="150px">
             <table
@@ -49,8 +79,17 @@ const OperatingBalances = () => {
                     <strong>Total Paid</strong>
                   </th>
                   <th className="has-text-right">
-                    <strong>Balance</strong>
+                    <strong>Total Balance</strong>
                   </th>
+                  {/* <th className="has-text-right">
+                    <strong>Charged YTD</strong>
+                  </th>
+                  <th className="has-text-right">
+                    <strong>Paid YTD</strong>
+                  </th>
+                  <th className="has-text-right">
+                    <strong>Arrears YTD</strong>
+                  </th> */}
                 </tr>
               </thead>
               <tbody>
@@ -63,7 +102,7 @@ const OperatingBalances = () => {
                         </td>
                         <td className="has-text-right">
                           <NumberFormat
-                            value={operatingBalanceItem.totalRentDue}
+                            value={operatingBalanceItem.totalCharged}
                             displayType={"text"}
                             thousandSeparator={true}
                             prefix={"£"}
@@ -71,7 +110,7 @@ const OperatingBalances = () => {
                         </td>
                         <td className="has-text-right">
                           <NumberFormat
-                            value={operatingBalanceItem.totalRentPaid}
+                            value={operatingBalanceItem.totalPaid}
                             displayType={"text"}
                             thousandSeparator={true}
                             prefix={"£"}
@@ -79,12 +118,36 @@ const OperatingBalances = () => {
                         </td>
                         <td className="has-text-right">
                           <NumberFormat
-                            value={operatingBalanceItem.balance}
+                            value={operatingBalanceItem.totalBalance}
                             displayType={"text"}
                             thousandSeparator={true}
                             prefix={"£"}
                           />
                         </td>
+                        {/* <td className="has-text-right">
+                          <NumberFormat
+                            value={operatingBalanceItem.chargedYTD}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            prefix={"£"}
+                          />
+                        </td>
+                        <td className="has-text-right">
+                          <NumberFormat
+                            value={operatingBalanceItem.paidYTD}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            prefix={"£"}
+                          />
+                        </td>
+                        <td className="has-text-right">
+                          <NumberFormat
+                            value={operatingBalanceItem.arrearsYTD}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            prefix={"£"}
+                          />
+                        </td> */}
                       </tr>
                     );
                   })

@@ -87,7 +87,7 @@ const Layout = (props) => {
           );
         })}
       </NavHeader>
-      {props.children}
+      <div>{props.children}</div>
     </div>
   );
 };
