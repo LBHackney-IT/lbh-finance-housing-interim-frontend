@@ -1,5 +1,5 @@
 import React from "react";
-import { GoogleLogout } from "react-google-login";
+import { useGoogleLogout } from "react-google-login";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Button } from "../common/components/Button";
@@ -18,11 +18,15 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
   const { name, email } = user;
   const displayClass = isDisplayed ? "" : "is-hidden";
 
-  // Handle logout
-  const Logout = () => {
+  const onLogoutSuccess = () => {
     dispatch(logout);
     history.push(LOGIN_PAGE);
   };
+
+  const { signOut, loaded } = useGoogleLogout({
+    clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+    onLogoutSuccess: onLogoutSuccess,
+  })
 
   const outsideClickHandle = (event) => {
     if (isDisplayed) {
@@ -32,7 +36,7 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
 
   return (
     <>
-      <div className={displayClass + " user-overlay is-background"}></div>
+      <div className={displayClass + ' user-overlay is-background'}/>
       <OutsideTrigger
         className={displayClass + " user-overlay user-details-container card"}
         onClick={outsideClickHandle}
@@ -50,7 +54,7 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
           </div>
           <div className="user-job-title">{email}</div>
         </div>
-        <div className="user-overlay-divider"></div>
+        <div className="user-overlay-divider"/>
         <div className="user-overlay-buttons">
           <div>
             <Button onClick={() => alert("Help clicked")}>
@@ -58,20 +62,9 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
             </Button>
           </div>
           <div>
-            <GoogleLogout
-              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-              onLogoutSuccess={Logout}
-              render={(renderProps) => {
-                return (
-                  <Button
-                    onClick={renderProps.onClick}
-                    disabled={renderProps.disabled}
-                  >
-                    <ExitIcon /> Log out
-                  </Button>
-                );
-              }}
-            ></GoogleLogout>
+            <Button onClick={signOut} disabled={!loaded}>
+              <ExitIcon /> Log out
+            </Button>
           </div>
         </div>
       </OutsideTrigger>

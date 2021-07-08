@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { NavLinkButton } from "../common/components/Button";
-import DateRangeSearchBar from "../common/components/DateRangeSearchBar";
-import { BackIcon } from "../common/components/Icons";
-import PageContainer from "../common/components/PageContainer";
-import PageHeader from "../common/components/PageHeader";
-import { Layout } from "../common/Layout";
-import { INDIVIDUAL_LOOKUP } from "../RouteConstants";
-import "./assets/individualLookupPayments.scss";
-import { getTenancy, getTenancyTransactions } from "../../api/Api";
-import LoaderContainer from "../common/components/LoaderContainer";
-import TransactionsTable from "./components/TransactionsTable";
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { NavLinkButton } from '../common/components/Button';
+import DateRangeSearchBar from '../common/components/DateRangeSearchBar';
+import { BackIcon } from '../common/components/Icons';
+import PageContainer from '../common/components/PageContainer';
+import PageHeader from '../common/components/PageHeader';
+import { Layout } from '../common/Layout';
+import { INDIVIDUAL_LOOKUP } from '../RouteConstants';
+import './assets/individualLookupPayments.scss';
+import { getTenancy, getTenancyTransactions } from '../../api/Api';
+import LoaderContainer from '../common/components/LoaderContainer';
+import TransactionsTable from './components/TransactionsTable';
 
-const IndividualLookupPayments = ({ history }) => {
+const IndividualLookupPayments = () => {
   const params = useParams();
   const tagRef = params.tenancyAgreementRef
     ? decodeURIComponent(params.tenancyAgreementRef)
@@ -30,13 +30,11 @@ const IndividualLookupPayments = ({ history }) => {
       // Async search function
       async function PerformSearch() {
         setIsSearching(true);
-        const tenantResult = await getTenancy(tagRef, null, null);
-        const transactionsResult = await getTenancyTransactions(
-          tagRef,
-          null,
-          null,
-          100
-        );
+        const tenantResult = await getTenancy({ tenancyAgreementRef: tagRef });
+        const transactionsResult = await getTenancyTransactions({
+          tenancyAgreementRef: tagRef,
+          count: 100,
+        });
 
         setSearchResult({
           tenant: tenantResult,
@@ -72,7 +70,7 @@ const IndividualLookupPayments = ({ history }) => {
           : null}
       </PageHeader>
 
-      <div className="has-background-white" style={{ minHeight: "70vh" }}>
+      <div className="has-background-white" style={{ minHeight: '70vh' }}>
         <PageContainer>
           <DateRangeSearchBar
             startDate={startDate}

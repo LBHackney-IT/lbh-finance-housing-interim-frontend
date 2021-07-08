@@ -1,40 +1,45 @@
-import HackneyLogo from "../../assets/images/hackney_logo.png";
-import { Button } from "../common/components/Button";
-import Card from "../common/components/Card";
-import { GoogleIcon, MailIcon, PasswordIcon } from "../common/components/Icons";
-import { OPERATING_BALANCES } from "../RouteConstants";
-import "./assets/login.scss";
-import { useDispatch } from "react-redux";
-import { login } from "./userSlice";
-import GoogleLogin from "react-google-login";
+import { useHistory, useLocation } from 'react-router-dom';
+import { getToken } from '../../api/Api';
+import HackneyLogo from '../../assets/images/hackney_logo.png';
+import { Button } from '../common/components/Button';
+import Card from '../common/components/Card';
+import { GoogleIcon, MailIcon, PasswordIcon } from '../common/components/Icons';
+import { OPERATING_BALANCES } from '../RouteConstants';
+import './assets/login.scss';
+import { useDispatch } from 'react-redux';
+import { login } from './userSlice';
+import { useGoogleLogin } from 'react-google-login';
 
-const Login = (props) => {
+const Login = () => {
+  const history = useHistory();
+  const { state } = useLocation();
+
   const dispatch = useDispatch();
 
-  const HandleGoogleSuccess = (response) => {
+  const handleGoogleSuccess = async (response) => {
     if (response.accessToken) {
       const { accessToken, profileObj } = response;
       const { email, name, googleId } = profileObj;
       const user = { accessToken, email, name, googleId };
+
+      await getToken(response);
+
       dispatch(login(user));
 
-      // Redirect
-      props.history.push(
-        props.location.state !== undefined
-          ? props.location.state.from
-          : OPERATING_BALANCES
-      );
+      history.push(state?.from ?? OPERATING_BALANCES);
     }
   };
 
-  const HandleGoogleFailure = (response) => {
-    // TODO
-    console.log(response);
-  };
+  const { signIn, loaded } = useGoogleLogin({
+    clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+    cookiePolicy: 'single_host_origin',
+    onSuccess: handleGoogleSuccess,
+    isSignedIn: true,
+  });
 
   return (
     <div className="login-page">
-      <div className="background-spacer"></div>
+      <div className="background-spacer"/>
       <div className="login-box-cont">
         <img src={HackneyLogo} className="login-logo" alt="Not found" />
         <Card className="login-box">
@@ -46,30 +51,16 @@ const Login = (props) => {
             Please sign in with your Hackney Google Account
           </p>
           <div className="login-btn">
-            <GoogleLogin
-              isSignedIn={true}
-              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-              render={(renderProps) => (
-                <Button
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disabled}
-                  Icon={GoogleIcon}
-                >
-                  <strong>SIGN IN</strong>
-                </Button>
-              )}
-              // approvalPrompt="force"
-              // responseType="code"
-              // prompt="consent"
-              // online="offline"
-              buttonText="Login"
-              onSuccess={HandleGoogleSuccess}
-              onFailure={HandleGoogleFailure}
-              cookiePolicy={"single_host_origin"}
-            />
+            <Button
+              onClick={signIn}
+              Icon={GoogleIcon}
+              disabled={!loaded}
+            >
+              <strong>SIGN IN</strong>
+            </Button>
           </div>
           <div className="login-btn">
-            <Button Icon={MailIcon} onClick={() => alert("Help clicked")}>
+            <Button Icon={MailIcon} onClick={() => alert('Help clicked')}>
               <strong>HELP</strong>
             </Button>
           </div>

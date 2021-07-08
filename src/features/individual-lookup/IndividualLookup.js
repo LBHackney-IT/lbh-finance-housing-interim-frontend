@@ -43,17 +43,17 @@ const IndividualLookup = ({ history }) => {
       ) {
         setIsSearching(true);
 
-        const tenantResult = await getTenancy(
+        const tenantResult = await getTenancy({
           tenancyAgreementRef,
           rentAccount,
-          householdRef
-        );
+          householdRef,
+        });
 
-        const transactionsResult = await getTenancyTransactions(
+        const transactionsResult = await getTenancyTransactions({
           tenancyAgreementRef,
           rentAccount,
-          householdRef
-        );
+          householdRef,
+        });
 
         setSearchResult({
           tenant: tenantResult,
