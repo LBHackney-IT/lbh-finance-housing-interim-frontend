@@ -4,7 +4,7 @@ import { getTenancy } from "../../../api/Api";
 const getTenantAsync = createAsyncThunk(
   "individualLookup/search",
   async (tenancyAgreementRef, rentAccount, householdRef) => {
-    return await getTenancy(tenancyAgreementRef, rentAccount, householdRef);
+    return await getTenancy({ tenancyAgreementRef, rentAccount, householdRef });
   }
 );
 

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import NumberFormat from "react-number-format";
-import { getOperatingBalances } from "../../api/Api";
-import LoaderContainer from "../common/components/LoaderContainer";
-import PageContainer from "../common/components/PageContainer";
-import PageHeader from "../common/components/PageHeader";
-import { Layout } from "../common/Layout";
-import "./operatingbalances.scss";
-import DateRangeSearchBar from "../common/components/DateRangeSearchBar";
+import React, { useEffect, useState } from 'react';
+import NumberFormat from 'react-number-format';
+import { getOperatingBalances } from '../../api/Api';
+import LoaderContainer from '../common/components/LoaderContainer';
+import PageContainer from '../common/components/PageContainer';
+import PageHeader from '../common/components/PageHeader';
+import { Layout } from '../common/Layout';
+import './operatingbalances.scss';
+import DateRangeSearchBar from '../common/components/DateRangeSearchBar';
 
 const OperatingBalances = () => {
   const [startDate, setStartDate] = useState(new Date(2020, 3, 12));
@@ -20,16 +20,17 @@ const OperatingBalances = () => {
 
   useEffect(() => {
     async function getOpBalances() {
-      var opBalances = await getOperatingBalances(
-        filterMode === 1 ? startDate : null,
-        filterMode === 1 ? endDate : null,
+      var opBalances = await getOperatingBalances({
+        startDate: filterMode === 1 ? startDate : null,
+        endDate: filterMode === 1 ? endDate : null,
         startYearNo,
         endYearNo,
         startWeekNo,
-        endWeekNo
-      );
+        endWeekNo,
+      });
       setOperatingBalances(opBalances);
     }
+
     getOpBalances();
   }, [
     startDate,
@@ -65,23 +66,23 @@ const OperatingBalances = () => {
           <LoaderContainer valueChecks={[opBalanceValues]} minHeight="150px">
             <table
               className="table mb-5 operating-balances-table"
-              style={{ width: "100%", marginTop: "25px" }}
+              style={{ width: '100%', marginTop: '25px' }}
             >
               <thead>
-                <tr>
-                  <th className="has-text-left">
-                    <strong>Service</strong>
-                  </th>
-                  <th className="has-text-right">
-                    <strong>Total Charged</strong>
-                  </th>
-                  <th className="has-text-right">
-                    <strong>Total Paid</strong>
-                  </th>
-                  <th className="has-text-right">
-                    <strong>Total Balance</strong>
-                  </th>
-                  {/* <th className="has-text-right">
+              <tr>
+                <th className="has-text-left">
+                  <strong>Service</strong>
+                </th>
+                <th className="has-text-right">
+                  <strong>Total Charged</strong>
+                </th>
+                <th className="has-text-right">
+                  <strong>Total Paid</strong>
+                </th>
+                <th className="has-text-right">
+                  <strong>Total Balance</strong>
+                </th>
+                {/* <th className="has-text-right">
                     <strong>Charged YTD</strong>
                   </th>
                   <th className="has-text-right">
@@ -90,41 +91,41 @@ const OperatingBalances = () => {
                   <th className="has-text-right">
                     <strong>Arrears YTD</strong>
                   </th> */}
-                </tr>
+              </tr>
               </thead>
               <tbody>
-                {opBalanceValues !== undefined ? (
-                  opBalanceValues.map((operatingBalanceItem) => {
-                    return (
-                      <tr key={operatingBalanceItem.rentGroup}>
-                        <td className="has-text-left">
-                          <strong>{operatingBalanceItem.rentGroup}</strong>
-                        </td>
-                        <td className="has-text-right">
-                          <NumberFormat
-                            value={operatingBalanceItem.totalCharged}
-                            displayType={"text"}
-                            thousandSeparator={true}
-                            prefix={"£"}
-                          />
-                        </td>
-                        <td className="has-text-right">
-                          <NumberFormat
-                            value={operatingBalanceItem.totalPaid}
-                            displayType={"text"}
-                            thousandSeparator={true}
-                            prefix={"£"}
-                          />
-                        </td>
-                        <td className="has-text-right">
-                          <NumberFormat
-                            value={operatingBalanceItem.totalBalance}
-                            displayType={"text"}
-                            thousandSeparator={true}
-                            prefix={"£"}
-                          />
-                        </td>
-                        {/* <td className="has-text-right">
+              {opBalanceValues !== undefined ? (
+                opBalanceValues.map((operatingBalanceItem) => {
+                  return (
+                    <tr key={operatingBalanceItem.rentGroup}>
+                      <td className="has-text-left">
+                        <strong>{operatingBalanceItem.rentGroup}</strong>
+                      </td>
+                      <td className="has-text-right">
+                        <NumberFormat
+                          value={operatingBalanceItem.totalCharged}
+                          displayType={'text'}
+                          thousandSeparator={true}
+                          prefix={'£'}
+                        />
+                      </td>
+                      <td className="has-text-right">
+                        <NumberFormat
+                          value={operatingBalanceItem.totalPaid}
+                          displayType={'text'}
+                          thousandSeparator={true}
+                          prefix={'£'}
+                        />
+                      </td>
+                      <td className="has-text-right">
+                        <NumberFormat
+                          value={operatingBalanceItem.totalBalance}
+                          displayType={'text'}
+                          thousandSeparator={true}
+                          prefix={'£'}
+                        />
+                      </td>
+                      {/* <td className="has-text-right">
                           <NumberFormat
                             value={operatingBalanceItem.chargedYTD}
                             displayType={"text"}
@@ -148,12 +149,12 @@ const OperatingBalances = () => {
                             prefix={"£"}
                           />
                         </td> */}
-                      </tr>
-                    );
-                  })
-                ) : (
-                  <></>
-                )}
+                    </tr>
+                  );
+                })
+              ) : (
+                <></>
+              )}
               </tbody>
             </table>
           </LoaderContainer>

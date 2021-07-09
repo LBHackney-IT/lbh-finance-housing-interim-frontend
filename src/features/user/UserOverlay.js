@@ -1,7 +1,8 @@
 import React from "react";
-import { GoogleLogout } from "react-google-login";
+import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { instance } from '../../api/Api';
 import { Button } from "../common/components/Button";
 import { CloseIcon, ExitIcon, MailIcon } from "../common/components/Icons";
 import OutsideTrigger from "../common/components/OutsideTrigger";
@@ -14,12 +15,13 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
   const history = useHistory();
 
   // Get the user's details
-  const user = useSelector(selectUser);
+  const user = useSelector(selectUser) ?? {};
   const { name, email } = user;
   const displayClass = isDisplayed ? "" : "is-hidden";
 
-  // Handle logout
-  const Logout = () => {
+  const signOut = () => {
+    Cookies.remove('hackneyToken', { domain: '.hackney.gov.uk' });
+    instance.defaults.headers.common['Authorization'] = '';
     dispatch(logout);
     history.push(LOGIN_PAGE);
   };
@@ -32,7 +34,7 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
 
   return (
     <>
-      <div className={displayClass + " user-overlay is-background"}></div>
+      <div className={displayClass + ' user-overlay is-background'}/>
       <OutsideTrigger
         className={displayClass + " user-overlay user-details-container card"}
         onClick={outsideClickHandle}
@@ -50,7 +52,7 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
           </div>
           <div className="user-job-title">{email}</div>
         </div>
-        <div className="user-overlay-divider"></div>
+        <div className="user-overlay-divider"/>
         <div className="user-overlay-buttons">
           <div>
             <Button onClick={() => alert("Help clicked")}>
@@ -58,20 +60,9 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
             </Button>
           </div>
           <div>
-            <GoogleLogout
-              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-              onLogoutSuccess={Logout}
-              render={(renderProps) => {
-                return (
-                  <Button
-                    onClick={renderProps.onClick}
-                    disabled={renderProps.disabled}
-                  >
-                    <ExitIcon /> Log out
-                  </Button>
-                );
-              }}
-            ></GoogleLogout>
+            <Button onClick={signOut}>
+              <ExitIcon /> Log out
+            </Button>
           </div>
         </div>
       </OutsideTrigger>

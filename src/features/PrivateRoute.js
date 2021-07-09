@@ -1,14 +1,14 @@
-import { useSelector } from "react-redux";
-import { Redirect, Route } from "react-router-dom";
-import { selectUser } from "../features/user/userSlice";
-import { LOGIN_PAGE } from "./RouteConstants";
+import { useSelector } from 'react-redux';
+import { Redirect, Route } from 'react-router-dom';
+import { selectUser } from './user/userSlice';
+import { LOGIN_PAGE } from './RouteConstants';
 
 const PrivateRoute = ({ component: Component, ...props }) => {
   const user = useSelector(selectUser);
-  const authed = user !== null;
+  const isAuth = user !== null;
 
   const Render = (props) =>
-    authed === true ? (
+    isAuth ? (
       <Component {...props} />
     ) : (
       <Redirect

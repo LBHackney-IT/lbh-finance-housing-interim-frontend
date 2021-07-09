@@ -20,7 +20,7 @@ const getButtonContent = (Icon, text) => {
 };
 
 const Button = ({
-  onClick = {},
+  onClick = () => {},
   className,
   disabled = false,
   Icon,
