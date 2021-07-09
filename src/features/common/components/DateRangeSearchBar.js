@@ -5,7 +5,6 @@ import { ArrowRightIcon, DownloadIcon } from "./Icons";
 import { VerticalDivider } from "./Divider";
 import "./assets/dateRangeSearchBar.scss";
 import { useState } from "react";
-import Select from "../components/Select";
 
 const modes = [
   { id: 1, label: "OR SELECT BY WEEK NUMBER" },
@@ -20,29 +19,29 @@ const DateRangeSearchBar = ({
   mode = 1,
   showMode = false,
   setMode = () => {},
-  startWeekNo,
-  endWeekNo,
-  startYearNo,
-  endYearNo,
-  setStartWeekNo = () => {},
-  setEndWeekNo = () => {},
-  setStartYearNo = () => {},
-  setEndYearNo = () => {},
+  // startWeekNo,
+  // endWeekNo,
+  // startYearNo,
+  // endYearNo,
+  // setStartWeekNo = () => {},
+  // setEndWeekNo = () => {},
+  // setStartYearNo = () => {},
+  // setEndYearNo = () => {},
 }) => {
   const selectedMode = modes.find((item) => item.id === mode);
   const [currentMode, setCurrentMode] = useState(selectedMode);
 
-  const weekNumbers = [];
+  // const weekNumbers = [];
+  //
+  // for (let i = 1; i <= 52; i++) {
+  //   weekNumbers.push(i);
+  // }
 
-  for (let i = 1; i <= 52; i++) {
-    weekNumbers.push(i);
-  }
+  // const years = [];
 
-  const years = [];
-
-  for (let i = 2015; i <= 2021; i++) {
-    years.push(i);
-  }
+  // for (let i = 2015; i <= 2021; i++) {
+  //   years.push(i);
+  // }
 
   const changeMode = () => {
     const oppositeMode = modes.find((item) => item.id !== currentMode.id);
