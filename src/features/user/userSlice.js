@@ -1,27 +1,33 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+export const getUserInfo = createAsyncThunk('GET_USER_INFO', async () => {
+  const { data } = await axios.get('https://auth.hackney.gov.uk/auth/check_token', { withCredentials: true });
+  return data;
+});
 
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState: {
     user: null,
   },
   reducers: {
-    login: (state, action) => {
-      state.user = action.payload;
-    },
     logout: (state) => {
       state.user = null;
+    },
+  },
+  extraReducers: {
+    [getUserInfo.fulfilled]: (state, action) => {
+      state.user = action.payload;
     },
   },
 });
 
 // Actions
-export const { login, logout } = userSlice.actions;
+export const { logout } = userSlice.actions;
 
 // Selectors
-const selectUser = (state) => {
-  return state.user.user;
-};
+const selectUser = (state) => state.user.user;
 export { selectUser, userSlice };
 
 // Reducer

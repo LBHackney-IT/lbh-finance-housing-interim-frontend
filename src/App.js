@@ -1,12 +1,21 @@
-import { Route, Switch } from "react-router-dom";
-import OperatingBalances from "./features/operating-balances/OperatingBalances";
-import PrivateRoute from "./features/PrivateRoute";
-import * as RouteConstants from "./features/RouteConstants";
-import IndividualLookup from "./features/individual-lookup/IndividualLookup";
-import Login from "./features/user/Login";
-import IndividualLookupPayments from "./features/individual-lookup/IndividualLookupPayments";
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
+import OperatingBalances from './features/operating-balances/OperatingBalances';
+import PrivateRoute from './features/PrivateRoute';
+import * as RouteConstants from './features/RouteConstants';
+import IndividualLookup from './features/individual-lookup/IndividualLookup';
+import Login from './features/user/Login';
+import IndividualLookupPayments from './features/individual-lookup/IndividualLookupPayments';
+import { getUserInfo } from './features/user/userSlice';
 
 export default function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserInfo());
+  }, [dispatch]);
+
   return (
     <>
       <Switch>

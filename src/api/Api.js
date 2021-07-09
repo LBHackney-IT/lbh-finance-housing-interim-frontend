@@ -1,16 +1,17 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { format } from 'date-fns';
 
 //const baseURL = "https://5nyly4gqb3.execute-api.eu-west-2.amazonaws.com/api/v1";
+const baseURL = "https://5nyly4gqb3.execute-api.eu-west-2.amazonaws.com/development/api/v1/";
 //const baseURL = "https://localhost:44341/api/v1";
-const baseURL = 'https://localhost:44341/api/v1';
 const API_KEY = 'Jne1LB5BWE3Lnlh4EHLM7xGANmM8jvq7QBxACiX1';
 
-const instance = axios.create({
+export const instance = axios.create({
   baseURL,
   headers: {
     'x-api-key': API_KEY,
-    Authorization: localStorage.getItem('token'),
+    Authorization: `Bearer ${Cookies.get('hackneyToken')}`,
   },
 });
 
@@ -19,20 +20,7 @@ const handleError = (error) => {
   console.log(error);
 };
 
-const getToken = async (googleToken) => {
-  const config = { params: { token: googleToken } };
-
-  try {
-    const { data } = await instance.get('endpoint', config);
-
-    localStorage.setItem('token', data);
-    instance.defaults.headers.common['Authorization'] = data;
-  } catch (error) {
-    handleError(error);
-  }
-};
-
-const getOperatingBalances = async (params) => {
+export const getOperatingBalances = async (params) => {
   const {
     startDate,
     endDate,
@@ -61,7 +49,7 @@ const getOperatingBalances = async (params) => {
   }
 };
 
-const getTenancy = async (params) => {
+export const getTenancy = async (params) => {
   const {
     tenancyAgreementRef,
     rentAccount = null,
@@ -84,7 +72,7 @@ const getTenancy = async (params) => {
   }
 };
 
-const getTenancyTransactions = async (params) => {
+export const getTenancyTransactions = async (params) => {
   const {
     tenancyAgreementRef,
     rentAccount = null,
@@ -108,5 +96,3 @@ const getTenancyTransactions = async (params) => {
     handleError(error);
   }
 };
-
-export { getToken, getOperatingBalances, getTenancy, getTenancyTransactions };

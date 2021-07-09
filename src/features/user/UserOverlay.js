@@ -1,7 +1,8 @@
 import React from "react";
-import { useGoogleLogout } from "react-google-login";
+import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { instance } from '../../api/Api';
 import { Button } from "../common/components/Button";
 import { CloseIcon, ExitIcon, MailIcon } from "../common/components/Icons";
 import OutsideTrigger from "../common/components/OutsideTrigger";
@@ -14,19 +15,16 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
   const history = useHistory();
 
   // Get the user's details
-  const user = useSelector(selectUser);
+  const user = useSelector(selectUser) ?? {};
   const { name, email } = user;
   const displayClass = isDisplayed ? "" : "is-hidden";
 
-  const onLogoutSuccess = () => {
+  const signOut = () => {
+    Cookies.remove('hackneyToken', { domain: '.hackney.gov.uk' });
+    instance.defaults.headers.common['Authorization'] = '';
     dispatch(logout);
     history.push(LOGIN_PAGE);
   };
-
-  const { signOut, loaded } = useGoogleLogout({
-    clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-    onLogoutSuccess: onLogoutSuccess,
-  })
 
   const outsideClickHandle = (event) => {
     if (isDisplayed) {
@@ -62,7 +60,7 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
             </Button>
           </div>
           <div>
-            <Button onClick={signOut} disabled={!loaded}>
+            <Button onClick={signOut}>
               <ExitIcon /> Log out
             </Button>
           </div>
