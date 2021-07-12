@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+import Cookies from 'js-cookie';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
@@ -7,13 +9,14 @@ import * as RouteConstants from './features/RouteConstants';
 import IndividualLookup from './features/individual-lookup/IndividualLookup';
 import Login from './features/user/Login';
 import IndividualLookupPayments from './features/individual-lookup/IndividualLookupPayments';
-import { getUserInfo } from './features/user/userSlice';
+import { setUser } from './features/user/userSlice';
 
 export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUserInfo());
+    const user = jwt.decode(Cookies.get('hackneyToken'));
+    if (user) dispatch(setUser(user));
   }, [dispatch]);
 
   return (

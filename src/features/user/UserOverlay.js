@@ -8,7 +8,7 @@ import { CloseIcon, ExitIcon, MailIcon } from "../common/components/Icons";
 import OutsideTrigger from "../common/components/OutsideTrigger";
 import { LOGIN_PAGE } from "../RouteConstants";
 import "./assets/useroverlay.scss";
-import { logout, selectUser } from "./userSlice";
+import { setUser, selectUser } from "./userSlice";
 
 const UserOverlay = ({ isDisplayed, onCloseClick }) => {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const UserOverlay = ({ isDisplayed, onCloseClick }) => {
   const signOut = () => {
     Cookies.remove('hackneyToken', { domain: '.hackney.gov.uk' });
     instance.defaults.headers.common['Authorization'] = '';
-    dispatch(logout);
+    dispatch(setUser(null));
     history.push(LOGIN_PAGE);
   };
 

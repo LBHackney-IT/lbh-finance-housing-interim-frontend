@@ -39,7 +39,7 @@ const TenantDetailList = ({ address, contact, tenancy }) => {
           Icon={ContactDetailsIcon}
           text={
             <>
-              <div>{contact.phone.replace("(", "")}</div>
+              <div>{contact.phone?.replace("(", "")}</div>
               <div>{contact.email}</div>
             </>
           }

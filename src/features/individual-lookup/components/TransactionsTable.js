@@ -3,8 +3,7 @@ import { format } from "date-fns";
 import { Button } from "../../common/components/Button";
 import { ExpandIcon } from "../../common/components/Icons";
 
-const TransactionsTable = ({ data, onSeeAllPayments = undefined }) => {
-  debugger;
+const TransactionsTable = ({ data = [], onSeeAllPayments = undefined }) => {
   return data.length > 0 ? (
     <div className="has-background-white">
       <PageContainer style={{ paddingBottom: "10px" }}>
