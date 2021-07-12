@@ -3,7 +3,7 @@ import TenantDetailList from "./TenantDetailList";
 import TransactionsTable from "./TransactionsTable";
 
 const PropertySearchResult = ({ result, onSeeAllPayments = () => {} }) => {
-  const { tenant, transactions } = result;
+  const { tenant = {}, transactions } = result;
   const address = {
     line1: tenant.address1,
     line2: tenant.address2,
