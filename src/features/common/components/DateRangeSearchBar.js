@@ -1,14 +1,16 @@
-import { Button } from "./Button";
-import Card from "./Card";
-import DatePick from "./DatePick";
-import { ArrowRightIcon, DownloadIcon } from "./Icons";
-import { VerticalDivider } from "./Divider";
-import "./assets/dateRangeSearchBar.scss";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from 'react';
+import { CSVDownload } from 'react-csv';
+import { getCSVData } from '../../../api/Api';
+import { Button } from './Button';
+import Card from './Card';
+import DatePick from './DatePick';
+import { ArrowRightIcon, DownloadIcon } from './Icons';
+import { VerticalDivider } from './Divider';
+import './assets/dateRangeSearchBar.scss';
 
 const modes = [
-  { id: 1, label: "OR SELECT BY WEEK NUMBER" },
-  { id: 2, label: "OR SELECT BY DATE RANGE" },
+  { id: 1, label: 'OR SELECT BY WEEK NUMBER' },
+  { id: 2, label: 'OR SELECT BY DATE RANGE' },
 ];
 
 const DateRangeSearchBar = ({
@@ -30,6 +32,17 @@ const DateRangeSearchBar = ({
 }) => {
   const selectedMode = modes.find((item) => item.id === mode);
   const [currentMode, setCurrentMode] = useState(selectedMode);
+  const [csvData, setCSVData] = useState(null);
+
+  const getData = useCallback(async () => {
+    const data = await getCSVData({ startDate, endDate });
+    setCSVData(data);
+  }, [endDate, startDate]);
+
+  useEffect(() => {
+    // clean CSV data after downloading is triggered
+    if (csvData) setCSVData(null)
+  }, [csvData]);
 
   // const weekNumbers = [];
   //
@@ -63,6 +76,7 @@ const DateRangeSearchBar = ({
           <DatePick setDate={setEndDate} dateValue={endDate} />
         </div>
       </div>
+
       {/* {mode.id === 1 ? (
         <div className="bar-component-cont">
           <label>Date:</label>
@@ -109,20 +123,22 @@ const DateRangeSearchBar = ({
         </div>
       )} */}
 
-      {showMode ? (
+      {showMode && (
         <div className="bar-component-cont ml-auto">
           <Button onClick={changeMode}>{currentMode.label}</Button>
         </div>
-      ) : null}
+      )}
 
       <div className="bar-component-cont">
         <VerticalDivider />
+
         <label className="mr-5">Export Table:</label>
+
         <div className="search-btn">
-          <Button Icon={DownloadIcon} onClick={() => alert("")}>
-            CSV
-          </Button>
+          <Button Icon={DownloadIcon} onClick={getData}>CSV</Button>
         </div>
+
+        {csvData && <CSVDownload data={csvData} />}
       </div>
     </Card>
   );
