@@ -20,7 +20,7 @@ const OperatingBalances = () => {
 
   useEffect(() => {
     async function getOpBalances() {
-      var opBalances = await getOperatingBalances({
+      const opBalances = await getOperatingBalances({
         startDate: filterMode === 1 ? startDate : null,
         endDate: filterMode === 1 ? endDate : null,
         startYearNo,
@@ -45,6 +45,7 @@ const OperatingBalances = () => {
   return (
     <Layout>
       <PageHeader>Operating Balance</PageHeader>
+
       <div className="has-background-white pb-5">
         <PageContainer>
           <DateRangeSearchBar
@@ -63,6 +64,7 @@ const OperatingBalances = () => {
             mode={filterMode}
             setMode={setFilterMode}
           />
+
           <LoaderContainer valueChecks={[opBalanceValues]} minHeight="150px">
             <table
               className="table mb-5 operating-balances-table"

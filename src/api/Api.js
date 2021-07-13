@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import { format } from 'date-fns';
 
 //const baseURL = "https://5nyly4gqb3.execute-api.eu-west-2.amazonaws.com/api/v1";
-const baseURL = "https://5nyly4gqb3.execute-api.eu-west-2.amazonaws.com/development/api/v1/";
+const baseURL = 'https://5nyly4gqb3.execute-api.eu-west-2.amazonaws.com/development/api/v1/';
 //const baseURL = "https://localhost:44341/api/v1";
 const API_KEY = 'Jne1LB5BWE3Lnlh4EHLM7xGANmM8jvq7QBxACiX1';
 
@@ -91,6 +91,23 @@ export const getTenancyTransactions = async (params) => {
 
   try {
     const { data } = instance.get('/Tenancy/transaction', config);
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const getCSVData = async ({ startDate, endDate }) => {
+  const dateFormat = 'yyyy-MM-dd';
+  const config = {
+    params: {
+      startDate: startDate && format(startDate, dateFormat),
+      endDate: endDate && format(endDate, dateFormat),
+    },
+  };
+
+  try {
+    const { data } = instance.get('/transaction/summary', config);
     return data;
   } catch (error) {
     handleError(error);
