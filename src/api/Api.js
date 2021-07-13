@@ -90,7 +90,7 @@ export const getTenancyTransactions = async (params) => {
   };
 
   try {
-    const { data } = instance.get('/Tenancy/transaction', config);
+    const { data } = await instance.get('/Tenancy/transaction', config);
     return data;
   } catch (error) {
     handleError(error);
