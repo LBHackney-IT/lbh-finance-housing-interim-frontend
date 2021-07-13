@@ -107,7 +107,7 @@ export const getCSVData = async ({ startDate, endDate }) => {
   };
 
   try {
-    const { data } = instance.get('/transaction/summary', config);
+    const { data } = await instance.get('/transaction/summary', config);
     return data;
   } catch (error) {
     handleError(error);
