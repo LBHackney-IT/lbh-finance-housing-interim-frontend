@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
-import { CSVDownload } from 'react-csv';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { CSVLink } from 'react-csv';
 import { getCSVData } from '../../../api/Api';
 import { Button } from './Button';
 import Card from './Card';
@@ -32,7 +32,9 @@ const DateRangeSearchBar = ({
 }) => {
   const selectedMode = modes.find((item) => item.id === mode);
   const [currentMode, setCurrentMode] = useState(selectedMode);
+
   const [csvData, setCSVData] = useState(null);
+  const csvLinkRef = useRef();
 
   const getData = useCallback(async () => {
     const data = await getCSVData({ startDate, endDate });
@@ -40,8 +42,12 @@ const DateRangeSearchBar = ({
   }, [endDate, startDate]);
 
   useEffect(() => {
-    // clean CSV data after downloading is triggered
-    if (csvData) setCSVData(null)
+    if (csvData && csvLinkRef?.current?.link) {
+      setTimeout(() => {
+        csvLinkRef.current.link.click();
+        setCSVData(null);
+      });
+    }
   }, [csvData]);
 
   // const weekNumbers = [];
@@ -138,7 +144,13 @@ const DateRangeSearchBar = ({
           <Button Icon={DownloadIcon} onClick={getData}>CSV</Button>
         </div>
 
-        {csvData && <CSVDownload data={csvData} />}
+        {csvData && (
+          <CSVLink
+            data={csvData}
+            ref={csvLinkRef}
+            filename={`Finance balances produced ${new Date().toLocaleString()}.csv`}
+          />
+        )}
       </div>
     </Card>
   );
