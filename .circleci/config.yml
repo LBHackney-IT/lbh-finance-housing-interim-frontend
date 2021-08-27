@@ -67,21 +67,42 @@ jobs:
       - assume-role-and-persist-workspace:
           aws-account: $AWS_ACCOUNT_PRODUCTION
 
-  build-deploy-development:
+  build-development:
     executor: mtfh-executor
     steps:
       - *attach_workspace
       - run:
-          name: build
-          command: |
-            export REACT_APP_ENV=staging
-            yarn run build
+      name: build
+      command: |
+        export REACT_APP_ENV=staging
+        yarn run build
+
+  deploy-development:
+    executor: docker-python
+    steps:
+      - *attach_workspace
       - aws-s3/sync:
           from: build
           to: 's3://lbh-housing-finance-frontend-development.hackney.gov.uk/'
           arguments: |
             --cache-control "max-age=86400"
           overwrite: true
+
+#  build-deploy-development:
+#    executor: mtfh-executor
+#    steps:
+#      - *attach_workspace
+#      - run:
+#          name: build
+#          command: |
+#            export REACT_APP_ENV=staging
+#            yarn run build
+#      - aws-s3/sync:
+#          from: build
+#          to: 's3://lbh-housing-finance-frontend-development.hackney.gov.uk/'
+#          arguments: |
+#            --cache-control "max-age=86400"
+#          overwrite: true
 
   build-deploy-staging:
     executor: mtfh-executor
@@ -130,10 +151,18 @@ workflows:
             branches:
               only:
                 - development
-      - build-deploy-development:
+      - build-development:
           context: api-assume-role-housing-development-context
           requires:
             - assume-role-development
+          filters:
+            branches:
+              only:
+                - development
+      - deploy-development:
+          context: api-assume-role-housing-development-context
+          requires:
+            - build-development
           filters:
             branches:
               only:
