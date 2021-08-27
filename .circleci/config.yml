@@ -50,19 +50,19 @@ jobs:
           paths: .
 
   assume-role-development:
-    executor: mtfh-executor
+    executor: docker-python
     steps:
       - assume-role-and-persist-workspace:
           aws-account: $AWS_ACCOUNT_DEVELOPMENT
 
   assume-role-staging:
-    executor: mtfh-executor
+    executor: docker-python
     steps:
       - assume-role-and-persist-workspace:
           aws-account: $AWS_ACCOUNT_STAGING
 
   assume-role-production:
-    executor: mtfh-executor
+    executor: docker-python
     steps:
       - assume-role-and-persist-workspace:
           aws-account: $AWS_ACCOUNT_PRODUCTION
