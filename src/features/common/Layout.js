@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import HackneyLogo from "../../assets/images/hackney_logo.png";
 import { NavLinkButton } from "../common/components/Button";
 import { BackIcon, BackWhiteIcon } from "../common/components/Icons";
-import { INDIVIDUAL_LOOKUP, OPERATING_BALANCES } from "../RouteConstants";
+import { BATCH_LOG, INDIVIDUAL_LOOKUP, OPERATING_BALANCES } from '../RouteConstants';
 import UserOverlay from "../user/UserOverlay";
 import { MenuIcon } from "./components/Icons";
 import PageContainer from "./components/PageContainer";
@@ -26,6 +26,10 @@ const layoutNavItems = [
   {
     text: "Individual Lookup",
     to: INDIVIDUAL_LOOKUP,
+  },
+  {
+    text: "Batch log",
+    to: BATCH_LOG,
   },
 ];
 

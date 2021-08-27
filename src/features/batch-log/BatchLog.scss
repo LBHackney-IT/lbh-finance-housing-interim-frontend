@@ -1,0 +1,12 @@
+.batch-log__header {
+  height: auto;
+
+  & > div {
+    padding: 30px 0;
+  }
+}
+
+.batch-log__loader {
+  width: 40px;
+  height: 40px;
+}

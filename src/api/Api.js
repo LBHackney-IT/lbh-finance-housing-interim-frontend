@@ -113,3 +113,12 @@ export const getCSVData = async ({ startDate, endDate }) => {
     handleError(error);
   }
 };
+
+export const getBatchLog = async () => {
+  try {
+    const { data } = await instance.get('/batch/errors');
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+};

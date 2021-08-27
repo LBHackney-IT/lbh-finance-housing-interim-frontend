@@ -1,0 +1,26 @@
+.table-container {
+  width: 100%;
+
+  tr {
+    height: 40px;
+
+    th, td {
+      vertical-align: middle;
+      border-bottom: 1px solid grey;
+    }
+
+    th, td:not(.table__row-subcomponent) {
+      padding-left: 10px;
+    }
+
+    // expander
+    td span {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+.table__row-subcomponent {
+  background-color: #e9f1f8;
+}
