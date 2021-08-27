@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
+import BatchLog from './features/batch-log/BatchLog';
 import OperatingBalances from './features/operating-balances/OperatingBalances';
 import PrivateRoute from './features/PrivateRoute';
 import * as RouteConstants from './features/RouteConstants';
@@ -41,6 +42,11 @@ export default function App() {
           exact
           path={RouteConstants.OPERATING_BALANCES}
           component={OperatingBalances}
+        />
+        <PrivateRoute
+          exact
+          path={RouteConstants.BATCH_LOG}
+          component={BatchLog}
         />
         <PrivateRoute
           path={`${RouteConstants.INDIVIDUAL_LOOKUP}/:searchId?/:search?`}
