@@ -14,7 +14,7 @@ references:
 executors:
   mtfh-executor:
     docker:
-      - image: circleci/node:12.9.1-browsers
+      - image: circleci/node:14.15.5-browsers
     working_directory: *workspace_root
   docker-python:
     docker:
@@ -67,7 +67,7 @@ jobs:
       - assume-role-and-persist-workspace:
           aws-account: $AWS_ACCOUNT_PRODUCTION
 
-  build-development:
+  build-deploy-development:
     executor: mtfh-executor
     steps:
       - *attach_workspace
@@ -76,33 +76,12 @@ jobs:
           command: |
             export REACT_APP_ENV=staging
             yarn run build
-
-  deploy-development:
-    executor: docker-python
-    steps:
-      - *attach_workspace
       - aws-s3/sync:
           from: build
           to: 's3://lbh-housing-finance-frontend-development.hackney.gov.uk/'
           arguments: |
             --cache-control "max-age=86400"
           overwrite: true
-
-#  build-deploy-development:
-#    executor: mtfh-executor
-#    steps:
-#      - *attach_workspace
-#      - run:
-#          name: build
-#          command: |
-#            export REACT_APP_ENV=staging
-#            yarn run build
-#      - aws-s3/sync:
-#          from: build
-#          to: 's3://lbh-housing-finance-frontend-development.hackney.gov.uk/'
-#          arguments: |
-#            --cache-control "max-age=86400"
-#          overwrite: true
 
   build-deploy-staging:
     executor: mtfh-executor
@@ -151,18 +130,10 @@ workflows:
             branches:
               only:
                 - development
-      - build-development:
+      - build-deploy-development:
           context: api-assume-role-housing-development-context
           requires:
             - assume-role-development
-          filters:
-            branches:
-              only:
-                - development
-      - deploy-development:
-          context: api-assume-role-housing-development-context
-          requires:
-            - build-development
           filters:
             branches:
               only:
