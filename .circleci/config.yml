@@ -72,10 +72,10 @@ jobs:
     steps:
       - *attach_workspace
       - run:
-      name: build
-      command: |
-        export REACT_APP_ENV=staging
-        yarn run build
+          name: build
+          command: |
+            export REACT_APP_ENV=staging
+            yarn run build
 
   deploy-development:
     executor: docker-python
