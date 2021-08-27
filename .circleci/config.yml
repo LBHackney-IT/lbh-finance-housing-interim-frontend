@@ -81,7 +81,6 @@ jobs:
           to: 's3://lbh-housing-finance-frontend-development.hackney.gov.uk/'
           arguments: |
             --cache-control "max-age=86400"
-          overwrite: true
 
   build-deploy-staging:
     executor: mtfh-executor
@@ -98,7 +97,6 @@ jobs:
           arguments: |
             --acl public-read \
             --cache-control "max-age=86400"
-          overwrite: true
 
   build-deploy-production:
     executor: mtfh-executor
@@ -115,7 +113,6 @@ jobs:
           arguments: |
             --acl public-read \
             --cache-control "max-age=86400"
-          overwrite: true
 
 workflows:
   version: 2
