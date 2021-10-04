@@ -1,0 +1,51 @@
+@import "../../../../assets/styles/variables.scss";
+
+.select {
+    position: relative;
+    height: 2em !important;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 28px;
+    color: $pendingColour;
+    max-width: 100%;
+
+    .level {
+        margin-bottom: 0;
+    }
+
+    .select-options {
+        position: relative;
+        width: 100%;
+        top: 1em;
+        padding: 0;
+        z-index: 100;
+
+        .select-option {
+            flex: 0 0 auto;
+            white-space: nowrap;
+            padding: 1rem 1.5rem;
+
+            &:hover {
+                background-color: darken(white, 5%);
+            }
+        }
+
+        .divider {
+            margin: 0;
+        }
+
+        &.options-hidden {
+            opacity: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+    }
+
+    &:hover:not(.select-options) {
+        color: $pendingColourHover;
+    }
+}
+
+.select:after {
+    display: none !important;
+}

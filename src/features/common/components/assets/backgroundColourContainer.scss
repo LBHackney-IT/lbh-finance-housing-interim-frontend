@@ -1,0 +1,7 @@
+@import "../../../../assets/styles/variables.scss";
+
+.background-colour-container {
+    //background-color: green;
+    margin-left: calc(100% - #{$page-sizing});
+    margin-right: calc(100% - #{$page-sizing});
+}

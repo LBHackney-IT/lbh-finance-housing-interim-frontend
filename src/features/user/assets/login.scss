@@ -1,0 +1,62 @@
+@import "../../../assets/styles/variables.scss";
+
+.login-page {
+    min-height: 100vh;
+    position: relative;
+    width: 100%;
+
+    .background-spacer {
+        min-height: 45vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: $backgrondDarkcolour;
+    }
+
+    .login-box-cont {
+        position: absolute;
+        height: 320px;
+        top: 18vh;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        width: 320px;
+        text-align: center;
+
+        img.login-logo {
+            margin-bottom: 30px !important;
+            width: 133.26px;
+            height: 24px;
+        }
+
+        .login-box {
+            min-height: 100%;
+            padding: 20px;
+            letter-spacing: 0.25px;
+            box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
+
+            .login-title {
+                font-style: normal;
+                font-weight: 600;
+                font-size: 20px;
+                line-height: 24px;
+                letter-spacing: 0.15px;
+                color: rgba(0, 0, 0, 0.87);
+                margin: 16px 0;
+            }
+
+            .login-text {
+                font-size: 14px;
+                line-height: 20px;
+                color: rgba(0, 0, 0, 0.6);
+                font-weight: 400;
+                margin: 16px 0;
+            }
+
+            .login-btn {
+                margin: 15px 0;
+            }
+        }
+    }
+}

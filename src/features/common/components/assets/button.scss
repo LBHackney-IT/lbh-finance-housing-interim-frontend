@@ -1,0 +1,12 @@
+@import "../../../../assets/styles/variables.scss";
+
+.button {
+    color: $pendingColour;
+    letter-spacing: 1.25px;
+    line-height: 16px;
+    font-size: 14px;
+}
+
+.button-icon {
+    margin-right: 5px;
+}

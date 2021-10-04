@@ -1,0 +1,13 @@
+@import "./variables.scss";
+
+.success-item {
+    color: $successColour;
+}
+
+.error-item {
+    color: $errorColour;
+}
+
+.pending-item {
+    color: $pendingColour;
+}

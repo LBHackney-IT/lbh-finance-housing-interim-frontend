@@ -1,0 +1,54 @@
+@import "../../assets/styles/variables.scss";
+
+.operating-balances-summary {
+    background-color: $aliceBlue;
+    padding-bottom: 50px;
+}
+
+.operating-balance-card-list .tile.is-ancestor .tile.is-parent .tile.card {
+    display: flex;
+    flex-direction: column;
+
+    footer {
+        margin-top: auto;
+    }
+}
+
+.price-summary {
+    margin-bottom: 8px;
+
+    .price {
+        &::before {
+            content: "£";
+        }
+    }
+    .price-subtitle {
+        margin-top: -10px;
+    }
+}
+
+.date-range-search-bar {
+    margin-top: -66px;
+}
+
+.operating-balances-table {
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.5px;
+
+    thead tr th {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    tbody tr {
+        td {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        &:last-child {
+            font-weight: bold;
+        }
+    }
+}
