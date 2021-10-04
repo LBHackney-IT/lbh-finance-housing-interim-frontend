@@ -135,39 +135,39 @@ workflows:
             branches:
               only:
                 - development
-      # - assume-role-staging:
-      #     context: api-assume-role-housing-staging-context
-      #     requires:
-      #       - install-dependencies
-      #     filters:
-      #       branches:
-      #         only:
-      #           - master
-      # - build-deploy-staging:
-      #     context: api-assume-role-housing-staging-context
-      #     requires:
-      #       - assume-role-staging
-      #     filters:
-      #       branches:
-      #         only:
-      #           - master
-      # - permit-deploy-production:
-      #     type: approval
-      #     requires:
-      #       - build-deploy-staging
-      # - assume-role-production:
-      #     context: api-assume-role-housing-production-context
-      #     requires:
-      #       - permit-deploy-production
-      #     filters:
-      #       branches:
-      #         only:
-      #           - master
-      # - build-deploy-production:
-      #     context: api-assume-role-housing-production-context
-      #     requires:
-      #       - assume-role-production
-      #     filters:
-      #       branches:
-      #         only:
-      #           - master
+      - assume-role-staging:
+          context: api-assume-role-housing-staging-context
+          requires:
+            - install-dependencies
+          filters:
+            branches:
+              only:
+                - master
+      - build-deploy-staging:
+          context: api-assume-role-housing-staging-context
+          requires:
+            - assume-role-staging
+          filters:
+            branches:
+              only:
+                - master
+      - permit-deploy-production:
+          type: approval
+          requires:
+            - build-deploy-staging
+      - assume-role-production:
+          context: api-assume-role-housing-production-context
+          requires:
+            - permit-deploy-production
+          filters:
+            branches:
+              only:
+                - master
+      - build-deploy-production:
+          context: api-assume-role-housing-production-context
+          requires:
+            - assume-role-production
+          filters:
+            branches:
+              only:
+                - master
