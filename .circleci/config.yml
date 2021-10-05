@@ -77,9 +77,9 @@ jobs:
           command: |
             export REACT_APP_ENV=staging
             yarn run build
-      - run:
-          name: Deploy to S3
-          command: aws s3 sync build s3://lbh-housing-finance-frontend-development.hackney.gov.uk/
+      # - run:
+      #     name: Deploy to S3
+      #     command: aws s3 sync build s3://lbh-housing-finance-frontend-development.hackney.gov.uk/
 
   build-deploy-staging:
     executor: mtfh-executor
