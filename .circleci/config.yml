@@ -5,7 +5,7 @@ orbs:
   aws-cli: circleci/aws-cli@2.0.3
   aws_assume_role: lbh-hackit/aws_assume_role@0.1.0
   snyk: snyk/snyk@1.0.2
-  
+
 references:
   workspace_root: &workspace_root "~"
   attach_workspace: &attach_workspace
@@ -79,9 +79,9 @@ jobs:
           command: |
             export REACT_APP_ENV=staging
             yarn run build
-      # - run:
-      #     name: Deploy to S3
-      #     command: aws s3 sync build s3://lbh-housing-finance-frontend-development.hackney.gov.uk/
+      - run:
+          name: Deploy to S3
+          command: aws s3 sync build s3://lbh-housing-finance-frontend-development.hackney.gov.uk/
 
   build-deploy-staging:
     executor: mtfh-executor
