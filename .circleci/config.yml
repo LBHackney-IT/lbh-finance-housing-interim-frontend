@@ -118,17 +118,17 @@ workflows:
           context: api-assume-role-housing-development-context
           requires:
             - install-dependencies
-          filters:
-            branches:
-              only:
-                - development
+          # filters:
+          #   branches:
+          #     only:
+          #       - development
       - build-deploy-development:
           requires:
             - assume-role-development
-          filters:
-            branches:
-              only:
-                - development
+          # filters:
+          #   branches:
+          #     only:
+          #       - development
       - assume-role-staging:
           context: api-assume-role-housing-staging-context
           requires:
