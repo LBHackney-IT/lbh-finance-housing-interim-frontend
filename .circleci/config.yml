@@ -1,12 +1,13 @@
 version: 2.1
 
 orbs:
-  aws-s3: circleci/aws-s3@3.0.0
+  aws-s3: circleci/aws-s3@2.0.0
   aws-cli: circleci/aws-cli@2.0.3
   aws_assume_role: lbh-hackit/aws_assume_role@0.1.0
+  snyk: snyk/snyk@1.0.2
 
 references:
-  workspace_root: &workspace_root "~/repo"
+  workspace_root: &workspace_root "~"
   attach_workspace: &attach_workspace
     attach_workspace:
       at: *workspace_root
@@ -15,7 +16,9 @@ executors:
   mtfh-executor:
     docker:
       - image: circleci/node:14.15.5-browsers
-    working_directory: *workspace_root
+  docker-terraform:
+    docker:
+      - image: "hashicorp/terraform:light"
   docker-python:
     docker:
       - image: circleci/python:3.7
@@ -33,20 +36,40 @@ commands:
           profile_name: default
           role: "LBH_Circle_CI_Deployment_Role"
       - persist_to_workspace:
-          root: "~"
+          root: *workspace_root
           paths:
             - .aws
+  terraform-init-then-apply:
+    description: "Initializes and applies terraform configuration"
+    parameters:
+      environment:
+        type: string
+    steps:
+      - *attach_workspace
+      - checkout
+      - run:
+          command: |
+            cd ./terraform/<<parameters.environment>>/
+            terraform get -update=true
+            terraform init
+          name: get and init
+      - run:
+          name: apply
+          command: |
+            cd ./terraform/<<parameters.environment>>/
+            terraform apply -auto-approve
 jobs:
   install-dependencies:
     executor: mtfh-executor
-    working_directory: *workspace_root
     steps:
+      - *attach_workspace
       - checkout
+      - setup_remote_docker
       - run:
           name: Install dependencies
           command: yarn install
       - persist_to_workspace:
-          root: "~/repo"
+          root: *workspace_root
           paths: .
 
   assume-role-development:
@@ -67,52 +90,65 @@ jobs:
       - assume-role-and-persist-workspace:
           aws-account: $AWS_ACCOUNT_PRODUCTION
 
+  terraform-init-and-apply-to-development:
+    executor: docker-terraform
+    steps:
+      - terraform-init-then-apply:
+          environment: "development"
+
+  terraform-init-and-apply-to-staging:
+    executor: docker-terraform
+    steps:
+      - terraform-init-then-apply:
+          environment: "staging"
+
+  terraform-init-and-apply-to-production:
+    executor: docker-terraform
+    steps:
+      - terraform-init-then-apply:
+          environment: "production"
+
   build-deploy-development:
     executor: mtfh-executor
     steps:
       - *attach_workspace
+      - aws-cli/install
       - run:
           name: build
           command: |
             export REACT_APP_ENV=staging
             yarn run build
-      - aws-s3/sync:
-          from: build
-          to: 's3://lbh-housing-finance-frontend-development.hackney.gov.uk/'
-          arguments: |
-            --cache-control "max-age=86400"
+      - run:
+          name: Deploy to S3
+          command: aws s3 sync build s3://lbh-housing-finance-frontend-development.hackney.gov.uk/
 
   build-deploy-staging:
     executor: mtfh-executor
     steps:
       - *attach_workspace
+      - aws-cli/install
       - run:
           name: build
           command: |
             export REACT_APP_ENV=staging
             yarn run build
-      - aws-s3/sync:
-          from: build
-          to: 's3://lbh-housing-finance-frontend-staging.hackney.gov.uk/'
-          arguments: |
-            --acl public-read \
-            --cache-control "max-age=86400"
+      - run:
+          name: Deploy to S3
+          command: aws s3 sync build s3://lbh-housing-finance-frontend-staging.hackney.gov.uk/
 
   build-deploy-production:
     executor: mtfh-executor
     steps:
       - *attach_workspace
+      - aws-cli/install
       - run:
           name: build
           command: |
             export REACT_APP_ENV=production
             yarn run build
-      - aws-s3/sync:
-          from: build
-          to: 's3://lbh-housing-finance-frontend.hackney.gov.uk/'
-          arguments: |
-            --acl public-read \
-            --cache-control "max-age=86400"
+      - run:
+          name: Deploy to S3
+          command: aws s3 sync build s3://lbh-housing-finance-frontend.hackney.gov.uk/
 
 workflows:
   version: 2
@@ -123,18 +159,23 @@ workflows:
           context: api-assume-role-housing-development-context
           requires:
             - install-dependencies
-          filters:
-            branches:
-              only:
-                - development
-      - build-deploy-development:
-          context: api-assume-role-housing-development-context
+          # filters:
+          #   branches:
+          #     only:
+          #       - development
+      - terraform-init-and-apply-to-development:
           requires:
             - assume-role-development
-          filters:
-            branches:
-              only:
-                - development
+          # filters:
+          #   branches:
+          #     only: development
+      - build-deploy-development:
+          requires:
+            - terraform-init-and-apply-to-development
+          # filters:
+          #   branches:
+          #     only:
+          #       - development
       - assume-role-staging:
           context: api-assume-role-housing-staging-context
           requires:
@@ -143,10 +184,15 @@ workflows:
             branches:
               only:
                 - master
-      - build-deploy-staging:
-          context: api-assume-role-housing-staging-context
+      - terraform-init-and-apply-to-staging:
           requires:
             - assume-role-staging
+          filters:
+            branches:
+              only: master
+      - build-deploy-staging:
+          requires:
+            - terraform-init-and-apply-to-staging
           filters:
             branches:
               only:
@@ -163,10 +209,15 @@ workflows:
             branches:
               only:
                 - master
-      - build-deploy-production:
-          context: api-assume-role-housing-production-context
+      - terraform-init-and-apply-to-production:
           requires:
             - assume-role-production
+          filters:
+            branches:
+              only: master
+      - build-deploy-production:
+          requires:
+            - terraform-init-and-apply-to-production
           filters:
             branches:
               only:
