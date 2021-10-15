@@ -24,7 +24,7 @@ resource "aws_cloudfront_origin_access_identity" "interim_finance" {
 
 resource "aws_cloudfront_distribution" "interim_finance_distribution" {
   origin {
-    domain_name = "lbh-housing-finance-frontend-production.hackney.gov.uk.s3.amazonaws.com"
+    domain_name = "lbh-housing-finance-frontend.hackney.gov.uk.s3.amazonaws.com"
     origin_id   = local.interim_finance_origin_id
     connection_attempts = 3
     connection_timeout = 10
