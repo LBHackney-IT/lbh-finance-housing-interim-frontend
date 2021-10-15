@@ -76,7 +76,7 @@ resource "aws_cloudfront_distribution" "interim_finance_distribution" {
   }
 
   viewer_certificate {
-    acm_certificate_arn = "arn:aws:acm:us-east-1:364864573329:certificate/d903d9e2-c3da-482b-8768-916ec09e461f"
+    acm_certificate_arn = "arn:aws:acm:us-east-1:087586271961:certificate/baffa134-abb5-4b71-b84f-013e9dd2d044"
     ssl_support_method = "sni-only"
     minimum_protocol_version = "TLSv1.2_2021"
   }
