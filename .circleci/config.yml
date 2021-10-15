@@ -16,7 +16,9 @@ executors:
   mtfh-executor:
     docker:
       - image: circleci/node:14.15.5-browsers
-
+  docker-terraform:
+    docker:
+      - image: "hashicorp/terraform:light"
   docker-python:
     docker:
       - image: circleci/python:3.7
@@ -37,6 +39,25 @@ commands:
           root: *workspace_root
           paths:
             - .aws
+  terraform-init-then-apply:
+    description: "Initializes and applies terraform configuration"
+    parameters:
+      environment:
+        type: string
+    steps:
+      - *attach_workspace
+      - checkout
+      - run:
+          command: |
+            cd ./terraform/<<parameters.environment>>/
+            terraform get -update=true
+            terraform init
+          name: get and init
+      - run:
+          name: apply
+          command: |
+            cd ./terraform/<<parameters.environment>>/
+            terraform apply -auto-approve
 jobs:
   install-dependencies:
     executor: mtfh-executor
@@ -68,6 +89,24 @@ jobs:
     steps:
       - assume-role-and-persist-workspace:
           aws-account: $AWS_ACCOUNT_PRODUCTION
+
+  terraform-init-and-apply-to-development:
+    executor: docker-terraform
+    steps:
+      - terraform-init-then-apply:
+          environment: "development"
+
+  terraform-init-and-apply-to-staging:
+    executor: docker-terraform
+    steps:
+      - terraform-init-then-apply:
+          environment: "staging"
+
+  terraform-init-and-apply-to-production:
+    executor: docker-terraform
+    steps:
+      - terraform-init-then-apply:
+          environment: "production"
 
   build-deploy-development:
     executor: mtfh-executor
@@ -120,17 +159,23 @@ workflows:
           context: api-assume-role-housing-development-context
           requires:
             - install-dependencies
-          filters:
-            branches:
-              only:
-                - development
-      - build-deploy-development:
+          # filters:
+          #   branches:
+          #     only:
+          #       - development
+      - terraform-init-and-apply-to-development:
           requires:
             - assume-role-development
-          filters:
-            branches:
-              only:
-                - development
+          # filters:
+          #   branches:
+          #     only: development
+      - build-deploy-development:
+          requires:
+            - terraform-init-and-apply-to-development
+          # filters:
+          #   branches:
+          #     only:
+          #       - development
       - assume-role-staging:
           context: api-assume-role-housing-staging-context
           requires:
@@ -139,9 +184,15 @@ workflows:
             branches:
               only:
                 - master
-      - build-deploy-staging:
+      - terraform-init-and-apply-to-staging:
           requires:
             - assume-role-staging
+          filters:
+            branches:
+              only: master
+      - build-deploy-staging:
+          requires:
+            - terraform-init-and-apply-to-staging
           filters:
             branches:
               only:
@@ -158,9 +209,15 @@ workflows:
             branches:
               only:
                 - master
-      - build-deploy-production:
+      - terraform-init-and-apply-to-production:
           requires:
             - assume-role-production
+          filters:
+            branches:
+              only: master
+      - build-deploy-production:
+          requires:
+            - terraform-init-and-apply-to-production
           filters:
             branches:
               only:
