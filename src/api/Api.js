@@ -2,9 +2,14 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { format } from 'date-fns';
 
-//const baseURL = "https://5nyly4gqb3.execute-api.eu-west-2.amazonaws.com/api/v1";
-const baseURL = 'https://5nyly4gqb3.execute-api.eu-west-2.amazonaws.com/development/api/v1/';
-//const baseURL = "https://localhost:44341/api/v1";
+const urls = {
+  development: 'https://5nyly4gqb3.execute-api.eu-west-2.amazonaws.com/development/api/v1',
+  staging: 'https://wk623vt63g.execute-api.eu-west-2.amazonaws.com/staging/api/v1',
+  production: 'https://ebedbh115d.execute-api.eu-west-2.amazonaws.com/production/api/v1',
+};
+
+const baseURL = urls[process.env.REACT_APP_STAGE] ?? urls.development;
+
 const API_KEY = 'Jne1LB5BWE3Lnlh4EHLM7xGANmM8jvq7QBxACiX1';
 
 export const instance = axios.create({
