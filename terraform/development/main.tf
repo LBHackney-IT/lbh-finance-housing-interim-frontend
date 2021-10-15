@@ -9,6 +9,15 @@ locals {
   interim_finance_origin_id = "interim-finance-solution"
 }
 
+terraform {
+    backend "s3" {
+        bucket  = "terraform-state-housing-development"
+        encrypt = true
+        region  = "eu-west-2"
+        key     = "services/interim-frontend/state"
+    }
+}
+
 resource "aws_cloudfront_origin_access_identity" "interim_finance" {
   comment = "Distribution for interim finance frontend"
 }
