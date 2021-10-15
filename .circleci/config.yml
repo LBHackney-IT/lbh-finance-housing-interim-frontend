@@ -39,7 +39,7 @@ commands:
           root: *workspace_root
           paths:
             - .aws
-    terraform-init-then-apply:
+  terraform-init-then-apply:
     description: "Initializes and applies terraform configuration"
     parameters:
       environment:
