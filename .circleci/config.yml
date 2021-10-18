@@ -116,7 +116,7 @@ jobs:
       - run:
           name: build
           command: |
-            export REACT_APP_ENV=staging
+            export REACT_APP_ENV=development
             yarn run build
       - run:
           name: Deploy to S3
