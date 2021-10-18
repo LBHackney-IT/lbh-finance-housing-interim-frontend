@@ -8,7 +8,7 @@ const urls = {
   production: 'https://ebedbh115d.execute-api.eu-west-2.amazonaws.com/production/api/v1',
 };
 
-const baseURL = urls[process.env.REACT_APP_STAGE] ?? urls.development;
+const baseURL = urls[process.env.REACT_APP_ENV] ?? urls.development;
 
 const API_KEY = 'Jne1LB5BWE3Lnlh4EHLM7xGANmM8jvq7QBxACiX1';
 
