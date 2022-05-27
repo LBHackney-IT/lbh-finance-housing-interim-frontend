@@ -1,22 +1,24 @@
 import React, { useState, useCallback } from 'react'
-import { getReportCash } from '../routes/Api'
+import { getReportCashImport } from '../routes/Api'
 import DatePicker from 'react-date-picker'
-// import { format } from 'date-fns'
-import NumberFormat from 'react-number-format'
-import { TableSort, TableHeadHTML } from '../templates/TableHead'
-import * as IFSConstants from '../routes/ifsConstants'
-
-// const DateFormat = value => value ? format(new Date(value), 'dd/MM/yyyy') : '--/--/----'
+import { CSVLink } from 'react-csv'
+import { MinusYear } from '../references/Functions'
+import { TableSort, TableHTML } from '../templates/Table'
+import { DataReferences } from '../references/DataReferences'
+import * as IFSConstants from '../references/ifsConstants'
 
 const ReportCash = () => {
-  
-  const [startDate, setStartDate] = useState(new Date(2020, 3, 12))
+
+  const Ref = 'ReportCashImport'
+  const DataRows = DataReferences[Ref]
+  const CSVHeaders = DataRows.map(row => { return { key: row.sort, label: row.title } })
+  const [startDate, setStartDate] = useState(MinusYear)
   const [endDate, setEndDate] = useState(new Date())
   const [data, setData] = useState(undefined)
-  const [isSearching, setIsSearching] = useState(false)
+  const [searching, setSearching] = useState(false)
 
   // TABLE HEAD
-  const [sort, setSort] = useState({ value: 'rentGroup', direction: true })
+  const [sort, setSort] = useState({ value: DataRows[0].sort, direction: true })
   const onSort = useCallback(val => { 
     setSort(val)
     const dataSort = TableSort(sort, data)
@@ -25,21 +27,23 @@ const ReportCash = () => {
   
   // API CALL
   const onSearch = async () => {
-    setIsSearching(true)
-    const getData = await getReportCash({ 
+    setSearching(true)
+    const getData = await getReportCashImport({ 
       startDate: startDate,
       endDate: endDate,
     })
     setData(getData)
-    setIsSearching(false)
+    setSearching(false)
   }
 
-  const searchBar = () => {
-    return <div className="date-range-search-bar find-property-search-bar">
+  if( data !== undefined && data.length ) console.log(data)
+
+  const SearchBar = () => {
+    return <div className="date-range-search-bar">
       <div className="bar-component-cont">
         <label className="govuk-label govuk-date-input__label">{IFSConstants.TextRef.StartLabel}</label>
         <DatePicker
-          disabled={isSearching}
+          disabled={searching}
           clearIcon={null}
           onChange={setStartDate}
           value={startDate}
@@ -47,7 +51,7 @@ const ReportCash = () => {
         />
         <label className="govuk-label govuk-date-input__label">{IFSConstants.TextRef.EndLabel}</label>
         <DatePicker
-          disabled={isSearching}
+          disabled={searching}
           clearIcon={null}
           onChange={setEndDate}
           value={endDate}
@@ -55,101 +59,41 @@ const ReportCash = () => {
         />
         <button 
           onClick={() => onSearch()} 
-          disabled={isSearching}
-          className="govuk-button govuk-secondary lbh-button lbh-button--secondary"
+          disabled={searching}
+          className="govuk-button govuk-secondary lbh-button lbh-button--secondary mt-0"
         >{IFSConstants.TextRef.Search}</button>
+
       </div>
+
+      { !searching && data !== undefined && data.length && <CSVLink 
+        data={data}
+        headers={CSVHeaders}
+        className="govuk-button govuk-secondary lbh-button lbh-button--secondary mt-0 ml-auto"
+        filename={`report-cash-${new Date().toLocaleString()}.csv`}
+      >{IFSConstants.TextRef.ExportCSV}</CSVLink> }
 
     </div>
   }
 
-  const searchResults = () => {
+  const SearchResults = () => {
 
-    if( !data.length ) return <p>{IFSConstants.TextRef.NothingFound}</p>
+    if( data === undefined ) return
+    if( searching ) return <h4>{IFSConstants.TextRef.Searching}</h4>
+    if( !data.length ) return <h4>{IFSConstants.TextRef.NothingFound}</h4>
 
-    return <table className='govuk-table lbh-table'>
-      <TableHeadHTML
-        tableHead={'ReportCash'}
-        sort={sort}
-        onSort={onSort}
-      />
-      <tbody className='govuk-table__body'>
-        { data.map((data, key) => { 
-          return <tr className='govuk-table__row' key={key}>
-            <td className='govuk-table__cell'>
-              {data.rentGroup}
-            </td>
-            <td className='govuk-table__cell govuk-table__cell--numeric'>
-              <NumberFormat
-                value={data.totalCharged}
-                displayType={'text'}
-                thousandSeparator={true}
-                prefix={'£'}
-                decimalScale={2}
-                fixedDecimalScale={true}
-              />
-            </td>
-            <td className='govuk-table__cell govuk-table__cell--numeric'>
-              <NumberFormat
-                value={data.totalPaid}
-                displayType={'text'}
-                thousandSeparator={true}
-                prefix={'£'}
-                decimalScale={2}
-                fixedDecimalScale={true}
-              />
-            </td>
-            <td className='govuk-table__cell govuk-table__cell--numeric'>
-              <NumberFormat
-                value={data.totalBalance}
-                displayType={'text'}
-                thousandSeparator={true}
-                prefix={'£'}
-                decimalScale={2}
-                fixedDecimalScale={true}
-              />
-            </td>
-            <td className='govuk-table__cell govuk-table__cell--numeric'>
-              <NumberFormat
-                value={data.chargedYTD}
-                displayType={'text'}
-                thousandSeparator={true}
-                prefix={'£'}
-                decimalScale={2}
-                fixedDecimalScale={true}
-              />
-            </td>
-            <td className='govuk-table__cell govuk-table__cell--numeric'>
-              <NumberFormat
-                value={data.paidYTD}
-                displayType={'text'}
-                thousandSeparator={true}
-                prefix={'£'}
-                decimalScale={2}
-                fixedDecimalScale={true}
-              />
-            </td>
-            <td className='govuk-table__cell govuk-table__cell--numeric'>
-              <NumberFormat
-                value={data.arrearsYTD}
-                displayType={'text'}
-                thousandSeparator={true}
-                prefix={'£'}
-                decimalScale={2}
-                fixedDecimalScale={true}
-              />
-            </td>
-          </tr>
-        }) }
-      </tbody>
-    </table>
+    return <TableHTML 
+      tableHead={Ref}
+      sort={sort} 
+      onSort={onSort}
+      data={data} 
+    />
 
   } // searchResults
 
   return <>
     <h1>Report - Cash</h1>
-    {searchBar()}
-    { isSearching ? <h4>{IFSConstants.TextRef.Searching}</h4> : data !== undefined && searchResults() }
+    <SearchBar />
+    <SearchResults />
   </>
 
 }

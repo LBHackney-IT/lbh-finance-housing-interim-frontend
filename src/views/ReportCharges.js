@@ -1,32 +1,13 @@
 import React, { useState, useCallback } from 'react'
 import { getReportCharges } from '../routes/Api'
-// import NumberFormat from 'react-number-format'
-import { format } from 'date-fns'
-import { TableSort, TableHeadHTML } from '../templates/TableHead'
-import * as IFSConstants from '../routes/ifsConstants'
-
-const DateFormat = value => value ? format(new Date(value), 'dd/MM/yyyy') : '--/--/----'
+import { TableSort, TableHeadHTML } from '../templates/Table'
+import * as IFSConstants from '../references/ifsConstants'
+import { DateFormat } from '../references/Functions'
 
 const ReportCharges = () => {
 
-  const rentGroupOptions = [
-    { value: '', text: 'Select Rent Group' },
-    { value: 'GPS', text: 'Gar & Park HRA' },
-    { value: 'HGF', text: 'Housing Gen Fund' },
-    { value: 'HRA', text: 'Housing Revenue' },
-    { value: 'LMW', text: 'LH Major Works ' },
-    { value: 'LSC', text: 'LH Serv Charges' },
-    { value: 'TAG', text: 'Temp Acc Gen Fun' },
-    { value: 'TAH', text: 'Temp Accom HRA' },
-    { value: 'TRA', text: 'Travel Gen Fund' },
-  ]
-
-  const groupOptions = [
-    { value: '', text: 'Select Group' },
-    { value: 'LH', text: 'Leasehold' },
-    { value: 'RENT', text: 'Rent' },
-  ]
-
+  const rentGroupOptions = IFSConstants.ReportCharges_RentGroupOptions
+  const groupOptions = IFSConstants.ReportCharges_GroupOptions
   const currentYear = new Date().getFullYear()
   const yearOptions = Array(currentYear - (currentYear - 10)).fill('').map((v, k) => currentYear - k)
   
@@ -34,13 +15,13 @@ const ReportCharges = () => {
   const [rentGroup, setRentGroup] = useState('')
   const [group, setGroup] = useState('')
   const [data, setData] = useState(undefined)
-  const [isSearching, setIsSearching] = useState(false)
+  const [searching, setSearching] = useState(false)
 
   const onSearch = async () => {
-    setIsSearching(true)
+    setSearching(true)
     const response = await getReportCharges({ year, rentGroup, group })
     setData(response)
-    setIsSearching(false)
+    setSearching(false)
   }
 
   if( data !== undefined && data.length ) console.log(data)
@@ -53,25 +34,25 @@ const ReportCharges = () => {
     if( dataSort !== false ) setData(dataSort)
   }, [sort])
   
-  const searchBar = () => {
+  const SearchBar = () => {
     return <div className="date-range-search-bar find-property-search-bar">
       <div className="bar-component-cont">
         <select 
-          disabled={isSearching}
+          disabled={searching}
           value={year}
           onChange={e => setYear(e.target.value)}
           className="govuk-select lbh-select"
         >{ yearOptions.map(opt => <option key={opt} value={opt}>{opt}</option>) }</select>
 
         <select 
-          disabled={isSearching}
+          disabled={searching}
           value={rentGroup} 
           onChange={e => setRentGroup(e.target.value)}
           className="govuk-select lbh-select"
         >{ rentGroupOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.text}</option>) }</select>
 
         <select 
-          disabled={isSearching}
+          disabled={searching}
           value={group} 
           onChange={e => setGroup(e.target.value)}
           className="govuk-select lbh-select"
@@ -79,15 +60,17 @@ const ReportCharges = () => {
 
         <button 
           onClick={() => onSearch()} 
-          disabled={isSearching}
+          disabled={searching}
           className="govuk-button govuk-secondary lbh-button lbh-button--secondary"
         >{IFSConstants.TextRef.Search}</button>
       </div>
     </div>
   }
 
-  const searchResults = () => {
+  const SearchResults = () => {
 
+    if( data === undefined ) return
+    if( searching ) return <h4>{IFSConstants.TextRef.Searching}</h4>
     if( !data.length ) return <p>{IFSConstants.TextRef.NothingFound}</p>
     
     return <table className='govuk-table lbh-table'>
@@ -125,8 +108,8 @@ const ReportCharges = () => {
 
   return <>
     <h1>{IFSConstants.Titles.ReportCharges}</h1>
-    {searchBar()}
-    { isSearching ? <h4>{IFSConstants.TextRef.Searching}</h4> : data !== undefined && searchResults() }
+    <SearchBar />
+    <SearchResults />
   </>
 
 }

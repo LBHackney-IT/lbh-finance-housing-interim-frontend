@@ -1,19 +1,26 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { getOperatingBalances } from '../routes/Api'
-import NumberFormat from 'react-number-format'
-import OperatingBalancesBar from '../templates/OperatingBalancesBar'
-import { TableSort, TableHeadHTML } from '../templates/TableHead'
-import * as IFSConstants from '../routes/ifsConstants'
+import { getOperatingBalances, getTenancySummary } from '../routes/Api'
+import DatePicker from 'react-date-picker'
+import { CSVLink } from 'react-csv'
+import { MinusYear } from '../references/Functions'
+import { DataReferences } from '../references/DataReferences'
+import { TableSort, TableHTML } from '../templates/Table'
+import * as IFSConstants from '../references/ifsConstants'
 
 const OperatingBalances = () => {
   
-  const [startDate, setStartDate] = useState(new Date(2020, 3, 12))
+  const Ref = 'OperatingBalances'
+  const DataRows = DataReferences[Ref]
+
+  const [startDate, setStartDate] = useState(MinusYear)
   const [endDate, setEndDate] = useState(new Date())
   const [data, setData] = useState(undefined)
-  const [isSearching, setIsSearching] = useState(false)
+  const [searching, setSearching] = useState(false)
+  const [CSVSearching, setCSVSearching] = useState(false)
+  const [csvData, setCSVData] = useState(undefined)
 
   // TABLE HEAD
-  const [sort, setSort] = useState({ value: 'rentGroup', direction: true })
+  const [sort, setSort] = useState({ value: DataRows[0].sort, direction: true })
   const onSort = useCallback(val => { 
     setSort(val)
     const dataSort = TableSort(sort, data)
@@ -21,80 +28,86 @@ const OperatingBalances = () => {
   }, [sort])
 
   const getData = async () => {
-    setIsSearching(true)
-    const opBalances = await getOperatingBalances({
+    setSearching(true)
+    const response = await getOperatingBalances({
       startDate: startDate,
       endDate: endDate,
     })
-    setData(opBalances)
-    setIsSearching(false)
+    console.log(response)
+    const filtered = response !== undefined && response.length ? response.map(item => {
+      let itemOutput = {}
+      DataRows.forEach(row => { itemOutput[row.sort] = item[row.sort] })
+      return itemOutput
+    }) : []
+    setData(filtered)
+    setSearching(false)
   }
 
-  useEffect(() => { getData() }, [startDate, endDate])
-  
-  const searchResults = () => {
+  const getCSVData = async () => {
+    setCSVSearching(true)
+    const response = await getTenancySummary({ 
+      startDate: startDate, 
+      endDate: endDate 
+    })
+    setCSVData(response)
+    setCSVSearching(false)
+  }
 
+
+  useEffect(() => { 
+    getData()
+    getCSVData() 
+  }, [startDate, endDate])
+  
+  const SearchResults = () => {
+
+    if( searching ) return <h4>{IFSConstants.TextRef.Searching}</h4>
     if( data === undefined || !data.length ) return <h4>{IFSConstants.TextRef.NothingFound}</h4>
 
-    return <table className='govuk-table lbh-table'>
-      <TableHeadHTML
-        tableHead={'OperatingBalances'}
-        sort={sort}
-        onSort={onSort}
-      />
-      <tbody className='govuk-table__body'>
-      {data.map((item) => {
-          return <tr className='govuk-table__row' key={item.rentGroup}>
-            <td className='govuk-table__header'>
-              {item.rentGroup}
-            </td>
-            <td className='govuk-table__cell govuk-table__cell--numeric'>
-              <NumberFormat
-                value={item.totalCharged}
-                displayType={'text'}
-                thousandSeparator={true}
-                prefix={'£'}
-                decimalScale={2}
-                fixedDecimalScale={true}
-              />
-            </td>
-            <td className='govuk-table__cell govuk-table__cell--numeric'>
-              <NumberFormat
-                value={item.totalPaid}
-                displayType={'text'}
-                thousandSeparator={true}
-                prefix={'£'}
-                decimalScale={2}
-                fixedDecimalScale={true}
-              />
-            </td>
-            <td className='govuk-table__cell govuk-table__cell--numeric'>
-              <NumberFormat
-                value={item.totalBalance}
-                displayType={'text'}
-                thousandSeparator={true}
-                prefix={'£'}
-                decimalScale={2}
-                fixedDecimalScale={true}
-              />
-            </td>
-          </tr>
-        })}
-      </tbody>
-    </table>
+    return <TableHTML 
+      tableHead={Ref}
+      sort={sort} 
+      onSort={onSort}
+      data={data} 
+    />
   
   } // searchResults
 
+  const SearchBar = () => {
+    return <div className="date-range-search-bar">
+      <div className="bar-component-cont">
+        <label className="govuk-label govuk-date-input__label">Start:</label>
+        <DatePicker
+          disabled={searching}
+          clearIcon={null}
+          onChange={setStartDate}
+          value={startDate}
+          format="dd-MM-y"
+        />
+        <label className="govuk-label govuk-date-input__label">End:</label>
+        <DatePicker
+          disabled={searching}
+          clearIcon={null}
+          onChange={setEndDate}
+          value={endDate}
+          format="dd-MM-y"
+        />
+      </div>
+
+      { !CSVSearching && csvData !== undefined && csvData.length && <CSVLink 
+          data={csvData}
+          // headers={}
+          className="govuk-button govuk-secondary lbh-button lbh-button--secondary mt-0 ml-auto"
+          filename={`operating-balances-${new Date().toLocaleString()}.csv`}
+      >{IFSConstants.TextRef.ExportCSV}</CSVLink> }
+
+    </div>
+  }
+
   return <div>
     <h1>{IFSConstants.Titles.OperatingBalances}</h1>
-    <OperatingBalancesBar
-      searching={isSearching}
-      startDate={startDate}
-      setStartDate={setStartDate}
-      endDate={endDate}
-      setEndDate={setEndDate}
-    />
-    { isSearching ? <h4>{IFSConstants.TextRef.Searching}</h4> : data !== undefined && searchResults() }
+    <SearchBar />
+    <SearchResults />
   </div>
 }
 

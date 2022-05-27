@@ -1,7 +1,7 @@
 import React from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 import { userStatus } from '../routes/Auth'
-import * as IFSConstants from '../routes/ifsConstants'
+import * as IFSConstants from '../references/ifsConstants'
 
 const hackneyAuthLink = 'https://auth.hackney.gov.uk/auth?redirect_uri=';
 

@@ -1,38 +1,44 @@
 import React, { Fragment, useEffect, useState, useCallback } from 'react'
 import { getBatchLog } from '../routes/Api'
-import { format } from 'date-fns'
-import { TableSort, TableHeadHTML } from '../templates/TableHead'
+import { DataReferences } from '../references/DataReferences'
+import { TableSort, TableHeadHTML } from '../templates/Table'
+import { DateFormat } from '../references/Functions'
+import * as IFSConstants from '../references/ifsConstants'
 
 const BatchLog = () => {
   
-  const [data, setData] = useState([])
+  const Ref = 'BatchLog'
+  const DataRef = DataReferences[Ref]
+  const [data, setData] = useState(undefined)
   const [toggle, setToggle] = useState([])
-  const DateFormat = value => value ? format(new Date(value), 'dd/MM/yyyy hh:mm') : '--/--/---- --:--'
-  const [isSearching, setIsSearching] = useState(false)
+  const [searching, setSearching] = useState(false)
 
   useEffect(() => {
     const getData = async () => {
-      setIsSearching(true)
+      setSearching(true)
       const result = await getBatchLog()
       setData(result)
-      setIsSearching(false)
+      setSearching(false)
     }
     getData()
   }, [])
 
   // TABLE HEAD
-  const [sort, setSort] = useState({ value: 'rentGroup', direction: true })
+  const [sort, setSort] = useState({ value: DataRef[0].sort, direction: true })
   const onSort = useCallback(val => { 
     setSort(val)
     const dataSort = TableSort(sort, data)
     if( dataSort !== false ) setData(dataSort)
   }, [sort])
   
-  const dataBody = () => {
+  const SearchResults = () => {
+    
+    if( data === undefined ) return
+    if( searching ) return <h4>{IFSConstants.TextRef.searching}</h4>
 
     return <table className='govuk-table lbh-table'>
       <TableHeadHTML
-        tableHead={'BatchLog'}
+        tableHead={Ref}
         sort={sort}
         onSort={onSort}
       />
@@ -87,8 +93,8 @@ const BatchLog = () => {
   } // dataBody
 
   return <>
-    <h1>Batch log (Last 30 days)</h1>
-    { isSearching ? <h4>Searching...</h4> : data !== undefined && dataBody() }
+    <h1>{IFSConstants.Titles.BatchLog}</h1>
+    <SearchResults />
   </>
 
 }

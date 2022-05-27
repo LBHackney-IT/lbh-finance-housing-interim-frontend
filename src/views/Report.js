@@ -1,7 +1,7 @@
 import React from 'react'
 import * as RouteConstants from '../routes/RouteConstants'
 import { Link } from 'react-router-dom'
-import * as IFSConstants from '../routes/ifsConstants'
+import * as IFSConstants from '../references/ifsConstants'
 
 const Report = () => {
 

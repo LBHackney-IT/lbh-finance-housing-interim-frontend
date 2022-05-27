@@ -53,3 +53,24 @@
 .lbh-table-errors-wrap td {
   padding:10px;
 }
+.lbh-search-box {
+  display:flex;
+  width:100%;
+}
+.ml-auto {
+  margin-left:auto;
+}
+.mr-auto {
+  margin-right:auto;
+}
+.mt-0 {
+  margin-top:0;
+}
+.table-wrap {
+  max-width:1200px;
+  overflow:scroll;
+}
+.govuk-table__header, 
+.govuk-table__cell {
+  white-space: nowrap;
+}

@@ -1,7 +1,7 @@
 import React from 'react'
 import * as RouteConstants from '../routes/RouteConstants'
 import { Link } from 'react-router-dom'
-import * as IFSConstants from '../routes/ifsConstants'
+import * as IFSConstants from '../references/ifsConstants'
 
 const Home = () => {
 
@@ -11,13 +11,11 @@ const Home = () => {
       { type: 'block', title: 'Individual Lookup', route: RouteConstants.INDIVIDUAL_LOOKUP },
       { type: 'block', title: 'Batch log', route: RouteConstants.BATCH_LOG },
     ], [
-      { type: 'title', title: 'Reports', route: RouteConstants.REPORT }
-    ], [
-      { type: 'block', title: 'Cash', route: RouteConstants.REPORT_CASH },
       { type: 'block', title: 'Account Balance', route: RouteConstants.REPORT_ACCOUNT_BALANCE },
-      { type: 'block', title: 'Suspense Accounts', route: RouteConstants.REPORT_CASH_SUSPENSE },
-    ], [
+      { type: 'block', title: 'Cash', route: RouteConstants.REPORT_CASH },
       { type: 'block', title: 'Charges', route: RouteConstants.REPORT_CHARGES },
+    ], [
+      { type: 'block', title: 'Suspense Accounts', route: RouteConstants.REPORT_CASH_SUSPENSE },
     ]
   ]
 

@@ -1,14 +1,10 @@
 import React, { useState, useCallback } from 'react'
 import { useParams, Link, useNavigate } from "react-router-dom"
 import { getTenancy, getTenancyTransactions } from '../routes/Api'
-import IndividualLookupBar from '../templates/IndividualLookupBar'
-import { format } from 'date-fns'
-import NumberFormat from 'react-number-format'
 import * as RouteConstants from '../routes/RouteConstants'
-import { TableSort, TableHeadHTML } from '../templates/TableHead'
-import * as IFSConstants from '../routes/ifsConstants'
-
-const DateFormat = value => value ? format(new Date(value), 'dd/MM/yyyy') : '--/--/----'
+import { CurrencyFormat, DateFormat } from '../references/Functions'
+import { TableSort, TableHeadHTML } from '../templates/Table'
+import * as IFSConstants from '../references/ifsConstants'
 
 const IndividualLookup = () => {
   
@@ -18,7 +14,7 @@ const IndividualLookup = () => {
   const searchOptions = IFSConstants.IndividualLookupSearchOptions
   const searchId = params.searchId ? params.searchId : searchOptions[0].value
   
-  const [isSearching, setIsSearching] = useState(false)  
+  const [searching, setSearching] = useState(false)  
   const [tenant, setTenant] = useState(undefined)
   const [transactions, setTransactions] = useState(undefined)
   const [searchType, setSearchType] = useState(searchId)
@@ -40,12 +36,12 @@ const IndividualLookup = () => {
       householdRef: null 
     }
     args[searchType] = searchTerm
-    setIsSearching(true)
+    setSearching(true)
     const getTenants = await getTenancy(args)
     const getTransactions = await getTenancyTransactions(args)
     setTenant(getTenants)
     setTransactions(getTransactions)
-    setIsSearching(false)
+    setSearching(false)
   } // searchCall
 
   const runSearch = () => {
@@ -54,53 +50,94 @@ const IndividualLookup = () => {
     if( searchTerm && searchType ) searchCall()  
   } // runSearch
 
-  const onSearchType = useCallback(val => { 
-    setSearchType(val) 
-  }, [setSearchType])
-  
-  const onSearchTerm = useCallback(val => { 
-    if( !val ) return
-    setSearchTerm(val) 
-  }, [setSearchTerm])
-
-  const rentAccountView = () => {
+  const SearchForm = () => {
     
+    return <div className="find-property-search-bar">
+      <div className="govuk-form-group lbh-form-group lbh-search-box">
+        <select 
+          disabled={searching}
+          value={searchType} 
+          onChange={e => setSearchType(e.target.value)}
+          className="govuk-select lbh-select"
+        >{ searchOptions.map(opt => { 
+          return <option key={opt.value} value={opt.value}>{opt.text}</option> 
+        }) }</select>
+        <span style={{position: 'relative'}}>
+          <input
+            onChange={e => setSearchTerm(e.target.value) }
+            className="govuk-input lbh-input govuk-input--width-10"
+            name='propSearchInput'
+            value={searchTerm}
+            type={searching ? 'disabled' : 'text'}
+            // ref={childTypeRef}
+            placeholder='0123456789'
+            onKeyPress={e => e.key === 'Enter' && runSearch() }
+          />
+          <button 
+            onClick={() => runSearch()} 
+            className="lbh-search-box__action"
+          >
+            <span className="govuk-visually-hidden">Search</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M9.6999 10.6C12.0747 10.6 13.9999 8.67482 13.9999 6.3C13.9999 3.92518 12.0747 2 9.6999 2C7.32508 2 5.3999 3.92518 5.3999 6.3C5.3999 8.67482 7.32508 10.6 9.6999 10.6ZM9.6999 12.6C13.1793 12.6 15.9999 9.77939 15.9999 6.3C15.9999 2.82061 13.1793 0 9.6999 0C6.22051 0 3.3999 2.82061 3.3999 6.3C3.3999 9.77939 6.22051 12.6 9.6999 12.6Z"
+                fill="#0B0C0C"
+              />
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M6.70706 10.7071L1.70706 15.7071L0.292847 14.2929L5.29285 9.29289L6.70706 10.7071Z"
+                fill="#0B0C0C"
+              />
+            </svg>
+          </button>
+        </span>
+      </div>
+
+    </div>
+  }
+
+  const SearchResults = () => {
+
+    if( searching ) return <h4>{IFSConstants.TextRef.Searching}</h4>
+    if( tenant === undefined ) return
+
     if( tenant === null ) {
       let searchTypeName = searchOptions.filter(opt => searchType === opt.value)
       console.log(tenant)
       return <h4>No tenant record found for "{searchTerm}" in "{searchTypeName[0].text}".</h4>
     }
 
-    const dlFragment = ( key, val ) => {
-      return <div className="govuk-summary-list__row">
-        <dt className="govuk-summary-list__key">{key}</dt>
-        <dd className="govuk-summary-list__value">{val}</dd>
-      </div>
-    }
-
-    const contactInfo = <p className="govuk-body">
-      {tenant.address1}<br />
-      {tenant.address2}<br />
-      {tenant.address3}<br />
-      {tenant.address4}<br />
-      {tenant.postCode}<br />
-    </p>
-
     return <>
       <hr />
       <h3>Tenant</h3>
       <dl className="govuk-summary-list lbh-summary-list">
-        {dlFragment('Tenant', `${tenant.title} ${tenant.forename} ${tenant.surname}`)}
-        {dlFragment('Tenancy ID', `${tenant.tenancyAgreementRef}`)}
-        {dlFragment('Current Balance', <NumberFormat
-          value={tenant.currentBalance}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'£'}
-          decimalScale={2}
-          fixedDecimalScale={true}
-        />)}
-        {dlFragment('Contact information', contactInfo)}
+        <div className="govuk-summary-list__row">
+          <dt className="govuk-summary-list__key">Tenant</dt>
+          <dd className="govuk-summary-list__value">{`${tenant.title} ${tenant.forename} ${tenant.surname}`}</dd>
+        </div>
+        <div className="govuk-summary-list__row">
+          <dt className="govuk-summary-list__key">Tenancy ID</dt>
+          <dd className="govuk-summary-list__value">{tenant.tenancyAgreementRef}</dd>
+        </div>
+        <div className="govuk-summary-list__row">
+          <dt className="govuk-summary-list__key">Current Balance</dt>
+          <dd className="govuk-summary-list__value">{CurrencyFormat(tenant.currentBalance)}</dd>
+        </div>
+        <div className="govuk-summary-list__row">
+          <dt className="govuk-summary-list__key">Contact information</dt>
+          <dd className="govuk-summary-list__value">
+            <p className="govuk-body">
+              {tenant.address1}<br />
+              {tenant.address2}<br />
+              {tenant.address3}<br />
+              {tenant.address4}<br />
+              {tenant.postCode}<br />
+            </p>
+          </dd>
+        </div>
       </dl>
       <h3>Last Transactions</h3>
       { transactions.length ? <>
@@ -113,49 +150,11 @@ const IndividualLookup = () => {
           <tbody className='govuk-table__body'>
             {transactions.map((transaction, key) => {
               return <tr className='govuk-table__row' key={key}>
-                <td className='govuk-table__cell'>
-                  {DateFormat(transaction.weekBeginning)}
-                </td>
-                <td className='govuk-table__cell govuk-table__cell--numeric'>
-                  <NumberFormat
-                    value={transaction.totalCharged}
-                    displayType={'text'}
-                    thousandSeparator={true}
-                    prefix={'£'}
-                    decimalScale={2}
-                    fixedDecimalScale={true}
-                  />
-                </td>
-                <td className='govuk-table__cell govuk-table__cell--numeric'>
-                  <NumberFormat
-                    value={transaction.totalPaid}
-                    displayType={'text'}
-                    thousandSeparator={true}
-                    prefix={'£'}
-                    decimalScale={2}
-                    fixedDecimalScale={true}
-                  />
-                </td>
-                <td className='govuk-table__cell govuk-table__cell--numeric'>
-                  <NumberFormat
-                    value={transaction.totalHB}
-                    displayType={'text'}
-                    thousandSeparator={true}
-                    prefix={'£'}
-                    decimalScale={2}
-                    fixedDecimalScale={true}
-                  />
-                </td>
-                <td className='govuk-table__cell govuk-table__cell--numeric'>
-                  <NumberFormat
-                    value={transaction.weekBalance}
-                    displayType={'text'}
-                    thousandSeparator={true}
-                    prefix={'£'}
-                    decimalScale={2}
-                    fixedDecimalScale={true}
-                  />
-                </td>
+                <td className='govuk-table__cell'>{DateFormat(transaction.weekBeginning)}</td>
+                <td className='govuk-table__cell govuk-table__cell--numeric'>{CurrencyFormat(transaction.totalCharged)}</td>
+                <td className='govuk-table__cell govuk-table__cell--numeric'>{CurrencyFormat(transaction.totalPaid)}</td>
+                <td className='govuk-table__cell govuk-table__cell--numeric'>{CurrencyFormat(transaction.totalHB)}</td>
+                <td className='govuk-table__cell govuk-table__cell--numeric'>{CurrencyFormat(transaction.weekBalance)}</td>
               </tr>
             })}
           </tbody>
@@ -173,16 +172,8 @@ const IndividualLookup = () => {
 
   return <>
     <h1>Individual Lookup</h1>
-    <IndividualLookupBar
-      searching={isSearching}
-      searchOptions={searchOptions}
-      searchType={searchType}
-      search={searchTerm}
-      onSearch={runSearch}
-      onSearchType={onSearchType}
-      onSearchTerm={onSearchTerm}
-    />
-    { isSearching ? <h4>Searching...</h4> : tenant !== undefined && rentAccountView() }
+    <SearchForm />
+    <SearchResults />
   </>
 }
 

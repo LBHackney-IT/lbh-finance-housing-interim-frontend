@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { format } from 'date-fns'
-import * as API_URLS from './ApiConstants'
+import * as API_URLS from '../references/ApiConstants'
 
 const instance = axios.create({
   baseURL: API_URLS.API_URL,
@@ -38,7 +38,7 @@ const getBatchLog = async () => {
   return requestCall(API_URLS.BATCH__ERRORS)
 } // CONST FUNC
 
-const getCSVData = async ({ startDate, endDate }) => {
+const getTenancySummary = async ({ startDate, endDate }) => {
   return requestCall(API_URLS.TENANCY__SUMMARY, {
     params: {
       startDate: startDate && format(startDate, 'yyyy-MM-dd'),
@@ -81,9 +81,9 @@ const getReportCharges = async (params) => {
   })
 }
 
-const getReportCash = async (params) => {
+const getReportCashImport = async (params) => {
   const { startDate, endDate } = params
-  return requestCall(API_URLS.OPERATING_BALANCE, {
+  return requestCall(API_URLS.REPORT__CASH_IMPORT, {
     params: {
       startDate: startDate ? format(startDate, 'yyyy/MM/dd') : null,
       endDate: endDate ? format(endDate, 'yyyy/MM/dd') : null,
@@ -104,10 +104,10 @@ const getReportCashSuspense = async (params) => {
 export {
   getOperatingBalances,
   getBatchLog,
-  getCSVData,
+  getTenancySummary,
   getTenancy,
   getTenancyTransactions,
   getReportCharges,
-  getReportCash,
+  getReportCashImport,
   getReportCashSuspense,
 }
