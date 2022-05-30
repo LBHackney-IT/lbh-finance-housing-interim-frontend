@@ -1,9 +1,9 @@
 const Titles = {
   Reports: 'Reports',
-  ReportsAccountBalance: 'Report - Account Balance',
-  ReportsCash: 'Report - Cash',
-  ReportsSuspenseAccounts: 'Report - Suspense Accounts',
-  ReportCharges: 'Report - Charges',
+  ReportsAccountBalance: 'Account Balance',
+  ReportsCash: 'Cash',
+  ReportsSuspenseAccounts: 'Suspense Accounts',
+  ReportCharges: 'Charges',
   OperatingBalances: 'Operating Balances',
   Login: 'Sign in',
   Homepage: 'Hackney Housing Finance',

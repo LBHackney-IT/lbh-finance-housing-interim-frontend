@@ -17,6 +17,12 @@ const requestCall = async (url, config) => {
     return data
   } catch (error) {
     console.log(error)
+    // return {
+    //   code: error.code,
+    //   message: error.message,
+    //   url: url,
+    //   config: config,
+    // }
   }
 } // CONST FUNC
 

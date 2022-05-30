@@ -33,7 +33,6 @@ const OperatingBalances = () => {
       startDate: startDate,
       endDate: endDate,
     })
-    console.log(response)
     const filtered = response !== undefined && response.length ? response.map(item => {
       let itemOutput = {}
       DataRows.forEach(row => { itemOutput[row.sort] = item[row.sort] })

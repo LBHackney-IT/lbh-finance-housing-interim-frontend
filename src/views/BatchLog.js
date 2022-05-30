@@ -33,8 +33,8 @@ const BatchLog = () => {
   
   const SearchResults = () => {
     
+    if( searching ) return <h4>{IFSConstants.TextRef.Searching}</h4>
     if( data === undefined ) return
-    if( searching ) return <h4>{IFSConstants.TextRef.searching}</h4>
 
     return <table className='govuk-table lbh-table'>
       <TableHeadHTML
