@@ -3,6 +3,8 @@ import Cookies from 'js-cookie'
 import { format } from 'date-fns'
 import * as API_URLS from '../references/ApiConstants'
 
+const date_format = 'yyyy-MM-dd'
+
 const instance = axios.create({
   baseURL: API_URLS.API_URL,
   headers: {
@@ -26,12 +28,12 @@ const requestCall = async (url, config) => {
   }
 } // CONST FUNC
 
-const getOperatingBalances = async (params) => {
+const getOperatingBalances = async params => {
   const { startDate, endDate, startYearNo, endYearNo, startWeekNo, endWeekNo } = params
   return requestCall(API_URLS.OPERATING_BALANCE, {
     params: {
-      startDate: startDate ? format(startDate, 'yyyy/MM/dd') : null,
-      endDate: endDate ? format(endDate, 'yyyy/MM/dd') : null,
+      startDate: startDate ? format(startDate, date_format) : null,
+      endDate: endDate ? format(endDate, date_format) : null,
       startWeek: startWeekNo,
       startYear: startYearNo,
       endWeek: endWeekNo,
@@ -47,13 +49,13 @@ const getBatchLog = async () => {
 const getTenancySummary = async ({ startDate, endDate }) => {
   return requestCall(API_URLS.TENANCY__SUMMARY, {
     params: {
-      startDate: startDate && format(startDate, 'yyyy-MM-dd'),
-      endDate: endDate && format(endDate, 'yyyy-MM-dd'),
+      startDate: startDate && format(startDate, date_format),
+      endDate: endDate && format(endDate, date_format),
     }
   })
 } // CONST FUNC
 
-const getTenancy = async (params) => {
+const getTenancy = async params => {
   const { tenancyAgreementRef, rentAccount = null, householdRef = null } = params
   return requestCall(API_URLS.TENANCY, {
     params: {
@@ -64,7 +66,7 @@ const getTenancy = async (params) => {
   })
 } // CONST FUNC
 
-const getTenancyTransactions = async (params) => {
+const getTenancyTransactions = async params => {
   const { tenancyAgreementRef, rentAccount = null, householdRef = null, count = 5 } = params
   return requestCall(API_URLS.TENANCY__TRANSACTION, {
     params: {
@@ -76,7 +78,7 @@ const getTenancyTransactions = async (params) => {
   })
 } // CONST FUNC
 
-const getReportCharges = async (params) => {
+const getReportCharges = async params => {
   const { year = 2022, rentGroup, group } = params
   return requestCall(API_URLS.REPORT__CHARGES, {
     params: {
@@ -87,22 +89,32 @@ const getReportCharges = async (params) => {
   })
 }
 
-const getReportCashImport = async (params) => {
+const getReportCashImport = async params => {
   const { startDate, endDate } = params
   return requestCall(API_URLS.REPORT__CASH_IMPORT, {
     params: {
-      startDate: startDate ? format(startDate, 'yyyy/MM/dd') : null,
-      endDate: endDate ? format(endDate, 'yyyy/MM/dd') : null,
+      startDate: startDate ? format(startDate, date_format) : null,
+      endDate: endDate ? format(endDate, date_format) : null,
     }
   })
 }
 
-const getReportCashSuspense = async (params) => {
+const getReportCashSuspense = async params => {
   const { year = 2022, suspenseAccountType } = params
   return requestCall(API_URLS.REPORT__CASH__SUSPENSE, {
     params: {
       year: Number(year), // 2020 / 2021 / 2022
       suspenseAccountType, // Rent / Leasehold / Housing Benefit
+    }
+  })
+}
+
+const getReportBalance = async params => {
+  const { rentGroup, reportDate } = params
+  return requestCall(API_URLS.REPORT__BALANCE, {
+    params: {
+      rentGroup: rentGroup,
+      reportDate: reportDate ? format(reportDate, date_format) : null,
     }
   })
 }
@@ -116,4 +128,5 @@ export {
   getReportCharges,
   getReportCashImport,
   getReportCashSuspense,
+  getReportBalance,
 }

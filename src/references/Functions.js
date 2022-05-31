@@ -10,7 +10,16 @@ const MinusYear = () => {
   return MinusYear
 }
 
-const DateFormat = value => value ? format(new Date(value), 'dd/MM/yyyy') : '--/--/----'
+const DateFormat = value => {
+  return value ? format(new Date(value), 'dd/MM/yyyy') : '--/--/----'
+}
+
+const DateTimeFormat = value => {
+  if( !value ) return '--/--/---- 00:00:00'
+  let time = value.split('T')
+  time = time[1].split('.')
+  return `${format(new Date(value), 'dd/MM/yyyy')} ${time[0]}`
+}
 
 const CurrencyFormat = val => {
   return <NumberFormat
@@ -27,5 +36,6 @@ const CurrencyFormat = val => {
 export {
   MinusYear,
   DateFormat,
+  DateTimeFormat,
   CurrencyFormat,
 }

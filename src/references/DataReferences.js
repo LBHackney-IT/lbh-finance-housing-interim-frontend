@@ -118,10 +118,13 @@ const DataReferences = {
     { title: 'Dec', sort: 12, classes: '' },
   ],
   ReportAccountBalance: [
-    { title: 'Weeks / Months', sort: '', classes: '' },
-    { title: 'Rent Account', sort: 'RentAccount', classes: '' },
-    { title: 'End of Tenancy', sort: 'EndOfTenancy', classes: '' },
-    { title: 'Type', sort: 'RentGroup', classes: '' },
+    { title: 'ID', sort: 'id', classes: '', format: '' },
+    { title: 'Rent Group', sort: 'rentGroup', classes: '', format: '' },
+    { title: 'Report Date', sort: 'reportDate', classes: '', format: 'date' },
+    { title: 'Link', sort: 'link', classes: '', format: 'link' },
+    { title: 'Start Time', sort: 'startTime', classes: '', format: 'time' },
+    { title: 'End Time', sort: 'endTime', classes: '', format: '' },
+    { title: 'Status', sort: 'isSuccess', classes: '', format: 'boolean' },
   ],
   ReportCashImport: [
     { title: 'Date', sort: 'date', classes: '', format: 'date' },

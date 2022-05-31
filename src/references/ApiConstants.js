@@ -14,6 +14,7 @@ const BATCH__ERRORS = '/batch/errors'
 const REPORT__CHARGES = '/report/charges'
 const REPORT__CASH__SUSPENSE = '/report/cash/suspense'
 const REPORT__CASH_IMPORT = '/report/cash/import'
+const REPORT__BALANCE = '/report/balance'
 
 export {
   API_KEY,
@@ -26,4 +27,5 @@ export {
   REPORT__CHARGES,
   REPORT__CASH_IMPORT,
   REPORT__CASH__SUSPENSE,
+  REPORT__BALANCE,
 }

@@ -36,7 +36,7 @@ const ReportCash = () => {
     setSearching(false)
   }
 
-  if( data !== undefined && data.length ) console.log(data)
+  // if( data !== undefined && data.length ) console.log(data)
 
   const SearchBar = () => {
     return <div className="date-range-search-bar">
@@ -91,7 +91,7 @@ const ReportCash = () => {
   } // searchResults
 
   return <>
-    <h1>Report - Cash</h1>
+    <h1>{IFSConstants.Titles.ReportsCash}</h1>
     <SearchBar />
     <SearchResults />
   </>

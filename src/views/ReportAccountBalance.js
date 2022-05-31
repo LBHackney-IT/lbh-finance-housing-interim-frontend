@@ -1,79 +1,99 @@
-import React, { useState } from 'react'
-import { getReportCharges } from '../routes/Api'
+import React, { useState, useCallback } from 'react'
+import { getReportBalance } from '../routes/Api'
 import { CSVLink } from 'react-csv'
-// import { TableSort, TableHeadHTML } from '../templates/Table'
-// import { CurrencyFormat, DateFormat } from '../references/Functions'
+import { TableSort, TableHTML } from '../templates/Table'
+import { DataReferences } from '../references/DataReferences'
 import * as IFSConstants from '../references/ifsConstants'
+import DatePicker from 'react-date-picker'
 
 const ReportAccountBalance = () => {
 
+  const Ref = 'ReportAccountBalance'
+  const DataRows = DataReferences[Ref]
   const rentGroupOptions = IFSConstants.ReportAccountBalance_rentGroupOptions
-  const groupOptions = IFSConstants.ReportAccountBalance_groupOptions
-  const currentYear = new Date().getFullYear()
-  const yearOptions = Array(currentYear - (currentYear - 10)).fill('').map((v, k) => currentYear - k)
   
-  const [year, setYear] = useState(Number(currentYear))
+  const [date, setDate] = useState(new Date())
   const [rentGroup, setRentGroup] = useState('')
-  const [group, setGroup] = useState('')
   const [data, setData] = useState(undefined)
   const [searching, setSearching] = useState(false)
   
+  // TABLE HEAD
+  const [sort, setSort] = useState({ value: DataRows[0].sort, direction: true })
+  const onSort = useCallback(val => { 
+    setSort(val)
+    const dataSort = TableSort(sort, data)
+    if( dataSort !== false ) setData(dataSort)
+  }, [sort])
+
+  // API CALL
   const onSearch = async () => {
     setSearching(true)
-    const call = await getReportCharges({ year, rentGroup, group })
+    const call = await getReportBalance({ 
+      rentGroup: rentGroup, 
+      reportDate: date
+    })
     setData(call)
     setSearching(false)
   }
 
-  const searchBar = () => {  
-    return <>
-      <p>
-        <select 
+  // if( data ) console.log(data)
+
+  const SearchBar = () => {  
+
+    return <div className="date-range-search-bar">
+      <div className="bar-component-cont">
+        
+        <DatePicker
           disabled={searching}
-          value={year}
-          onChange={e => setYear(e.target.value)}
-          className="govuk-select lbh-select"
-        >{ yearOptions.map(opt => <option key={opt} value={opt}>{opt}</option>) }</select>
-      </p>
-      
-      <p>
+          clearIcon={null}
+          onChange={setDate}
+          value={date}
+          format="dd-MM-y"
+        />
+
         <select 
           disabled={searching}
           value={rentGroup} 
           onChange={e => setRentGroup(e.target.value)}
           className="govuk-select lbh-select"
         >{ rentGroupOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.text}</option>) }</select>
-      </p>
-      
-      <p>
-        <select 
-          disabled={searching}
-          value={group} 
-          onChange={e => setGroup(e.target.value)}
-          className="govuk-select lbh-select"
-        >{ groupOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.text}</option>) }</select>
-      </p>
-      
-      <button onClick={() => onSearch()} className="govuk-button govuk-secondary lbh-button lbh-button--secondary">Search</button>
+        
+        <button 
+          onClick={() => onSearch()} 
+          className="govuk-button govuk-secondary lbh-button lbh-button--secondary mt-0"
+        >Search</button>
 
-      { !searching && data !== undefined && data.length && <CSVLink 
+      </div>
+
+      {/* { !searching && data !== undefined && data.length && <CSVLink 
         data={data}
         // headers={CSVHeaders}
         className="govuk-button govuk-secondary lbh-button lbh-button--secondary mt-0 ml-auto"
-        filename={`report-cash-${new Date().toLocaleString()}.csv`}
-      >{IFSConstants.TextRef.ExportCSV}</CSVLink> }
-
-
-      { data !== undefined && data.length && <CSVLink
-        data={data}
         filename={`report-account-balance-${new Date().toLocaleString()}.csv`}
-      /> }
-    </>
+      >{IFSConstants.TextRef.ExportCSV}</CSVLink> } */}
+
+    </div>
   }
+
+  const SearchResults = () => {
+    
+    if( searching ) return <h4>{IFSConstants.TextRef.Searching}</h4>
+    if( data === undefined ) return
+    if( !data.length ) return <p>{IFSConstants.TextRef.NothingFound}</p>
+
+    return <TableHTML 
+      tableHead={Ref}
+      sort={sort} 
+      onSort={onSort}
+      data={data} 
+    />
+
+  } // SearchResults
 
   return <>
     <h1>{IFSConstants.Titles.ReportsAccountBalance}</h1>
-    {searchBar()}
+    <SearchBar />
+    <SearchResults />
   </>
 
 }

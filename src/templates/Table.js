@@ -1,5 +1,5 @@
 import React from 'react'
-import { DateFormat, CurrencyFormat } from '../references/Functions'
+import { DateTimeFormat, DateFormat, CurrencyFormat } from '../references/Functions'
 import { DataReferences } from '../references/DataReferences'
 
 const TableSort = (sort, data) => {
@@ -46,19 +46,31 @@ const TableBodyHTML = ({ tableHead, data }) => {
   const tableHeaders = DataReferences[tableHead] || []
 
   const tableBody = data.map((val, bodyKey) => {
+    
     const columns = []
     tableHeaders.forEach((row, key) => { 
-      const dataFormatted = row.format === 'date' ? DateFormat(val[row.sort]) : 
-        row.format === 'currency' ? CurrencyFormat(val[row.sort]) :
-          val[row.sort] 
-      columns.push(<td className={`govuk-table__cell${row.classes}`} key={key}>
+      
+      // date, time, currency, link, boolean
+      let dataFormatted = val[row.sort]
+      if( row.format === 'date' ) dataFormatted = DateFormat(val[row.sort])
+      if( row.format === 'currency' ) dataFormatted = CurrencyFormat(val[row.sort])
+      if( row.format === 'boolean' ) dataFormatted = val[row.sort] === true ? 'Success' : 'Failed'
+      if( row.format === 'time' ) dataFormatted = DateTimeFormat(val[row.sort])
+      if( row.format === 'link' ) dataFormatted = <a href={val[row.sort]} title={val[row.sort]}>{val[row.sort]}</a>
+
+      columns.push(<td 
+        className={`govuk-table__cell${row.classes}`} 
+        key={key}
+      >
         {dataFormatted}
       </td>)
     })
+    
     return <tr className='govuk-table__row' key={bodyKey}>
       {columns}
     </tr>
-  })
+  
+  }) // MAP
 
   return <tbody className='govuk-table__body'>{tableBody}</tbody>
 
