@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import * as RouteConstants from './routes/RouteConstants'
+import RouteConstants from './routes/RouteConstants'
 import * as Views from './views/Views'
 import Header from './templates/Header'
 import { userStatus, PrivateRoute } from './routes/Auth'
@@ -58,6 +58,10 @@ export default function App() {
               <Route 
                 path={RouteConstants.REPORT_CASH_SUSPENSE} 
                 element={<PrivateRoute user={user}><Views.ReportSuspenseAccounts /></PrivateRoute>} 
+              />
+              <Route 
+                path={RouteConstants.REPORT_HOUSINGBENEFIT_ACADEMY} 
+                element={<PrivateRoute user={user}><Views.ReportHousingBenefitAcademy /></PrivateRoute>} 
               />
               <Route 
                 path={RouteConstants.REPORT_ACCOUNT_BALANCE} 

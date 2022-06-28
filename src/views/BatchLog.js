@@ -3,7 +3,7 @@ import { getBatchLog } from '../routes/Api'
 import { DataReferences } from '../references/DataReferences'
 import { TableSort, TableHeadHTML } from '../templates/Table'
 import { DateFormat } from '../references/Functions'
-import * as IFSConstants from '../references/ifsConstants'
+import * as TextReferences from '../references/TextReferences'
 
 const BatchLog = () => {
   
@@ -33,7 +33,7 @@ const BatchLog = () => {
   
   const SearchResults = () => {
     
-    if( searching ) return <h4>{IFSConstants.TextRef.Searching}</h4>
+    if( searching ) return <h4>{TextReferences.TextRef.Searching}</h4>
     if( data === undefined ) return
 
     return <table className='govuk-table lbh-table'>
@@ -93,8 +93,8 @@ const BatchLog = () => {
   } // dataBody
 
   return <>
-    <h1>{IFSConstants.Titles.BatchLog}</h1>
-    <SearchResults />
+    <h1>{TextReferences.Titles.BatchLog}</h1>
+    {SearchResults()}
   </>
 
 }

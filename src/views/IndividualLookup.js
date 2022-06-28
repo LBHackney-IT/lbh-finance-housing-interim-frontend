@@ -1,17 +1,17 @@
 import React, { useState, useCallback } from 'react'
 import { useParams, Link, useNavigate } from "react-router-dom"
 import { getTenancy, getTenancyTransactions } from '../routes/Api'
-import * as RouteConstants from '../routes/RouteConstants'
+import RouteConstants from '../routes/RouteConstants'
 import { CurrencyFormat, DateFormat } from '../references/Functions'
 import { TableSort, TableHeadHTML } from '../templates/Table'
-import * as IFSConstants from '../references/ifsConstants'
+import * as TextReferences from '../references/TextReferences'
 
 const IndividualLookup = () => {
   
   let navigate = useNavigate()
   const params = useParams()
-  const search = params.search ? decodeURIComponent(params.search) : params.search
-  const searchOptions = IFSConstants.IndividualLookupSearchOptions
+  const search = params.search ? decodeURIComponent(params.search) : ''
+  const searchOptions = TextReferences.IndividualLookupSearchOptions
   const searchId = params.searchId ? params.searchId : searchOptions[0].value
   
   const [searching, setSearching] = useState(false)  
@@ -69,15 +69,16 @@ const IndividualLookup = () => {
             name='propSearchInput'
             value={searchTerm}
             type={searching ? 'disabled' : 'text'}
+            disabled={searching}
             // ref={childTypeRef}
-            placeholder='0123456789'
+            placeholder={TextReferences.TextRef.Placeholder}
             onKeyPress={e => e.key === 'Enter' && runSearch() }
           />
           <button 
             onClick={() => runSearch()} 
             className="lbh-search-box__action"
           >
-            <span className="govuk-visually-hidden">Search</span>
+            <span className="govuk-visually-hidden">{TextReferences.TextRef.Search}</span>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path
                 fillRule="evenodd"
@@ -101,33 +102,33 @@ const IndividualLookup = () => {
 
   const SearchResults = () => {
 
-    if( searching ) return <h4>{IFSConstants.TextRef.Searching}</h4>
+    if( searching ) return <h4>{TextReferences.TextRef.Searching}</h4>
     if( tenant === undefined ) return
 
     if( tenant === null ) {
       let searchTypeName = searchOptions.filter(opt => searchType === opt.value)
       console.log(tenant)
-      return <h4>No tenant record found for "{searchTerm}" in "{searchTypeName[0].text}".</h4>
+      return <h4>{TextReferences.TextRef.NoTenantRecords} "{searchTerm}" in "{searchTypeName[0].text}".</h4>
     }
 
     return <>
       <hr />
-      <h3>Tenant</h3>
+      <h3>{TextReferences.TextRef.TenantTitle}</h3>
       <dl className="govuk-summary-list lbh-summary-list">
         <div className="govuk-summary-list__row">
-          <dt className="govuk-summary-list__key">Tenant</dt>
+          <dt className="govuk-summary-list__key">{TextReferences.TextRef.Tenant}</dt>
           <dd className="govuk-summary-list__value">{`${tenant.title} ${tenant.forename} ${tenant.surname}`}</dd>
         </div>
         <div className="govuk-summary-list__row">
-          <dt className="govuk-summary-list__key">Tenancy ID</dt>
+          <dt className="govuk-summary-list__key">{TextReferences.TextRef.TenantId}</dt>
           <dd className="govuk-summary-list__value">{tenant.tenancyAgreementRef}</dd>
         </div>
         <div className="govuk-summary-list__row">
-          <dt className="govuk-summary-list__key">Current Balance</dt>
+          <dt className="govuk-summary-list__key">{TextReferences.TextRef.CurrentBalance}</dt>
           <dd className="govuk-summary-list__value">{CurrencyFormat(tenant.currentBalance)}</dd>
         </div>
         <div className="govuk-summary-list__row">
-          <dt className="govuk-summary-list__key">Contact information</dt>
+          <dt className="govuk-summary-list__key">{TextReferences.TextRef.ContactInfomation}</dt>
           <dd className="govuk-summary-list__value">
             <p className="govuk-body">
               {tenant.address1}<br />
@@ -139,7 +140,7 @@ const IndividualLookup = () => {
           </dd>
         </div>
       </dl>
-      <h3>Last Transactions</h3>
+      <h3>{TextReferences.TextRef.LastTransactions}</h3>
       { transactions.length ? <>
         <table className='govuk-table lbh-table'>
           <TableHeadHTML
@@ -163,16 +164,16 @@ const IndividualLookup = () => {
           <Link 
             to={`${RouteConstants.INDIVIDUAL_LOOKUP_PAYMENTS}/${encodeURIComponent(tenant.tenancyAgreementRef)}`} 
             className="govuk-button lbh-button"
-          >See all payments and arrers</Link>
+          >{TextReferences.TextRef.AllPaymentsAndArrears}</Link>
         </p>
-      </> : <p>No transactions to show.</p> }
+      </> : <p>{TextReferences.TextRef.NoTransactions}</p> }
     </>
   
   } // rentAccountView
 
   return <>
-    <h1>Individual Lookup</h1>
-    <SearchForm />
+    <h1>{TextReferences.Titles.IndividualLookup}</h1>
+    {SearchForm()}
     <SearchResults />
   </>
 }

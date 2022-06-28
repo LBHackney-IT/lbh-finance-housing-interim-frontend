@@ -2,10 +2,8 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom"
 import { getTenancy, getTenancyTransactions, getTenancySummary } from '../routes/Api'
-// import { INDIVIDUAL_LOOKUP, INDIVIDUAL_LOOKUP_PAYMENTS } from '../routes/RouteConstants'
-// import OperatingBalancesBar from '../templates/OperatingBalancesBar'
 import { MinusYear, CurrencyFormat, DateFormat } from '../references/Functions'
-import * as IFSConstants from '../references/ifsConstants'
+import * as TextReferences from '../references/TextReferences'
 import { CSVLink } from 'react-csv'
 import DatePicker from 'react-date-picker'
 
@@ -89,7 +87,7 @@ const IndividualLookupPayments = () => {
         data={csvData}
         className="govuk-button govuk-secondary lbh-button lbh-button--secondary mt-0 ml-auto"
         filename={`individual-lookup-payments-${new Date().toLocaleString()}.csv`}
-      >{IFSConstants.TextRef.ExportCSV}</CSVLink> }
+      >{TextReferences.TextRef.ExportCSV}</CSVLink> }
 
     </div>
 
@@ -97,9 +95,9 @@ const IndividualLookupPayments = () => {
 
   const SearchResults = () => {
     
-    if( searchingTenant ) return <h4>{IFSConstants.TextRef.Searching}</h4>
+    if( searchingTenant ) return <h4>{TextReferences.TextRef.Searching}</h4>
     if( tenant === undefined ) return
-    if( tenant === null ) return <h4>{IFSConstants.TextRef.NoTenantRecords}"{tenancyAgreementRef}".</h4>
+    if( tenant === null ) return <h4>{TextReferences.TextRef.NoTenantRecords}"{tenancyAgreementRef}".</h4>
 
     return <>
       <h3>Tenant</h3>
@@ -115,9 +113,9 @@ const IndividualLookupPayments = () => {
         </div>
       </dl>
       { searchingTransaction ? 
-        <h4>{IFSConstants.TextRef.Searching}</h4> : 
+        <h4>{TextReferences.TextRef.Searching}</h4> : 
         transactions !== undefined && transactions.length ? <>
-          <h3>{IFSConstants.TextRef.Transactions}</h3>
+          <h3>{TextReferences.TextRef.Transactions}</h3>
           <table className='govuk-table lbh-table'>
             <thead className='govuk-table__head'>
               <tr className='govuk-table__row'>
@@ -141,16 +139,16 @@ const IndividualLookupPayments = () => {
             </tbody>
           </table>
         </>  : 
-        <p>{IFSConstants.TextRef.NoTransactions}</p> 
+        <p>{TextReferences.TextRef.NoTransactions}</p> 
       }
     </>
   
   } // CONST
 
   return <>
-    <h1>{IFSConstants.Titles.IndividualLookupPayments}</h1>
-    <SearchBar />
-    <SearchResults />
+    <h1>{TextReferences.Titles.IndividualLookupPayments}</h1>
+    {SearchBar()}
+    {SearchResults()}
   </>
 }
 

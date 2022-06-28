@@ -8,6 +8,8 @@ import ReportCharges from './ReportCharges'
 import ReportSuspenseAccounts from './ReportSuspenseAccounts'
 import ReportAccountBalance from './ReportAccountBalance'
 import ReportCash from './ReportCash'
+import ReportHousingBenefitAcademy from './ReportHousingBenefitAcademy'
+
 import Login from './Login'
 
 export {
@@ -21,5 +23,7 @@ export {
   ReportSuspenseAccounts,
   ReportAccountBalance,
   ReportCash,
+  ReportHousingBenefitAcademy,
+  
   Login,
 }

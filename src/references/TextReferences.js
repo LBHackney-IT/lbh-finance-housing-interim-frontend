@@ -3,20 +3,25 @@ const Titles = {
   ReportsAccountBalance: 'Account Balance',
   ReportsCash: 'Cash',
   ReportsSuspenseAccounts: 'Suspense Accounts',
+  ReportHousingBenefitAcademy: 'Housing Benefit Academy',
   ReportCharges: 'Charges',
   OperatingBalances: 'Operating Balances',
-  Login: 'Sign in',
+  IndividualLookup: 'Individual Lookup',
   Homepage: 'Hackney Housing Finance',
   IndividualLookupPayments: 'Arrears view',
-  BatchLog: 'Batch log (Last 30 days)',
+  BatchLog: 'Batch Logs',
+
+  Login: 'Sign in',
 }
 
 const TextRef = {
+  Placeholder: '0123456789',
   Search: 'Search',
   Searching: 'Searching...',
   NothingFound: 'No data was found.',
   NoTenantRecords: 'No tenant records found for ',
   Transactions: 'Transactions',
+  LastTransactions: 'Last Transactions',
   NoTransactions: 'No transactions to show.',
   StartLabel: 'Start:',
   EndLabel: 'End:',
@@ -24,13 +29,22 @@ const TextRef = {
   Login: 'Sign in',
   Logout: 'Sign out',
   ExportCSV: 'Export CSV',
+  AllPaymentsAndArrears: 'See all payments and arrers',
+  TenantTitle: 'Tenant Details',
+  Tenant: 'Tenant',
+  TenantId: 'Tenancy ID',
+  CurrentBalance: 'Current Balance',
+  ContactInfomation: 'Contact information',
+  YearLabel: 'Year',
+  GenerateReport: 'Generate Report',
+  ReportMessage: 'Reports are added to a que every 30 minutes. Status will be failed until they have finished generating.',
 }
 
-const ReportSuspenseAccounts_rentGroupOptions = [
+const ReportSuspenseAccounts = [
   { value: '', text: 'Select Account Type' },
-  { value: 'Rent', text: 'Rent' },
-  { value: 'Leasehold', text: 'Leasehold' },
-  { value: 'Housing Benefit', text: 'Housing Benefit' },
+  { value: 'RENT', text: 'Rent' },
+  { value: 'LH', text: 'Leasehold' },
+  { value: 'HB', text: 'Housing Benefit' },
 ]
 
 const ReportAccountBalance_rentGroupOptions = [
@@ -78,7 +92,7 @@ const ReportCharges_GroupOptions = [
 export {
   Titles,
   TextRef,
-  ReportSuspenseAccounts_rentGroupOptions,
+  ReportSuspenseAccounts,
   ReportAccountBalance_rentGroupOptions,
   ReportAccountBalance_groupOptions,
   IndividualLookupSearchOptions,

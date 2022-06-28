@@ -56,7 +56,7 @@ const TableBodyHTML = ({ tableHead, data }) => {
       if( row.format === 'currency' ) dataFormatted = CurrencyFormat(val[row.sort])
       if( row.format === 'boolean' ) dataFormatted = val[row.sort] === true ? 'Success' : 'Failed'
       if( row.format === 'time' ) dataFormatted = DateTimeFormat(val[row.sort])
-      if( row.format === 'link' ) dataFormatted = <a href={val[row.sort]} title={val[row.sort]}>{val[row.sort]}</a>
+      if( row.format === 'link' ) dataFormatted = <a href={val[row.sort]} title={val[row.sort]}>{row.linkText ? row.linkText : val[row.sort]}</a>
 
       columns.push(<td 
         className={`govuk-table__cell${row.classes}`} 

@@ -1,11 +1,11 @@
 import React from 'react'
-import * as RouteConstants from '../routes/RouteConstants'
+import RouteConstants from '../routes/RouteConstants'
 import { Link } from 'react-router-dom'
 import { userStatus, signOut } from '../routes/Auth'
 import 'lbh-frontend/dist/lbh-frontend-3.6.1.min.css'
 import '../App.css'
 import { userInfo } from '../routes/Auth'
-import * as IFSConstants from '../references/ifsConstants'
+import * as TextReferences from '../references/TextReferences'
 
 const Header = ({ component: Component, ...props }) => {
 
@@ -46,7 +46,7 @@ const Header = ({ component: Component, ...props }) => {
       { user ? 
         <div className="lbh-header__links">
           <Link to='/'>Home</Link>
-          <a onClick={signOut} href={RouteConstants.LOGIN_URL}>{IFSConstants.TextRef.Logout} ({name})</a>
+          <a onClick={signOut} href={RouteConstants.LOGIN_URL}>{TextReferences.TextRef.Logout} ({name})</a>
         </div>
       : '' }
 

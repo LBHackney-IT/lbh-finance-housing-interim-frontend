@@ -1,123 +1,155 @@
-import axios from 'axios'
 import Cookies from 'js-cookie'
 import { format } from 'date-fns'
-import * as API_URLS from '../references/ApiConstants'
 
 const date_format = 'yyyy-MM-dd'
 
-const instance = axios.create({
-  baseURL: API_URLS.API_URL,
-  headers: {
-    'x-api-key': API_URLS.API_KEY,
-    Authorization: `Bearer ${Cookies.get('hackneyToken')}`,
-  },
-}) // CONST
+const sendCall = async (url, body) => {
+  try {
+    let output = []
+    await fetch(`${process.env.REACT_APP_ENV_DEVELOPMENT}${url}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${Cookies.get('hackneyToken')}`
+        },
+        body: JSON.stringify(body)
+      }
+    ).then(response => {
+      return response.json()
+    }).then(data => {
+      output = data
+    })
+    return output
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 const requestCall = async (url, config) => {
   try {
-    const { data } = await instance.get(url, config)
-    return data
+    let output = []
+    await fetch(`${process.env.REACT_APP_ENV_DEVELOPMENT}${url}${config ? '?' + new URLSearchParams(config) : ''}`, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('hackneyToken')}`
+        },
+      }
+    ).then(response => {
+      return response.json()
+    }).then(data => {
+      output = data
+    })
+    // const { data } = await instance.get(url, config)
+    return output
   } catch (error) {
     console.log(error)
-    // return {
-    //   code: error.code,
-    //   message: error.message,
-    //   url: url,
-    //   config: config,
-    // }
   }
-} // CONST FUNC
+} // requestCall
 
 const getOperatingBalances = async params => {
   const { startDate, endDate, startYearNo, endYearNo, startWeekNo, endWeekNo } = params
-  return requestCall(API_URLS.OPERATING_BALANCE, {
-    params: {
-      startDate: startDate ? format(startDate, date_format) : null,
-      endDate: endDate ? format(endDate, date_format) : null,
-      startWeek: startWeekNo,
-      startYear: startYearNo,
-      endWeek: endWeekNo,
-      endYear: endYearNo,
-    },
+  return requestCall('/operatingbalance', {
+    startDate: startDate ? format(startDate, date_format) : null,
+    endDate: endDate ? format(endDate, date_format) : null,
+    startWeek: startWeekNo,
+    startYear: startYearNo,
+    endWeek: endWeekNo,
+    endYear: endYearNo,
   })
-} // CONST FUNC
+} // getOperatingBalances
 
 const getBatchLog = async () => {
-  return requestCall(API_URLS.BATCH__ERRORS)
-} // CONST FUNC
+  return requestCall('/batch/errors')
+} // getBatchLog
 
 const getTenancySummary = async ({ startDate, endDate }) => {
-  return requestCall(API_URLS.TENANCY__SUMMARY, {
-    params: {
-      startDate: startDate && format(startDate, date_format),
-      endDate: endDate && format(endDate, date_format),
-    }
+  return requestCall('/transaction/summary', {
+    startDate: startDate && format(startDate, date_format),
+    endDate: endDate && format(endDate, date_format),
   })
-} // CONST FUNC
+} // getTenancySummary
 
 const getTenancy = async params => {
-  const { tenancyAgreementRef, rentAccount = null, householdRef = null } = params
-  return requestCall(API_URLS.TENANCY, {
-    params: {
-      tenancyAgreementRef,
-      rentAccount,
-      householdRef
-    },
+  const { tenancyAgreementRef, rentAccount, householdRef } = params
+  return requestCall('/tenancy', {
+    tenancyAgreementRef: tenancyAgreementRef ? tenancyAgreementRef : '',
+    rentAccount: rentAccount ? rentAccount : '',
+    householdRef: householdRef ? householdRef : '',
   })
-} // CONST FUNC
+} // getTenancy
 
 const getTenancyTransactions = async params => {
-  const { tenancyAgreementRef, rentAccount = null, householdRef = null, count = 5 } = params
-  return requestCall(API_URLS.TENANCY__TRANSACTION, {
-    params: {
-      tenancyAgreementRef,
-      rentAccount,
-      householdRef,
-      count
-    }
+  const { tenancyAgreementRef, rentAccount, householdRef, count } = params
+  return requestCall('/tenancy/transaction', { 
+    count: count ? count : 5,
+    tenancyAgreementRef: tenancyAgreementRef ? tenancyAgreementRef : '',
+    rentAccount: rentAccount ? rentAccount : '',
+    householdRef: householdRef ? householdRef : '',
   })
-} // CONST FUNC
+} // getTenancyTransactions
 
-const getReportCharges = async params => {
-  const { year = 2022, rentGroup, group } = params
-  return requestCall(API_URLS.REPORT__CHARGES, {
-    params: {
-      year: Number(year),
-      rentGroup, // rentgroup / All Rentgroups / LH / Rent
-      group,
-    }
+const getReportCharges = async () => {
+  return requestCall('/report/charges', {})
+} // getReportCharges
+
+const postReportCharges = async params => {
+  const { year, rentGroup, group } = params
+  return requestCall('/report/charges', {
+    year: Number(year),
+    rentGroup, // rentgroup / All Rentgroups / LH / Rent
+    group
   })
-}
+} // postReportCharges
 
-const getReportCashImport = async params => {
+const getReportCashImport = async () => {
+  return requestCall('/report/cash/import', {})
+} // getReportCashImport
+
+const postReportCashImport = async params => {
   const { startDate, endDate } = params
-  return requestCall(API_URLS.REPORT__CASH_IMPORT, {
-    params: {
-      startDate: startDate ? format(startDate, date_format) : null,
-      endDate: endDate ? format(endDate, date_format) : null,
-    }
+  return sendCall('/report/cash/import', {
+    startDate: startDate ? format(startDate, date_format) : null,
+    endDate: endDate ? format(endDate, date_format) : null,
   })
-}
+} // postReportCashImport
 
-const getReportCashSuspense = async params => {
-  const { year = 2022, suspenseAccountType } = params
-  return requestCall(API_URLS.REPORT__CASH__SUSPENSE, {
-    params: {
-      year: Number(year), // 2020 / 2021 / 2022
-      suspenseAccountType, // Rent / Leasehold / Housing Benefit
-    }
-  })
-}
+const getReportCashSuspense = async () => {
+  return requestCall('/report/cash/suspense', {})
+} // getReportCashSuspense
 
-const getReportBalance = async params => {
-  const { rentGroup, reportDate } = params
-  return requestCall(API_URLS.REPORT__BALANCE, {
-    params: {
-      rentGroup: rentGroup,
-      reportDate: reportDate ? format(reportDate, date_format) : null,
-    }
+const postReportCashSuspense = async params => {
+  const { year, rentGroup } = params
+  console.log(params)
+  return sendCall('/report/cash/suspense', {
+    year: Number(year),
+    suspenseAccountType: rentGroup, // Rent / Leasehold / Housing Benefit
   })
-}
+} // getReportCashSuspense
+
+const getReportBalance = async () => {
+  return requestCall('/report/balance', {
+  })
+} // getReportBalance
+
+const postReportBalance = async params => {
+  const { rentGroup, year } = params
+  return requestCall('/report/balance', {
+    rentGroup: rentGroup,
+    year: Number(year),
+    // reportDate: reportDate ? format(reportDate, date_format) : null,
+  })
+} // getReportBalance
+
+const getReportHousingBenefitAcademy = async () => {
+  return requestCall('/report/housingbenefit/academy')
+} // getReportHousingBenefitAcademy
+
+const postReportHousingBenefitAcademy = async params => {
+  const { year } = params
+  return sendCall('/report/housingbenefit/academy', {
+    year: Number(year),
+  })
+} // getReportHousingBenefitAcademy
+
 
 export {
   getOperatingBalances,
@@ -125,8 +157,19 @@ export {
   getTenancySummary,
   getTenancy,
   getTenancyTransactions,
+
   getReportCharges,
+  postReportCharges,
+
   getReportCashImport,
+  postReportCashImport,
+
   getReportCashSuspense,
+  postReportCashSuspense,
+
   getReportBalance,
+  postReportBalance,
+
+  getReportHousingBenefitAcademy,
+  postReportHousingBenefitAcademy,
 }

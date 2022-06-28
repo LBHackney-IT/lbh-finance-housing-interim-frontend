@@ -1,7 +1,7 @@
 import React from 'react'
-import * as RouteConstants from '../routes/RouteConstants'
+import RouteConstants from '../routes/RouteConstants'
 import { Link } from 'react-router-dom'
-import * as IFSConstants from '../references/ifsConstants'
+import * as TextReferences from '../references/TextReferences'
 
 const Report = () => {
 
@@ -18,7 +18,7 @@ const Report = () => {
   return <>
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-one">
-        <h1>{IFSConstants.Titles.Reports}</h1>
+        <h1>{TextReferences.Titles.Reports}</h1>
         <hr />
       </div>
     </div>

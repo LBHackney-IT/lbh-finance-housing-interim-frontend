@@ -2,7 +2,7 @@ import React from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { useJwt } from 'react-jwt'
-import * as RouteConstants from './RouteConstants'
+import RouteConstants from './RouteConstants'
 
 const hackneyToken = Cookies.get('hackneyToken')
 

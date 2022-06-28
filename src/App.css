@@ -74,3 +74,42 @@
 .govuk-table__cell {
   white-space: nowrap;
 }
+
+.govuk-grid-column-one-third {
+  float:none;
+}
+.govuk-grid-row {
+  margin:0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  float:none;
+  width:100%;
+  margin-bottom:20px;
+  overflow:hidden;
+}
+.grey_box {
+  display:flex;
+}
+.grey_box div { 
+  display:flex;
+  flex-direction:column;
+  flex-grow:1;
+  padding:20px;
+  background: #e7eaec;
+}
+.grey_box .descWrap {
+  flex-grow:1;
+}
+.mw-400 {
+  margin-left:10px;
+  margin-top:5px;
+  max-width:400px;
+}
+.lbn-btn-wrap {
+  margin:16px 0 0;
+}
+.lbn-button-sm {
+  margin-top:0;
+  padding:6px 20px;
+}

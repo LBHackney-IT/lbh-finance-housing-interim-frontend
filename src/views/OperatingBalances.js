@@ -5,7 +5,7 @@ import { CSVLink } from 'react-csv'
 import { MinusYear } from '../references/Functions'
 import { DataReferences } from '../references/DataReferences'
 import { TableSort, TableHTML } from '../templates/Table'
-import * as IFSConstants from '../references/ifsConstants'
+import * as TextReferences from '../references/TextReferences'
 
 const OperatingBalances = () => {
   
@@ -60,8 +60,8 @@ const OperatingBalances = () => {
   
   const SearchResults = () => {
 
-    if( searching ) return <h4>{IFSConstants.TextRef.Searching}</h4>
-    if( data === undefined || !data.length ) return <h4>{IFSConstants.TextRef.NothingFound}</h4>
+    if( searching ) return <h4>{TextReferences.TextRef.Searching}</h4>
+    if( data === undefined || !data.length ) return <h4>{TextReferences.TextRef.NothingFound}</h4>
 
     return <TableHTML 
       tableHead={Ref}
@@ -98,13 +98,13 @@ const OperatingBalances = () => {
           // headers={}
           className="govuk-button govuk-secondary lbh-button lbh-button--secondary mt-0 ml-auto"
           filename={`operating-balances-${new Date().toLocaleString()}.csv`}
-      >{IFSConstants.TextRef.ExportCSV}</CSVLink> }
+      >{TextReferences.TextRef.ExportCSV}</CSVLink> }
 
     </div>
   }
 
   return <div>
-    <h1>{IFSConstants.Titles.OperatingBalances}</h1>
+    <h1>{TextReferences.Titles.OperatingBalances}</h1>
     <SearchBar />
     <SearchResults />
   </div>
