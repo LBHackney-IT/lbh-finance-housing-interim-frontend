@@ -1,62 +1,82 @@
-import jwt from 'jsonwebtoken';
-import Cookies from 'js-cookie';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
-import BatchLog from './features/batch-log/BatchLog';
-import OperatingBalances from './features/operating-balances/OperatingBalances';
-import PrivateRoute from './features/PrivateRoute';
-import * as RouteConstants from './features/RouteConstants';
-import IndividualLookup from './features/individual-lookup/IndividualLookup';
-import Login from './features/user/Login';
-import IndividualLookupPayments from './features/individual-lookup/IndividualLookupPayments';
-import { setUser } from './features/user/userSlice';
+import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import RouteConstants from './routes/RouteConstants'
+import * as Views from './views/Views'
+import Header from './templates/Header'
+import { userStatus, PrivateRoute } from './routes/Auth'
 
 export default function App() {
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const user = jwt.decode(Cookies.get('hackneyToken'));
-    if (user) dispatch(setUser(user));
-  }, [dispatch]);
+  const user = userStatus()
 
-  return (
-    <>
-      <Switch>
-        <Route path={RouteConstants.LOGIN_PAGE} component={Login} />
-        {/* <PrivateRoute
-          exact
-          path={RouteConstants.UPLOAD_LIST}
-          component={UploadList}
-        />
-        <PrivateRoute
-          exact
-          path={`${RouteConstants.UPLOAD_PAGE}/:id`}
-          component={Upload}
-        />
-        <PrivateRoute
-          path={RouteConstants.ACTIVITY_PAGE}
-          component={Activity}
-        /> */}
-        <PrivateRoute
-          exact
-          path={RouteConstants.OPERATING_BALANCES}
-          component={OperatingBalances}
-        />
-        <PrivateRoute
-          exact
-          path={RouteConstants.BATCH_LOG}
-          component={BatchLog}
-        />
-        <PrivateRoute
-          path={`${RouteConstants.INDIVIDUAL_LOOKUP}/:searchId?/:search?`}
-          component={IndividualLookup}
-        />
-        <PrivateRoute
-          path={`${RouteConstants.INDIVIDUAL_LOOKUP_PAYMENTS}/:tenancyAgreementRef`}
-          component={IndividualLookupPayments}
-        />
-      </Switch>
-    </>
-  );
+  return <>
+    <div className="App">
+    
+      <BrowserRouter>
+        <Header />
+        <main className="lbh-main-wrapper" id="main-content" role="main">
+          <div className="lbh-container">
+            <Routes>
+              <Route 
+                path={RouteConstants.LOGIN_URL} 
+                element={<Views.Login />}
+              />
+              <Route
+                exact 
+                path='/' 
+                element={<PrivateRoute user={user}><Views.Home /></PrivateRoute>} 
+              />
+              <Route 
+                path={RouteConstants.OPERATING_BALANCES} 
+                element={<PrivateRoute user={user}><Views.OperatingBalances /></PrivateRoute>} 
+              />
+              <Route 
+                path={`${RouteConstants.INDIVIDUAL_LOOKUP}`}
+                element={<PrivateRoute user={user}><Views.IndividualLookup /></PrivateRoute>} 
+              />
+              <Route 
+                path={`${RouteConstants.INDIVIDUAL_LOOKUP}/:searchId/:search`}
+                element={<PrivateRoute user={user}><Views.IndividualLookup /></PrivateRoute>} 
+              />
+              <Route 
+                path={`${RouteConstants.INDIVIDUAL_LOOKUP_PAYMENTS}/:tenancyAgreementRef`}
+                element={<PrivateRoute user={user}><Views.IndividualLookupPayments /></PrivateRoute>}
+              />
+              <Route 
+                path={RouteConstants.REPORT_CHARGES} 
+                element={<PrivateRoute user={user}><Views.ReportCharges /></PrivateRoute>} 
+              />
+              <Route 
+                exact
+                path={RouteConstants.REPORT} 
+                element={<PrivateRoute user={user}><Views.Report /></PrivateRoute>} 
+              />
+              <Route 
+                path={RouteConstants.REPORT_CASH} 
+                element={<PrivateRoute user={user}><Views.ReportCash /></PrivateRoute>} 
+              />
+              <Route 
+                path={RouteConstants.REPORT_CASH_SUSPENSE} 
+                element={<PrivateRoute user={user}><Views.ReportSuspenseAccounts /></PrivateRoute>} 
+              />
+              <Route 
+                path={RouteConstants.REPORT_HOUSINGBENEFIT_ACADEMY} 
+                element={<PrivateRoute user={user}><Views.ReportHousingBenefitAcademy /></PrivateRoute>} 
+              />
+              <Route 
+                path={RouteConstants.REPORT_ACCOUNT_BALANCE} 
+                element={<PrivateRoute user={user}><Views.ReportAccountBalance /></PrivateRoute>} 
+              />
+              <Route 
+                path={RouteConstants.BATCH_LOG} 
+                element={<PrivateRoute user={user}><Views.BatchLog /></PrivateRoute>} 
+              />
+            </Routes>
+          </div>
+        </main>
+      </BrowserRouter>
+    
+    </div>
+  </>
+
 }
